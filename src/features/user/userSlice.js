@@ -75,7 +75,7 @@ export const updateCartProduct = createAsyncThunk(
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
     : null;
-
+    
 const initialState = {
     user: getCustomerfromLocalStorage,
     isError: false,
