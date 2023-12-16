@@ -8,6 +8,7 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
 import { getAllBlogs } from "../features/blogs/blogSlice";
 import { services } from "../utils/Data";
+import {getAllProducts} from '../features/products/productSlice'
 const Home = () => {
     const blogState = useSelector((state) => state?.blog?.blog);
     const productState=useSelector((state) => state.product.product);
