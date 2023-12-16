@@ -23,7 +23,7 @@ const Home = () => {
     const productState=useSelector((state) => state.product.product);
     const navigate=useNavigate()
     console.log(productState);
-}
+
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -227,3 +227,4 @@ const Home = () => {
                 </Container>
     </>
     )
+}
