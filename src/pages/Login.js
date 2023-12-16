@@ -9,16 +9,15 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
 
-const loginSchema = yup.object({
-    email: yup.string().email("Email should be valid").required("Email Address is Required"),
-    password: yup.string().required("Password is Required"),
-});
-
 
 const Login = () =>{
     const dispatch= useDispatch();
     const authState = useSelector((state) => state);
     const { isSuccess } = authState.auth;
+    const loginSchema = yup.object({
+      email: yup.string().email("Email should be valid").required("Email Address is Required"),
+      password: yup.string().required("Password is Required"),
+  });
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -35,6 +34,8 @@ const Login = () =>{
         },
     });
 
+
+  
     return (
         <>
         <Meta title ={"Login"} />
