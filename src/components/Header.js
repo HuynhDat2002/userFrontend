@@ -13,9 +13,9 @@ const Header = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              <p className="text-white mb-0">
+              {/* <p className="text-white mb-0">
                 Free Shipping Over $100 & Free Returns
-              </p>
+              </p> */}
             </div>
             <div className="col-6">
               <p className="text-end text-white mb-0">
@@ -33,7 +33,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white">Dev Corner</Link>
+                <Link className="text-white">DT SHOP</Link>
               </h2>
             </div>
             <div className="col-5">
@@ -59,7 +59,7 @@ const Header = () => {
                   >
                     <img src={compare} alt="compare" />
                     <p className="mb-0">
-                      Compare <br /> Products
+                      So sánh <br /> Sản phẩm
                     </p>
                   </Link>
                 </div>
@@ -70,7 +70,7 @@ const Header = () => {
                   >
                     <img src={wishlist} alt="wishlist" />
                     <p className="mb-0">
-                      Favourite <br /> wishlist
+                      Danh sách <br /> Yêu thích
                     </p>
                   </Link>
                 </div>
@@ -81,7 +81,7 @@ const Header = () => {
                   >
                     <img src={user} alt="user" />
                     <p className="mb-0">
-                      Log in <br /> My Account
+                      Đăng nhập <br /> Tài khoản
                     </p>
                   </Link>
                 </div>
@@ -91,10 +91,10 @@ const Header = () => {
                     className="d-flex align-items-center gap-10 text-white"
                   >
                     <img src={cart} alt="cart" />
-                    <div className="d-flex flex-column gap-10">
+                    {/* <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$ 500</p>
-                    </div>
+                      <p className="mb-0">$</p>
+                    </div> */}
                   </Link>
                 </div>
               </div>
@@ -118,14 +118,14 @@ const Header = () => {
                     >
                       <img src={menu} alt="" />
                       <span className="me-5 d-inline-block">
-                        Shop Categories
+                        Danh mục 
                       </span>
                     </button>
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton1"
                     >
-                      <li>
+                      {/* <li>
                         <Link className="dropdown-item text-white" to="">
                           Action
                         </Link>
@@ -139,16 +139,16 @@ const Header = () => {
                         <Link className="dropdown-item text-white" to="">
                           Something else here
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">
-                    <NavLink to="/">Home</NavLink>
-                    <NavLink to="/product">Our Store</NavLink>
-                    <NavLink to="/blogs">Blogs</NavLink>
-                    <NavLink to="/contact">Contact</NavLink>
+                    <NavLink to="/">Trang chủ</NavLink>
+                    <NavLink to="/product">Sản phẩm</NavLink>
+                    <NavLink to="/blogs">Tin tức</NavLink>
+                    <NavLink to="/contact">Liên hệ</NavLink>
                   </div>
                 </div>
               </div>
