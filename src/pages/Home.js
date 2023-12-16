@@ -124,7 +124,7 @@ const Home = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="service d-flex align-items-center ju....">
-                                {service?.map((i,j) => {
+                                {services?.map((i,j) => {
                                     return (
                                         <div className="d-flex align-items-center gap" >
                                             <img src={i.image} alt="services" />
