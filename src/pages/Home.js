@@ -8,7 +8,6 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
 import { getAllBlogs } from "../features/blogs/blogSlice";
 import { services } from "../utils/Data";
-
 const Home = () => {
     const blogState = useSelector((state) => state?.blog?.blog);
     const productState=useSelector((state) => state.product.product);
@@ -21,7 +20,6 @@ const Home = () => {
     useEffect(() => {
       dispatch(getAllProducts());
     } , []);
-    
     return (
         <>
             <Container class1="home-wrapper-1 py-5">
@@ -208,10 +206,11 @@ const Home = () => {
                         })}
                 </div>
                 </Container>
+
         </>
     );
 };
 export default Home;
 
 
-    
+
