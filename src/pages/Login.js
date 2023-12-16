@@ -19,10 +19,10 @@ const Login = () =>{
     const authState = useSelector((state) => state);
     const { isSuccess } = authState.auth;
     const loginSchema = yup.object({
-        email: yup.string().email("Email should be valid").required("Email Address is Required"),
-        password: yup.string().required("Password is Required"),
-    });
-    
+      email: yup.string().email("Email should be valid").required("Email Address is Required"),
+      password: yup.string().required("Password is Required"),
+  });
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -39,6 +39,8 @@ const Login = () =>{
         },
     });
 
+
+  
     return (
         <>
         <Meta title ={"Login"} />
