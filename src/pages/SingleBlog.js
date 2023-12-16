@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumb";
-import {HiOutline, ArrowLeft} from "react-icons/hi";
+import {HiOutlineArrowLeft} from "react-icons/hi";
 import Meta from "../components/Meta";
 import blog from "../images/blog-1.jpg";
 import Container from "../components/Container"; 
@@ -48,3 +48,4 @@ const SingleBlog = () => {
   </>
   );
 };
+export default SingleBlog;
