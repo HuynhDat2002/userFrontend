@@ -1,44 +1,27 @@
 import React, { useEffect } from "react";
-import Marquee from "react-fast-marquee";
-import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
 import SpecialProduct from "../components/SpecialProduct";
 import Container from "../components/Container";
-import { services } from "../utils/Data";
-import moment from "moment"; 
 import { useDispatch,useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import ReactStars from "react-rating-stars-component";
+import { useNavigate } from 'react-router-dom';
 import { getAllBlogs } from "../features/blogs/blogSlice";
-import { getAllProducts } from "../features/products/productSlice";
-import ReactStars from "react-rating-stars-componet";
-import { Link, useLocation } from "react-router-dom";
-import prodcompare from "../images/prodcompare.svg";
-import wish from "../images/wish.svg";
-import watch2 from "../images/wwatch-1.avif";
-import addcart from "../images/add-cart.svg";
-import view from "../images/view.svg";
-import { addToWishlist } from "../features/products/productSlice";
+import { services } from "../utils/Data";
 
 const Home = () => {
     const blogState = useSelector((state) => state?.blog?.blog);
     const productState=useSelector((state) => state.product.product);
     const navigate=useNavigate()
     console.log(productState);
-}
-
     const dispatch = useDispatch();
     useEffect(() => {
-        getblogs();
+      dispatch(getAllBlogs());
         }, []);
     useEffect(() => {
-        getProducts();
+      dispatch(getAllProducts());
     } , []);
-    const getblogs = () => {
-        dispatch(getallBlogs());
-    }
-
-    const getallProducts = () => {
-        dispatch(getallProducts());
-    };
+    
     return (
         <>
             <Container class1="home-wrapper-1 py-5">
@@ -124,7 +107,7 @@ const Home = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="service d-flex align-items-center ju....">
-                                {service?.map((i,j) => {
+                                {services?.map((i,j) => {
                                     return (
                                         <div className="d-flex align-items-center gap" >
                                             <img src={i.image} alt="services" />
@@ -225,5 +208,10 @@ const Home = () => {
                         })}
                 </div>
                 </Container>
-    </>
-    )
+        </>
+    );
+};
+export default Home;
+
+
+    
