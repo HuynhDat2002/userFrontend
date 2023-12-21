@@ -186,8 +186,8 @@ const navigate=useNavigate()
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">
                     <NavLink to="/">Trang chủ</NavLink>
-                    <NavLink to="/product">Sản phẩm</NavLink>
-                    <NavLink to="/contact">Đơn hàng</NavLink>
+                    <NavLink to="/product">Sản phẩm</NavLink>                    
+                    <NavLink to="/my-orders">Đơn hàng</NavLink>
                     <NavLink to="/blogs">Tin tức</NavLink>
                     <NavLink to="/contact">Liên hệ</NavLink>     
                     <button onClick={handleLogout} className="border border-0 bg-transparent text-white text-uppercase" type="buttom">Log Out</button>      
