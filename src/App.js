@@ -21,9 +21,14 @@ import TermAndContions from "./pages/TermAndContions";
 import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+
+import Orders from "./pages/Orders";
+
 import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { OpenRoutes } from "./routing/OpenRoutes";
+
 import Profile from './pages/Profile'
+
 
 function App() {
   return (
@@ -40,8 +45,13 @@ function App() {
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
+
+            <Route path="my-orders" element={<PrivateRoutes><Orders/></PrivateRoutes>} />
+
+
             <Route path="cart" element={<PrivateRoutes><Cart/></PrivateRoutes>} />
             <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
+
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
             <Route path="login" element={<OpenRoutes><Login /></OpenRoutes>} />
