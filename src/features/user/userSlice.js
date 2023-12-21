@@ -168,7 +168,7 @@ export const authSlice = createSlice({
                     toast.error(action.error);
                 }
             })
-            .addCase(registerUser.pending, (state) => {
+            
 
         .addCase(getOrders.pending, (state) => {
             state.isLoading = true;
