@@ -3,6 +3,14 @@ import { base_url, config } from "../../utils/axiosConfig";
 const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData);
     if (response.data) {
+        if (response.data) {
+            return response.data;
+        }
+    }
+};
+const updateProfile = async (userData) => {
+    const response = await axios.put(`${base_url}user/edit-user`, userData);
+    if (response.data) {
        
             return response.data;
         
@@ -77,21 +85,6 @@ const updateProductFromCart = async (cartDetail) => {
         return response.data;
     }
 }
-
-const forgotPassToken = async (data) => {
-    const response = await axios.post(`${base_url}user/forgot-Password-toke`, data);
-    if (response.data) {
-        return response.data; 
-    }
-}
-
-const resetPass = async (data) => {
-    const response = await axios.put(`${base_url}user/reset-password/:${data.token}`, {password:data?.password});
-    if (response.data) {
-        return response.data; 
-    }
-}
-
 export const authService = {
     register,
     login,
@@ -103,6 +96,5 @@ export const authService = {
     getCart,
     removeProductFromCart,
     updateProductFromCart,
-    forgotPassToken,
-    resetPass
+    updateProfile
 };
