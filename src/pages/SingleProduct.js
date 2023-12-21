@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
@@ -7,10 +7,48 @@ import ReactImageZoom from "react-image-zoom";
 import Color from "../components/Color";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import watch from "../images/watch.jpg";
 import Container from "../components/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { getAProduct, getAllProducts } from "../features/products/productSlice";
+import { toast } from "react-toastify";
+import { addProdToCart, getUserCart } from "../features/user/userSlice";
+
 const SingleProduct = () => {
+  const [color, setColor] = useState(null)
+  const [quantity, setQuantity] = useState(1)
+  const [alreadyAdded,setAlrealdyAdded]=useState(false)
+  const location = useLocation();
+  const navigate=useNavigate()
+  const getProductId = location.pathname.split("/")[2]
+  const dispatch = useDispatch();
+  const ProductState = useSelector(state => state?.product?.Singleproduct)
+  const ProductsState = useSelector(state => state?.product?.product)
+  const cartState=useSelector(state=>state?.auth?.cartProducts)
+  useEffect(() => {
+    dispatch(getAProduct(getProductId))
+    dispatch(getUseCart())
+    dispatch(getAllProducts())
+  
+  },[])  
+  useEffect(() =>{
+    for (let index = 0; index < cartState?.length; index++) {
+      if (getProductId === cartState[index]?.productId?._id){
+        setAlreadyadded(true)
+      }
+    }
+  },[])
+
+  const uploadCart = () => {
+    if (color === null) {
+      toast.error("Please Choose Color")
+      return false
+    } else {
+      dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price}))
+      navigate('/cart')
+    }
+  }
   const props = {
     width: 594,
     height: 600,
@@ -29,11 +67,45 @@ const SingleProduct = () => {
     document.execCommand("copy");
     textField.remove();
   };
-  const closeModal = () => {};
+  const closeModal = () => { };
+  const [popularProduct, setPopularProduct]=useState([])
+  useEffect(() => {
+    let data=[]
+    for (let index = 0; index < ProductsState.length; index++) {
+      const element = ProductsState[index];
+      if (element.tag==='popular') {
+        data.push(element)
+      }
+      setPopularProduct(data)
+    }
+  }, [productState])
+  console.log(popularProduct);
+  
+  const [star,setStar] = useState(null)
+  const [comment,setComment] = useState(null)
+  const addRatingToProduct = () => {
+    if(star === null) {
+      toast.error("Please add star rating")
+      return false
+    }else if (comment === null) {
+      toast.error("Please Write Review About The Product.")
+      return false
+    } else {
+      dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
+      setTimeout(() => {
+        dispatch(getAProduct(getProductId))
+      }, 100);
+
+   }
+   return false
+}
+
+
+
   return (
     <>
       <Meta title={"Product Name"} />
-      <BreadCrumb title="Product Name" />
+      <BreadCrumb title={productState?.title}/>
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-6">
@@ -245,7 +317,6 @@ const SingleProduct = () => {
               </div>
               <div className="review-form py-4">
                 <h4>Write a Review</h4>
-                <form action="" className="d-flex flex-column gap-15">
                   <div>
                     <ReactStars
                       count={5}
@@ -253,6 +324,9 @@ const SingleProduct = () => {
                       value={4}
                       edit={true}
                       activeColor="#ffd700"
+                      onChange={(e)=>{
+                        setStar(e)
+                      }}
                     />
                   </div>
                   <div>
@@ -262,34 +336,37 @@ const SingleProduct = () => {
                       className="w-100 form-control"
                       cols="30"
                       rows="4"
-                      placeholder="Comments"
+                    placeholder="Comments"
+                    onChange={(e)=>{
+                      setComment(e.target.value)
+                    }}
                     ></textarea>
                   </div>
-                  <div className="d-flex justify-content-end">
-                    <button className="button border-0">Submit Review</button>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button onClick={addRatingToProduct} className="button border-0" type="buttom">Submit Review</button>
                   </div>
-                </form>
               </div>
               <div className="reviews mt-4">
-                <div className="review">
-                  <div className="d-flex gap-10 align-items-center">
-                    <h6 className="mb-0">Navdeep</h6>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
+                {
+                  productState && productState.rating?.map((item, index) => {
+                    return (
+                      <div key={index} className="review">
+                      <div className="d-flex gap-10 align-items-center">
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        value={item?.star}
+                        edit={false}
+                        activeColor="#ffd700"                     
                     />
                   </div>
                   <p className="mt-3">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Consectetur fugit ut excepturi quos. Id reprehenderit
-                    voluptatem placeat consequatur suscipit ex. Accusamus dolore
-                    quisquam deserunt voluptate, sit magni perspiciatis quas
-                    iste?
+                    {item?.comment}
                   </p>
                 </div>
+                    )
+                  })
+                }
               </div>
             </div>
           </div>
@@ -302,7 +379,7 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
+          <ProductCard data={popularProduct}/>
         </div>
       </Container>
 

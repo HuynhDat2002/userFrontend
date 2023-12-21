@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
@@ -6,8 +6,39 @@ import ProductCard from "../components/ProductCard";
 import SpecialProduct from "../components/SpecialProduct";
 import Container from "../components/Container";
 import { services } from "../utils/Data";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBlogs } from "../features/blogs/blogSlice";
+import { getAllProducts } from "../features/products/productSlice";
+import ReactStars from "react-rating-stars-component";
+import { Link, useLocation, useNavigate} from "react-router-dom";
+import prodcompare from "../images/prodcompare.svg";
+import wish from "../images/wish.svg";
+import watch2 from "../images/watch-1.avif";
+import addcart from "../images/add-cart.svg";
+import view from "../images/view.svg";
+import { addToWishlist} from "../features/products/productSlice";
 
 const Home = () => {
+  const blogState = useSelector((state) => state?.blog?.blog);
+  const productState = useSelector((state) =>state.product.product);
+  const navigate=useNavigate()
+  
+  const dispatch = useDispatch();
+  useEffect(() =>{
+    getblogs();
+    getAllProducts();
+  }, []);
+  const getblogs = () => {
+    dispatch(getAllBlogs());
+  };
+  const getallProducts = () => {
+    dispatch(getAllProducts());
+  };
+  
+  const addToWish (id) => {
+    dispatch(addToWish(id));
+  };
   return (
     <>
       <Container class1="home-wrapper-1 py-5">
@@ -108,7 +139,7 @@ const Home = () => {
           </div>
         </div>
       </Container>
-      <Container class1="home-wrapper-2 py-5">
+{/*       <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
             <div className="categories d-flex justify-content-between flex-wrap align-items-center">
@@ -171,7 +202,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">

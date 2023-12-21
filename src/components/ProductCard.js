@@ -8,10 +8,19 @@ import watch from "../images/watch.jpg";
 import watch2 from "../images/watch-1.avif";
 import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
+import { useDispatch, useSelector } from "react-redux";
+import {addToWishlist } from "../features/products/productSlice";
+
+
+
 const ProductCard = (props) => {
-  const { grid } = props;
-  console.log(grid);
+  const { grid, data } = props;
   let location = useLocation();
+  const dispatch = useDispatch();
+
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id));
+  };
 
   return (
     <>
@@ -120,12 +129,15 @@ const ProductCard = (props) => {
           </div>
           <div className="action-bar position-absolute">
             <div className="d-flex flex-column gap-15">
-              <button className="border-0 bg-transparent">
+              {/* <button className="border-0 bg-transparent">
                 <img src={prodcompare} alt="compare" />
-              </button>
-              <button className="border-0 bg-transparent">
+              </button> */}
+              {/* <button className="border-0 bg-transparent">
                 <img src={view} alt="view" />
-              </button>
+              </button> */}
+              <link to={'/product/'+item?.id} className="border-0 bg-transparent">
+                <img src={view} alt="view" />
+              </link>
               <button className="border-0 bg-transparent">
                 <img src={addcart} alt="addcart" />
               </button>
