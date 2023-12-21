@@ -4,38 +4,33 @@ import Meta from "../components/Meta";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../components/Container";
 import CustomInput from "../components/CustomInput";
-import axios from "axios";
+
+import {useFormik} from "formik";
 import * as yup from "yup";
-import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
- import { forgotPassword } from '../features/user/userSlice'
+import { forgotPasswordToken } from "../features/user/userSlice";
+
+const emailSchema = yup.object({
+  email: yup
+    .string()
+    .email("Email should be valid")
+    .required("Email Address is Required"),
+});
 
 const Forgotpassword = () => {
-  axios.defaults.withCredentials = true;
-  let schema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Email should be valid")
-      .required("Email is Required"),
-  });
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: " ", 
     },
-    validationSchema: schema,
+    validationSchema: emailSchema,
     onSubmit: (values) => {
-      console.log("email: ", values)
-       dispatch(forgotPassword(values));
+      dispatch(forgotPasswordToken(values));
+        
     },
   });
 
-
-  const authState = useSelector((state) => state);
-  const { message } = authState.auth;
-  const tokenPassword = localStorage.getItem("tokenPassword")
   return (
     <>
       <Meta title={"Forgot Password"} />
@@ -48,19 +43,17 @@ const Forgotpassword = () => {
               <p className="text-center mt-2 mb-3">
                 We will send you an email to reset your password
               </p>
-              <form action="" className="d-flex flex-column gap-15" onSubmit={formik.handleSubmit}>
-                <CustomInput
-                  type="text"
-                  label="Email Address"
-                  id="email"
-                  name="email"
-                  onChange={formik.handleChange("email")}
-                  onBlur={formik.handleBlur("email")}
-                  value={formik.values.email}
+
+              <form action="" onSubmit={formik.handleSubmit} className="d-flex flex-column gap-15">
+                <CustomInput type="email" name="email" 
+                placeholder="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange("email")}
+                onBlur={formik.handleBlur("email")}
                 />
-                <div className="error">
-                  {formik.touched.email && formik.errors.email}
-                </div>
+                <div className="error text-center">
+                                {formik.touched.password && formik.errors.password}
+                            </div>
 
                 <div>
                   <div className="mt-3 d-flex justify-content-center flex-column gap-15 align-items-center">
