@@ -7,10 +7,6 @@ import { addToWishlist } from "…/features/products/productSlice";
 import React, { useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import SpecialProduct from "../components/SpecialProduct";
-
-
-
-
 import Container from "../components/Container";
 import { useDispatch,useSelector } from "react-redux";
 import moment from "moment";
