@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Link,useNavigate } from "react-router-dom";
+
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
@@ -8,6 +10,9 @@ import {useFormik} from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const loginSchema = yup.object({
     email: yup
@@ -22,6 +27,8 @@ const Login = () => {
     const authState = useSelector(state => state.auth)
     const navigate = useNavigate()
     const dispatch = useDispatch();
+
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -30,12 +37,16 @@ const Login = () => {
         validationSchema: loginSchema,
         onSubmit: (values) => {
             dispatch(loginUser(values));
+
             
                 navigator('/')
+
 
         },
     });
 
+
+  
     return (
         <>
         <Meta title ={"Login"} />
@@ -65,7 +76,7 @@ const Login = () => {
                             <CustomInput
                                 type="password"
                                 name="password"
-                                placeholder="password"
+                                placeholder="Password"
                                 value={formik.values.lastname}
                                 onChange={formik.handleChange("password")}
                                 onBlur={formik.handleBlur("password")}
