@@ -1,11 +1,14 @@
+
 import React, { useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
 import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -41,6 +44,7 @@ const navigate=useNavigate()
     localStorage.clear()
     window.location.reload()
   }
+
   return (
     <>
       <header className="header-top-strip py-3">
@@ -114,6 +118,7 @@ const navigate=useNavigate()
                     </p>
                   </Link>
                 </div>
+
                 <div>
                   <Link
                     to={ authState?.user===null ? "/login":"/my-profile"}
@@ -125,6 +130,7 @@ const navigate=useNavigate()
                     </p>
                   </Link>
                 </div>
+
                 <div>
                   <Link
                     to="/cart"
@@ -158,7 +164,7 @@ const navigate=useNavigate()
                     >
                       <img src={menu} alt="" />
                       <span className="me-5 d-inline-block">
-                        Danh mục 
+                        Danh mục
                       </span>
                     </button>
                     <ul

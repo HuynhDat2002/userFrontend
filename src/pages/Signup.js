@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import { Link } from "react-router-dom";
@@ -6,8 +6,10 @@ import Container from "../components/Container";
 import CustomInput from "../components/CustomInput";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { registerUser } from "../features/user/userSlice";
+import { useNavigate} from "react-router-dom";
+
 
 const signUpSchema = yup.object({
     firstname: yup.string().required("First Name is Required"),
@@ -19,6 +21,16 @@ const signUpSchema = yup.object({
 
 const Signup = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+  const authState = useSelector((state) => state);
+  const { isError, isSuccess, isLoading, message } = authState.auth;
+
+  useEffect(() => {
+    if (message==="register success") {
+      navigate("/login",{relative:"path"});
+    }
+  }, [isSuccess]);
     const formik = useFormik({
         initialValues: {
             firstname: "",
@@ -44,8 +56,8 @@ const Signup = () => {
                         <h3 className="text-center mb-3">Sign up</h3>
                         <form
                             action=""
-                            onsubmit={formik.handleSubmit}
-                            className="d-flex flex-clumn gap-15"
+                            onSubmit={formik.handleSubmit}
+                            className="d-flex flex-column gap-15"
                         >
                             <CustomInput
                                 type="text"
@@ -102,8 +114,8 @@ const Signup = () => {
                             <CustomInput
                                 type="password"
                                 name="password"
-                                placeholder="password"
-                                value={formik.values.lastname}
+                                placeholder="Password"
+                                value={formik.values.password}
                                 onChange={formik.handleChange("password")}
                                 onBlur={formik.handleBlur("password")}
                             />
@@ -114,7 +126,7 @@ const Signup = () => {
                             </div>
                             <div>
                                 <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                                        <button className="button border-0">Sign up</button>
+                                        <button className="button border-0" type="submit">Sign up</button>
                                 </div>
                             </div>
                         </form>
