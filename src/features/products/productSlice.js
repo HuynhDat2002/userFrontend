@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { toast } from "react-toastify";
+ import { toast } from "react-toastify";
 import { productService } from "./productService";
 
 export const getAllProducts = createAsyncThunk(
@@ -7,6 +7,17 @@ export const getAllProducts = createAsyncThunk(
     async (thunkAPI) => {
         try {
             return await productService.getProducts();
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+); 
+
+export const getAProduct = createAsyncThunk(
+    "product/getA",
+    async (id, thunkAPI) => {
+        try {
+            return await productService.getProduct(id);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -54,13 +65,27 @@ export const productSlice = createSlice({
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
-            state.product=action.payload;
+            state.products=action.payload;
         }).addCase(getAllProducts.rejected,(state,action) => {
             state.isError=true;
             state.isLoading=false;
             state.isSuccess=false;
             state.message=action.error;
-        }).addCase(addToWishlists.pending,(state) => {
+        })
+        .addCase(getAProduct.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getAProduct.fulfilled,(state,action) => {
+            state.isLoading=false;
+            state.isError=false;
+            state.isSuccess=true;
+            state.product=action.payload;
+        }).addCase(getAProduct.rejected,(state,action) => {
+            state.isError=true;
+            state.isLoading=false;
+            state.isSuccess=false;
+            state.message=action.error;
+        })
+        .addCase(addToWishlists.pending,(state) => {
             state.isLoading=true;
         }).addCase(addToWishlists.fulfilled, (state, action) => {
             state.isLoading=false;
@@ -74,15 +99,15 @@ export const productSlice = createSlice({
             state.isSuccess=false;
             state.message=action.error;
         })
-        .addCase(getAProducts.pending,(state) => {
+        .addCase(getAProduct.pending,(state) => {
             state.isLoading=true;
-        }).addCase(getAProducts.fulfilled, (state, action) => {
+        }).addCase(getAProduct.fulfilled, (state, action) => {
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
             state.singleproduct=action.payload;
             state.message="Product Fetched Successfully !"
-        }).addCase(getAProducts.rejected, (state,action) => {
+        }).addCase(getAProduct.rejected, (state,action) => {
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;

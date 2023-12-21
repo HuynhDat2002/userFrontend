@@ -4,7 +4,7 @@ import Container from '../components/Container'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
 import {useDispatch, useSelector } from 'react-redux'
-import { updateProfile } from '../features/user/userSlice'
+import {updateProfile} from '../features/user/userSlice'
 import { FiEdit } from "react-icons/fi"
 
 

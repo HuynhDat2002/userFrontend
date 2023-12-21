@@ -3,6 +3,14 @@ import { base_url, config } from "../../utils/axiosConfig";
 const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData);
     if (response.data) {
+        if (response.data) {
+            return response.data;
+        }
+    }
+};
+const updateProfile = async (userData) => {
+    const response = await axios.put(`${base_url}user/edit-user`, userData);
+    if (response.data) {
        
             return response.data;
         
@@ -78,6 +86,7 @@ const updateProductFromCart = async (cartDetail) => {
     }
 }
 
+
 const createOrder = async (orderDetail) => {
     const response = await axios.post(`${base_url}user/cart/creat-oeder`, orderDetail, config);
     if (response.data) {
@@ -109,6 +118,7 @@ const resetPass = async (data) => {
 
 
 
+
 export const authService = {
     register,
     login,
@@ -120,6 +130,8 @@ export const authService = {
     getCart,
     removeProductFromCart,
     updateProductFromCart,
+
+    updateProfile,
     createOrder,
     getUserOrder,
     forgotPassToken,
