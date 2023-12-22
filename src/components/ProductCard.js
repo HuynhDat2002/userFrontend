@@ -8,6 +8,7 @@ import watch from "../images/watch.jpg";
 import watch2 from "../images/watch-1.avif";
 import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
+
 import { addToWishlist } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = (props) => {
@@ -43,7 +44,7 @@ const ProductCard = (props) => {
                 <button 
                   className="border-0 bg-transparent" 
                   onClick={(e) => {
-                    addToWishlist(item?.id);
+                    addToWish(item?.id);
                   }}
                 >
                   <img src={wish} alt="wishlist" />
@@ -96,9 +97,10 @@ const ProductCard = (props) => {
           )
         })
       }
+
      
-    </>
-  );
+  //   </>
+  // );
 };
 
 export default ProductCard;

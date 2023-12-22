@@ -126,7 +126,7 @@ const Signup = () => {
                             </div>
                             <div>
                                 <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                                        <button className="button border-0">Sign up</button>
+                                        <button className="button border-0" type="submit">Sign up</button>
                                 </div>
                             </div>
                         </form>

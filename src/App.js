@@ -21,8 +21,15 @@ import TermAndContions from "./pages/TermAndContions";
 import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+
+import Orders from "./pages/Orders";
+
 import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { OpenRoutes } from "./routing/OpenRoutes";
+
+import Profile from './pages/Profile'
+
+
 function App() {
   return (
     <>
@@ -30,23 +37,29 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="profile" element={<Profile />} />
+
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
+
+            <Route path="my-orders" element={<PrivateRoutes><Orders/></PrivateRoutes>} />
+
+
             <Route path="cart" element={<PrivateRoutes><Cart/></PrivateRoutes>} />
             <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
+
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
             <Route path="login" element={<OpenRoutes><Login /></OpenRoutes>} />
             <Route path="forgot-password" element={<Forgotpassword />} />
 
-            <Route path="signup" element={<OpenRoutes><Signup /></OpenRoutes>} />
-            <Route path="reset-password" element={<Resetpassword />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="reset-password:token/:token" element={<Resetpassword />} />
 
- 
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="refund-policy" element={<RefundPloicy />} />
             <Route path="shipping-policy" element={<ShippingPolicy />} />

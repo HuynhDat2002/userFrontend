@@ -9,6 +9,15 @@ export const registerUser = createAsyncThunk("auth/register", async (userData, t
     }
 }
 );
+
+export const updateProfile = createAsyncThunk("auth/getupdateProfile", async (userData, thunkAPI) => {
+    try {
+        return await authService.updateProfile(userData);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+}
+);
 export const loginUser = createAsyncThunk(
     "auth/login",
     async (userData, thunkAPI) => {
@@ -84,6 +93,18 @@ export const getUserCart = createAsyncThunk(
         }
     }
 );
+
+export const getOrders = createAsyncThunk(
+    "user/order/get",
+    async (thunkAPI) => {
+        try {
+            return await authService.getUserOrders();
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
 export const deleteCartProduct = createAsyncThunk(
     "user/cart/product/delete",
     async (cartItemId, thunkAPI) => {
@@ -122,7 +143,51 @@ export const authSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(registerUser.pending, (state) => {
+        builder
+        .addCase(registerUser.pending, (state) => {
+            state.isLoading = true;
+        })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.message = "register success";
+
+
+                state.createdUser = action.payload;
+                if (state.isSuccess === true) {
+                    toast.info("User Created Successfully");
+                }
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isError === true) {
+                    toast.error(action.error);
+                }
+            })
+            .addCase(registerUser.pending, (state) => {
+
+        .addCase(getOrders.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getOrders.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.getorderedProduct = action.payload;
+            
+        }).addCase(getOrders.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            
+        })
+
+        .addCase(updateProfile.pending, (state) => {
+
             state.isLoading = true;
         })
             .addCase(registerUser.fulfilled, (state, action) => {
@@ -145,6 +210,30 @@ export const authSlice = createSlice({
                     toast.error(action.error);
                 }
             })
+            .addCase(updateProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+                .addCase(updateProfile.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.isError = false;
+                    state.isSuccess = true;
+                    state.message = "UpdateProfile Success";
+    
+                    state.updateProfile = action.payload;
+                    if (state.isSuccess === true) {
+                        toast.info("UpdateProfile Successfully");
+                    }
+                })
+                .addCase(updateProfile.rejected, (state, action) => {
+                    state.isLoading = false;
+                    state.isError = true;
+                    state.isSuccess = false;
+                    state.message = action.error;
+                    if (state.isError === true) {
+                        toast.error(action.error);
+                    }
+                })
+
             .addCase(loginUser.pending, (state) => {
                 state.isLoading = true;
             })

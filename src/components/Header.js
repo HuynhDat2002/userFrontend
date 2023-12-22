@@ -1,36 +1,49 @@
-import React, { useState, useEffect } from "react";
 
-import { NavLink, Link,useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
 import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
-import {logout} from '../features/user/userSlice'
+import { getAProduct } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css'
 
 const Header = () => {
-  axios.defaults.withCredentials=true;
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem("customer"));
-  const authState = useSelector((state) => state);
-  const {  isSuccess,message} = authState.auth;
-  console.log("header: ",userData)
-  const handleClickSignOut = () => {
-    dispatch(logout());
-  }
+  const cartState = useSelector(state => state?.auth?.cartProducts)
+  const authState = useSelector(state=>state?.auth)
+  const productState=useSelector(state=>state?.product?.product)
+  const [productOpt,setProductOpt]=useState([])
+  const [paginate, setPaginate]=useState(true);
+const navigate=useNavigate()
+  const [total,setTotal]=useState(null)
   useEffect(() => {
-    console.log("AAAA")
-    if (message==="logout success") {
-      console.log("nulll")
-      navigate("/", { relative: "path" })
+    let sum=0
+    for (let index = 0; index < cartState?.length; index++){
+      sum=sum + (Number(cartState[index].quantity) * Number(cartState[index].price))
+        setTotal(sum)
     }
+  },[cartState])
+  useEffect(() => {
+    let data = []
+    for (let index = 0; index < productState.length; index++) {
+      const element = productState[index];
+      data.push({id:index,prod:element?._id,name:element?.title})
+      
+    }
+    setProductOpt(data)
 
-  }, [isSuccess])
+  },[productState])
+
+  const handleLogout=() => {
+    localStorage.clear()
+    window.location.reload()
+  }
 
   return (
     <>
@@ -38,9 +51,9 @@ const Header = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              {/* <p className="text-white mb-0">
+              <p className="text-white mb-0">
                 Free Shipping Over $100 & Free Returns
-              </p> */}
+              </p>
             </div>
             <div className="col-6">
               <p className="text-end text-white mb-0">
@@ -63,12 +76,18 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  placeholder="Tìm sản phẩm tại đây"
-                  aria-label="Tìm sản phẩm tại đây"
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                            onPaginate={() => console.log('Results paginated')}
+                            onChange={(selected) => {
+                              navigate(`/product/${selected[0]?.prod}`)
+                              dispatch(getAProduct(selected[0]?.prod))
+                            }}
+                  options={productOpt}
+                            paginate={paginate}
+                            labelKey={"name"}
+                            minLength={2}
+                  placeholder="Search for Products here..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -78,7 +97,7 @@ const Header = () => {
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                  <Link
+                 {/*  <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white"
                   >
@@ -86,7 +105,7 @@ const Header = () => {
                     <p className="mb-0">
                       So sánh <br /> Sản phẩm
                     </p>
-                  </Link>
+                  </Link> */}
                 </div>
                 <div>
                   <Link
@@ -100,72 +119,17 @@ const Header = () => {
                   </Link>
                 </div>
 
-                {!userData && (
-
-                  <div>
-                    <Link
-                      to="/login"
-                      className="d-flex align-items-center gap-10 text-white"
-                    >
-                      <img src={user} alt="user" />
-                      <p className="mb-0">
-                        Đăng nhập <br /> Tài khoản
-                      </p>
-                    </Link>
-                  </div>)
-                }
-
-                {userData !== null && (
-                  <div className="d-flex gap-4 align-items-center">
-                    <div className="d-flex gap-3 align-items-center dropdown">
-                      <div>
-                        <img
-                          width={32}
-                          height={32}
-                          src={userData && userData.image}
-                          alt="avatar"
-                        />
-                      </div>
-                      <div
-                        role="button"
-                        id="dropdownMenuLink"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        className="text-white"
-                      >
-                        <h5 className="mb-0">{userData && userData.firstname} {userData && userData.lastname}</h5>
-                        <p className="mb-0">{userData && userData.email}</p>
-                      </div>
-                      <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li>
-                          <Link
-                            className="dropdown-item py-1 mb-1"
-                            style={{ height: "auto", lineHeight: "20px" }}
-                            to="/profile"
-                          >
-                            View Profile
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="dropdown-item py-1 mb-1"
-                            style={{ height: "auto", lineHeight: "20px" }}
-
-                            onClick={handleClickSignOut}
-
-                          >
-
-                            Signout
-
-
-                          </Link>
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-
+                <div>
+                  <Link
+                    to={ authState?.user===null ? "/login":"/my-profile"}
+                    className="d-flex align-items-center gap-10 text-white"
+                  >
+                    <img src={user} alt="user" />
+                    <p className="mb-0">
+                      Đăng nhập <br /> Tài khoản
+                    </p>
+                  </Link>
+                </div>
 
                 <div>
                   <Link
@@ -228,9 +192,11 @@ const Header = () => {
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">
                     <NavLink to="/">Trang chủ</NavLink>
-                    <NavLink to="/product">Sản phẩm</NavLink>
+                    <NavLink to="/product">Sản phẩm</NavLink>                    
+                    <NavLink to="/my-orders">Đơn hàng</NavLink>
                     <NavLink to="/blogs">Tin tức</NavLink>
-                    <NavLink to="/contact">Liên hệ</NavLink>
+                    <NavLink to="/contact">Liên hệ</NavLink>     
+                    <button onClick={handleLogout} className="border border-0 bg-transparent text-white text-uppercase" type="buttom">Log Out</button>      
                   </div>
                 </div>
               </div>
