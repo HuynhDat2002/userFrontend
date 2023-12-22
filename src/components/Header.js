@@ -87,7 +87,7 @@ const navigate=useNavigate()
                             paginate={paginate}
                             labelKey={"name"}
                             minLength={2}
-                  placeholder="Search for Products here..."
+                  placeholder="Tìm sản phẩm tại đây..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -97,7 +97,7 @@ const navigate=useNavigate()
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                 {/*  <Link
+                 { <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white"
                   >
@@ -105,7 +105,7 @@ const navigate=useNavigate()
                     <p className="mb-0">
                       So sánh <br /> Sản phẩm
                     </p>
-                  </Link> */}
+                  </Link> }
                 </div>
                 <div>
                   <Link
@@ -137,10 +137,10 @@ const navigate=useNavigate()
                     className="d-flex align-items-center gap-10 text-white"
                   >
                     <img src={cart} alt="cart" />
-                    {/* <div className="d-flex flex-column gap-10">
+                    { <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark">0</span>
                       <p className="mb-0">$</p>
-                    </div> */}
+                    </div> }
                   </Link>
                 </div>
               </div>
@@ -196,7 +196,7 @@ const navigate=useNavigate()
                     <NavLink to="/my-orders">Đơn hàng</NavLink>
                     <NavLink to="/blogs">Tin tức</NavLink>
                     <NavLink to="/contact">Liên hệ</NavLink>     
-                    <button onClick={handleLogout} className="border border-0 bg-transparent text-white text-uppercase" type="buttom">Log Out</button>      
+                    <button onClick={handleLogout} className="border border-0 bg-transparent text-white text-uppercase" type="buttom">Đăng xuất</button>      
                   </div>
                 </div>
               </div>

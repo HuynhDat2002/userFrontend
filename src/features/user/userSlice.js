@@ -186,30 +186,7 @@ export const authSlice = createSlice({
             
         })
 
-        .addCase(updateProfile.pending, (state) => {
-
-            state.isLoading = true;
-        })
-            .addCase(registerUser.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isError = false;
-                state.isSuccess = true;
-                state.message = "register success";
-
-                state.createdUser = action.payload;
-                if (state.isSuccess === true) {
-                    toast.info("User Created Successfully");
-                }
-            })
-            .addCase(registerUser.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.isSuccess = false;
-                state.message = action.error;
-                if (state.isError === true) {
-                    toast.error(action.error);
-                }
-            })
+       
             .addCase(updateProfile.pending, (state) => {
                 state.isLoading = true;
             })
