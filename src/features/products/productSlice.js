@@ -14,16 +14,6 @@ export const getAllProducts = createAsyncThunk(
         }
     }
 ); 
-export const getAProduct = createAsyncThunk(
-    "product/getaproduct",
-    async (id,thunkAPI) => {
-        try {
-            return await productService.getProduct(id);
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-); 
 
 
 

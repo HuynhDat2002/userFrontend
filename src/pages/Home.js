@@ -3,7 +3,7 @@ import wish from "../images/wish.svg";
 import watch2 from "../images/watch-1.avif";
 import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
-import { addToWishlists } from "../features/products/productSlice";
+import { addToWishlist } from "../features/products/productSlice";
 import React, { useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import SpecialProduct from "../components/SpecialProduct";
@@ -31,7 +31,7 @@ const Home = () => {
     dispatch(getAllProducts());
   } , []);
   const addToWish = (id) => {
-    dispatch(addToWishlists(id));
+    dispatch(addToWishlist(id));
   };
   return (
       <>
