@@ -8,15 +8,15 @@ import watch from "../images/watch.jpg";
 import watch2 from "../images/watch-1.avif";
 import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
+import { addToWishlist } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 const ProductCard = (props) => {
   const { grid, data } = props;
   const dispatch = useDispatch();
-  console.log(data);
+  console.log("dataprodcard: ",data);
   let location = useLocation();
-  const addToWishlist = (id) => {
-    alert(id);
-    dispatch(addToWishlist());
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id));
   };
 
   return (
@@ -27,16 +27,15 @@ const ProductCard = (props) => {
             <div
             key={index}
             className={` ${
-              location.pathname == "/product" ? `gr-${grid}` : "col-3"
+              location.pathname === "/product" ? `gr-${grid}` : "col-3"
             } `}
           >
             <Link
               to={`${
-                location.pathname == "/"
-                  ? "/product/:id"
-                  : location.pathname == "/product/:id"
-                  ? "/product/:id"
-                  : ":id"
+                location.pathname === "/"
+                  ? `/product/${item._id}`
+                  : location.pathname == "/product"
+          
               }`}
               className="product-card position-relative"
             >
@@ -52,21 +51,16 @@ const ProductCard = (props) => {
               </div>
               <div className="product-image">
                 <img 
-                  src={item?.images[0].url}
+                  src={item?.images[0]?.url}
                   className="img-fluid d-block mx-auto" 
                   alt="product image" 
                   width={160}
                 />
-                <img 
-                  src={watch2} 
-                  className="img-fluid mx-auto" 
-                  alt="product image" 
-                  width={160}
-                />
+               
               </div>
               <div className="product-details">
                 <h6 className="brand">{item?.brand}</h6>
-                <h5 className="product-title">
+                <h5 className="product-title" key={index}>
                   {item?.title}
                 </h5>
                 <ReactStars
