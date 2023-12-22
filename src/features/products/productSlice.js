@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
- import { toast } from "react-toastify";
+
+import { toast } from "react-toastify";
+
 import { productService } from "./productService";
 
 export const getAllProducts = createAsyncThunk(
@@ -12,6 +14,18 @@ export const getAllProducts = createAsyncThunk(
         }
     }
 ); 
+export const getAProduct = createAsyncThunk(
+    "product/getaproduct",
+    async (id,thunkAPI) => {
+        try {
+            return await productService.getProduct(id);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+); 
+
+
 
 export const getAProduct = createAsyncThunk(
     "product/getA",
@@ -24,7 +38,7 @@ export const getAProduct = createAsyncThunk(
     }
 ); 
 
-export const addToWishlists = createAsyncThunk(
+export const addToWishlist = createAsyncThunk(
     "product/wishlist",
     async (thunkAPI, prodId ) => {
         try {
@@ -74,26 +88,34 @@ export const productSlice = createSlice({
         })
         .addCase(getAProduct.pending, (state) => {
             state.isLoading = true;
-        }).addCase(getAProduct.fulfilled,(state,action) => {
+
+        })
+        .addCase(getAProduct.fulfilled,(state,action) => {
+
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
             state.product=action.payload;
-        }).addCase(getAProduct.rejected,(state,action) => {
+
+        })
+        .addCase(getAProduct.rejected,(state,action) => {
+
             state.isError=true;
             state.isLoading=false;
             state.isSuccess=false;
             state.message=action.error;
         })
-        .addCase(addToWishlists.pending,(state) => {
+
+        .addCase(addToWishlist.pending,(state) => {
+
             state.isLoading=true;
-        }).addCase(addToWishlists.fulfilled, (state, action) => {
+        }).addCase(addToWishlist.fulfilled, (state, action) => {
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
             state.addToWishlist=action.payload;
             state.message="Product Added To WishList !"
-        }).addCase(addToWishlists.rejected, (state,action) => {
+        }).addCase(addToWishlist.rejected, (state,action) => {
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;
