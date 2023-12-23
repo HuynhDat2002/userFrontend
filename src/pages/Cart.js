@@ -49,7 +49,7 @@ const Cart = () => {
       setTotalAmount(sum)
     }
   },[userCartState])
-
+  console.log("userCartState:", userCartState);
   return (
     <>
       <Meta title={"Cart"} />
