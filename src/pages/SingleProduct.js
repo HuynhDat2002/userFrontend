@@ -18,34 +18,34 @@ import { addProdToCart, getUserCart } from "../features/user/userSlice";
 const SingleProduct = () => {
   const [color, setColor] = useState(null)
   const [quantity, setQuantity] = useState(1)
-  const [alreadyAdded,setAlreadyAdded]=useState(false)
+  const [alreadyAdded, setAlreadyAdded] = useState(false)
   const location = useLocation();
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const getProductId = location.pathname.split("/")[2]
   const dispatch = useDispatch();
-  const productState = useSelector(state => state?.product?.product)
+  const productState = useSelector(state => state?.product?.singleproduct)
   const productsState = useSelector(state => state?.product?.products)
-  const cartState=useSelector(state=>state?.auth?.cartProducts)
+  const cartState = useSelector(state => state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
     dispatch(getUserCart())
     dispatch(getAllProducts())
-  
-  },[])  
-    useEffect(() =>{
-        for (let index = 0; index < cartState?.length; index++) {
-        if (getProductId === cartState[index]?.productId?._id){
-            setAlreadyAdded(true);
-        }
-        }
-    },[cartState, getProductId])
+
+  }, [])
+  useEffect(() => {
+    for (let index = 0; index < cartState?.length; index++) {
+      if (getProductId === cartState[index]?.productId?._id) {
+        setAlreadyAdded(true);
+      }
+    }
+  }, [cartState, getProductId])
 
   const uploadCart = () => {
     if (color === null) {
       toast.error("Please Choose Color")
       return false
     } else {
-      dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price}))
+      dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
       navigate('/cart')
     }
   }
@@ -54,7 +54,7 @@ const SingleProduct = () => {
     height: 600,
     zoomWidth: 600,
 
-    img: "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
+    img: productState?.images[0] ? productState?.images[0]?.url : "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
   };
 
   const [orderedProduct, setorderedProduct] = useState(true);
@@ -68,44 +68,44 @@ const SingleProduct = () => {
     textField.remove();
   };
   const closeModal = () => { };
-  const [popularProduct, setPopularProduct]=useState([])
+  const [popularProduct, setPopularProduct] = useState([])
   useEffect(() => {
-    let data=[]
+    let data = []
     for (let index = 0; index < productsState.length; index++) {
       const element = productsState[index];
-      if (element.tag==='popular') {
+      if (element.tag === 'popular') {
         data.push(element)
       }
       setPopularProduct(data)
     }
   }, [productState])
-  console.log("popularProduct:",popularProduct);
-  
-  const [star,setStar] = useState(null)
-  const [comment,setComment] = useState(null)
+  console.log("popularProduct:", popularProduct);
+
+  const [star, setStar] = useState(null)
+  const [comment, setComment] = useState(null)
   const addRatingToProduct = () => {
-    if(star === null) {
+    if (star === null) {
       toast.error("Please add star rating")
       return false
-    }else if (comment === null) {
+    } else if (comment === null) {
       toast.error("Please Write Review About The Product.")
       return false
     } else {
-    //   dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
-    //   setTimeout(() => {
-    //     dispatch(getAProduct(getProductId))
-    //   }, 100);
+      //   dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
+      //   setTimeout(() => {
+      //     dispatch(getAProduct(getProductId))
+      //   }, 100);
 
-   }
-   return false
-}
+    }
+    return false
+  }
 
 
 
   return (
     <>
       <Meta title={"Product Name"} />
-      <BreadCrumb title={productState?.title}/>
+      <BreadCrumb title={productState?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-6">
@@ -115,50 +115,31 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
+              {productState?.images.map((item, index) => {
+                return <div>
+                  <img
+                    src={item?.url}
+                    className="img-fluid"
+                    alt=""
+                  />
+                </div>
+              })}
             </div>
           </div>
           <div className="col-6">
             <div className="main-product-details">
               <div className="border-bottom">
                 <h3 className="title">
-                  Kids Headphones Bulk 10 Pack Multi Colored For Students
+                  {productState?.title}
                 </h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">$ 100</p>
+                <p className="price">$ {productState?.price}</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={productState?.totalratings}
                     edit={false}
                     activeColor="#ffd700"
                   />
@@ -175,15 +156,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand :</h3>
-                  <p className="product-data">Havells</p>
+                  <p className="product-data">{productState?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Category :</h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags :</h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productState?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availablity :</h3>
@@ -261,7 +242,7 @@ const SingleProduct = () => {
                     href="javascript:void(0);"
                     onClick={() => {
                       copyToClipboard(
-                        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
+                        window.location.href
                       );
                     }}
                   >
@@ -278,11 +259,9 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Description</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Tenetur nisi similique illum aut perferendis voluptas, quisquam
-                obcaecati qui nobis officia. Voluptatibus in harum deleniti
-                labore maxime officia esse eos? Repellat?
+              <p dangerouslySetInnerHTML={{
+                __html: productState.description,
+              }}>
               </p>
             </div>
           </div>
@@ -317,53 +296,53 @@ const SingleProduct = () => {
               </div>
               <div className="review-form py-4">
                 <h4>Write a Review</h4>
-                  <div>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={true}
-                      activeColor="#ffd700"
-                      onChange={(e)=>{
-                        setStar(e)
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <textarea
-                      name=""
-                      id=""
-                      className="w-100 form-control"
-                      cols="30"
-                      rows="4"
+                <div>
+                  <ReactStars
+                    count={5}
+                    size={24}
+                    value={4}
+                    edit={true}
+                    activeColor="#ffd700"
+                    onChange={(e) => {
+                      setStar(e)
+                    }}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    name=""
+                    id=""
+                    className="w-100 form-control"
+                    cols="30"
+                    rows="4"
                     placeholder="Comments"
-                    onChange={(e)=>{
+                    onChange={(e) => {
                       setComment(e.target.value)
                     }}
-                    ></textarea>
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                    <button onClick={addRatingToProduct} className="button border-0" type="buttom">Submit Review</button>
-                  </div>
+                  ></textarea>
+                </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <button onClick={addRatingToProduct} className="button border-0" type="buttom">Submit Review</button>
+                </div>
               </div>
               <div className="reviews mt-4">
                 {
                   productState && productState.rating?.map((item, index) => {
                     return (
                       <div key={index} className="review">
-                      <div className="d-flex gap-10 align-items-center">
-                      <ReactStars
-                        count={5}
-                        size={24}
-                        value={item?.star}
-                        edit={false}
-                        activeColor="#ffd700"                     
-                    />
-                  </div>
-                  <p className="mt-3">
-                    {item?.comment}
-                  </p>
-                </div>
+                        <div className="d-flex gap-10 align-items-center">
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            value={item?.star}
+                            edit={false}
+                            activeColor="#ffd700"
+                          />
+                        </div>
+                        <p className="mt-3">
+                          {item?.comment}
+                        </p>
+                      </div>
                     )
                   })
                 }
@@ -379,7 +358,7 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard data={popularProduct}/>
+          <ProductCard data={popularProduct} />
         </div>
       </Container>
 
