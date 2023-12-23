@@ -80,9 +80,10 @@ const ProductCard = (props) => {
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
                   <button className="border-0 bg-transparent">
-
+                    <Link to ={`/product/${item?._id}`}>
                     <img src={view} alt="view" />
                   </Link>
+                  </button>
                   <button className="border-0 bg-transparent">
                     <img src={addcart} alt="addcart" />
 
