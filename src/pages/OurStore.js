@@ -12,15 +12,58 @@ import { getAllProducts } from "../features/products/productSlice";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
+  const [randomProducts, setRandomProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [tags, setTags] = useState([]);
 
+  const [categories, setCategories] = useState([]);
+  const [tag, setTag] = useState([]);
   const productState = useSelector((state) => state?.product?.products);
-  console.log("productState: ",productState);
+  console.log("productState: ", productState);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getAllProducts());
-  },[])
+  }, [])
+  useEffect(() => {
+    if (productState && productState.length > 0) {
+    let category=[]
+    let newtags=[]
+    for (let index = 0; index < productState.length; index++) {
+      const element = productState[index];
+      category.push(element.category)
+      newtags.push(element.tags)
+      
+    }
+    setCategory(category)
+    setTags(newtags)
+  }
+  }, [productState])
+  console.log([...new Set(category)],[...new Set(tags)]);
+ 
+    
+  useEffect(() => {
+    if (productState && productState.length > 0) {
+      const randomIndices = getRandomIndices(); // Chọn 2 sản phẩm ngẫu nhiên
+      //const randomProductsData = randomIndices.map((index) => productState[index]);
+      setRandomProducts(randomIndices);
+    }
+  }, [productState]);
+  console.log("s",productState);
+  const getRandomIndices = () => {
+    const randomValues = [];
+    while (randomValues.length < 2) {
+      const randomIndex = Math.floor(Math.random() * productState.length); // Lấy chỉ số ngẫu nhiên từ 0 đến chiều dài của mảng
+      const randomElement = productState[randomIndex]; // Lấy phần tử tương ứng với chỉ số ngẫu nhiên
+      if (!randomValues.includes(randomElement)) {
+        randomValues.push(randomElement); // Thêm giá trị vào mảng randomValues nếu chưa có trong đó
+      }
+    }
+    return randomValues;
+  };
+  console.log("random:", randomProducts);
 
-  
+
 
   return (
     <>
@@ -33,13 +76,15 @@ const OurStore = () => {
               <h3 className="filter-title">Shop By Categories</h3>
               <div>
                 <ul className="ps-0">
-                  <li>Watch</li>
-                  <li>Tv</li>
-                  <li>Camera</li>
-                  <li>Laptop</li>
+                  {
+                    category && [...new Set(category)].map((item, index) => {
+                      return <li key={index} onClick={() => setCategories(item)}>{item}</li>
+                    })
+                  }
                 </ul>
               </div>
             </div>
+           
             <div className="filter-card mb-3">
               <h3 className="filter-title">Filter By</h3>
               <div>
@@ -89,103 +134,48 @@ const OurStore = () => {
                     <label htmlFor="floatingInput1">To</label>
                   </div>
                 </div>
-                <h5 className="sub-title">Colors</h5>
-                <div>
-                  <Color />
-                </div>
-                <h5 className="sub-title">Size</h5>
-                <div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="color-1"
-                    />
-                    <label className="form-check-label" htmlFor="color-1">
-                      S (2)
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="color-2"
-                    />
-                    <label className="form-check-label" htmlFor="color-2">
-                      M (2)
-                    </label>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="filter-card mb-3">
               <h3 className="filter-title">Product Tags</h3>
               <div>
                 <div className="product-tags d-flex flex-wrap align-items-center gap-10">
-                  <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                    Headphone
-                  </span>
-                  <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                    Laptop
-                  </span>
-                  <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                    Mobile
-                  </span>
-                  <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                    Wire
-                  </span>
+                {
+                    tags && [...new Set(tags)].map((item, index) => {
+                      return (<span onClick={() => setTag(item)} key={index} className=" text-capitalize  badge bg-light text-secondary rounded-3 py-2 px-3">
+                        {item}</span>)
+                    })
+                  }
                 </div>
               </div>
             </div>
-            <div className="filter-card mb-3">
+            <div className="filter-card mb-3" >
               <h3 className="filter-title">Random Product</h3>
               <div>
-                <div className="random-products mb-3 d-flex">
-                  <div className="w-50">
-                    <img
-                      src="images/watch.jpg"
-                      className="img-fluid"
-                      alt="watch"
-                    />
+                {randomProducts?.map((product) => (
+                  <div className="random-products mb-3 d-flex  justify-content-center" key={product?._id}>
+                    <div className="w-50">
+                      <img
+                        src={product?.images[0]?.url}
+                        className="img-fluid"
+                        alt={product?.title}
+                      />
+                      <h5>
+                        {product.title}
+                      </h5>
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        value={product.totalrating}
+                        edit={false}
+                        activeColor="#ffd700"
+                      />
+                      <b>${product.price}</b>
+                    </div>
                   </div>
-                  <div className="w-50">
-                    <h5>
-                      Kids headphones bulk 10 pack multi colored for students
-                    </h5>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
-                    />
-                    <b>$ 300</b>
-                  </div>
-                </div>
-                <div className="random-products d-flex">
-                  <div className="w-50">
-                    <img
-                      src="images/watch.jpg"
-                      className="img-fluid"
-                      alt="watch"
-                    />
-                  </div>
-                  <div className="w-50">
-                    <h5>
-                      Kids headphones bulk 10 pack multi colored for students
-                    </h5>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
-                    />
-                    <b>$ 300</b>
-                  </div>
-                </div>
+
+                ))}
+
               </div>
             </div>
           </div>
@@ -257,9 +247,9 @@ const OurStore = () => {
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
 
-                <ProductCard 
-                  data = {productState ? productState : []}
-                  grid={grid} 
+                <ProductCard
+                  data={productState ? productState : []}
+                  grid={grid}
                 />
 
               </div>

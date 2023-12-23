@@ -19,20 +19,20 @@ import ProductCard from "../components/ProductCard";
 
 const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blog);
-  const productState=useSelector((state) => state.product.product);
+  const productState=useSelector((state) => state.product.products);
   const navigate=useNavigate()
-  console.log(productState);
-
+  
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllBlogs());
-      }, []);
-  useEffect(() => {
-    dispatch(getAllProducts());
-  } , []);
-  const addToWish = (id) => {
-    dispatch(addToWishlist(id));
-  };
+  // useEffect(() => {
+    //   dispatch(getAllBlogs());
+    //     }, []);
+    useEffect(() => {
+      dispatch(getAllProducts());
+    } , []);
+    const addToWish = (id) => {
+      dispatch(addToWishlist(id));
+    };
+ console.log("productstate: ",productState);
   return (
       <>
         <Container class1="home-wrapper-1 py-5">
@@ -45,10 +45,10 @@ const Home = () => {
                     alt="main banner"
                     />
                     <div className="main-banner-content position-absolute">
-                      <h4>SUPERCHARGED FOR PROS.</h4>
-                      <h5>Ipad S13+ Pro.</h5>
-                      <p>From $999.00 or $41.62/mo.</p>
-                      <Link className="button">BUY NOW</Link>
+                      <h4>{productState[0].tags}</h4> 
+                      <h5>{productState[0].title}</h5> 
+                      <p>Giá chỉ từ {productState[0].price} VNĐ</p>
+                      <Link to="/product/:id" className="button">BUY NOW</Link>
                     </div>
                   </div>
                 </div>
@@ -101,7 +101,7 @@ const Home = () => {
                         src="images/catbanner-04.jpg"
                         className="img-fluid rounded-3"
                         alt="main banner"
-                      />
+                      />  
                       <div className="small-banner-content position-absolute">
                         <h4>NEW ARRIVAL</h4>
                         <h5>But Ipad Air</h5>
@@ -207,7 +207,7 @@ const Home = () => {
                           if(item.tags==="featured") {
                             return (
                               <div key={index} className={"col-3"}>
-                                <div
+                                <div  
                                   
                                   className="product-card position-relative"
                                 >
@@ -221,8 +221,9 @@ const Home = () => {
                                     </button>
                                   </div>
                                   <div className="product-image">
+                                    
                                     <img
-                                      src={item?.image[0].url}
+                                      src={item?.images[0].url}
                                       className="img-fluid mx-auto"
                                       alt="product image"
                                       width={160}
@@ -389,7 +390,7 @@ const Home = () => {
                                 </div>
                                 <div className="product-image">
                                   <img 
-                                    src={item?.image[0].ur}
+                                    src={item?.image[0].url}
                                     className="img-fluid mx-auto"
                                     alt="product image"
                                     width={160}

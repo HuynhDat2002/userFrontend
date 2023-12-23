@@ -43,9 +43,6 @@ const rateProduct = async (data) => {
 export const productService = {
    getProducts,
    addToWishlist,
-
-
-  
    rateProduct,
 
    getProduct
