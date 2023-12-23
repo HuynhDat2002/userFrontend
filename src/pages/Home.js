@@ -16,21 +16,29 @@ import { services } from "../utils/Data";
 import {getAllProducts} from '../features/products/productSlice';
 import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
-
+import prodcompare from "../images/prodcompare.svg";
+import axios from "axios";
 const Home = () => {
-  const blogState = useSelector((state) => state?.blog?.blog);
-  const productState=useSelector((state) => state?.product?.product);
+  
+  axios.defaults.withCredentials=true;
+  
   const navigate=useNavigate()
   
   const dispatch = useDispatch();
   useEffect(() => {
-      dispatch(getAllBlogs());
-      dispatch(getAllProducts());
-    } , []);
-    const addToWish = (id) => {
-      dispatch(addToWishlist(id));
-    };
- console.log("productstate: ",productState);
+    dispatch(getAllBlogs());
+    dispatch(getAllProducts());
+  } , []);
+  const blogState = useSelector((state) => state?.blog?.blogs);
+  const productState=useSelector((state) => state?.product?.products);
+  
+  console.log("i",blogState)    
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id));
+  };
+  console.log("productstate: ",productState);
+  const itemFeatured = [];
+  const itemPopular = [];
   return (
       <>
         <Container class1="home-wrapper-1 py-5">
@@ -43,9 +51,9 @@ const Home = () => {
                     alt="main banner"
                     />
                     <div className="main-banner-content position-absolute">
-                      <h4>{productState[0]?.tags}</h4> 
-                      <h5>{productState[0]?.title}</h5> 
-                      <p>Giá chỉ từ {productState[0]?.price} VNĐ</p>
+                      <h4>{productState&&productState[0]?.tags}</h4> 
+                      <h5>{productState&&productState[0]?.title}</h5> 
+                      <p>Giá chỉ từ {productState&&productState[0]?.price} VNĐ</p>
                       <Link to="/product/:id" className="button">BUY NOW</Link>
                     </div>
                   </div>
@@ -202,68 +210,13 @@ const Home = () => {
                   </div>
                   {productState &&
                       productState?.map((item, index) => {
-                          if(item.tags==="featured") {
-                            return (
-                              <div key={index} className={"col-3"}>
-                                <div  
-                                  
-                                  className="product-card position-relative"
-                                >
-                                  <div className="wishlist-icon position-absolute">
-                                    <button className="border-0 bg-transparent">
-                                      <img 
-                                        onClick={() => addToWish(item?._id)}
-                                        src={wish}
-                                        alt="wishlist"
-                                      />
-                                    </button>
-                                  </div>
-                                  <div className="product-image">
-                                    
-                                    <img
-                                      src={item?.images[0].url}
-                                      className="img-fluid mx-auto"
-                                      alt="product image"
-                                      width={160}
-                                    />
-                                    <img
-                                      src={watch2}
-                                      className="img-fluid mx-auto"
-                                      alt="product image"
-                                      width={160}
-                                    />
-                                  </div>
-                                  <div className="product-details">
-                                    <h6 className="brand">{item?.brand}</h6>
-                                    <h5 className="product-title">{item?.title}</h5>
-                                    <ReactStars
-                                      count={5}
-                                      size={24}
-                                      value={item?.totalrating.toString()}
-                                      edit={false}
-                                      activeColor="#ffd700"
-                                    />
-
-                                    <p className="price">$ {item?.price}</p>
-                                  </div>
-                                  <div className="action-bar position-absolute">
-                                    <div className="d-flex flex-column gap-15">
-                                      <button className="border-0 bg-transparent">
-                                        <img height="18px" width="18px" src="../images/pcompare.png" alt="compare" />
-                                      </button>
-                                      <button className="border-0 bg-transparent">
-                                        <img src={view} alt="view" />
-                                      </button>
-                                      <button className="border-0 bg-transparent">
-                                        <img onClick={()=>navigate("/product/"+item?._id)} src={addcart} alt="addcart" />
-                                      </button>
-                                    </div>
-                                  </div>
-                              </div>
-                            </div>
-                          );
+                          if( item &&item.tags==="featured") {
+                           
+                            itemFeatured.push(item)
+                    
                         }    
                       })}
+                      <ProductCard data={itemFeatured} grid={"col-3"}/>
                     </div>
                   </Container>
 
@@ -371,67 +324,16 @@ const Home = () => {
                   <div className="row">
                     {productState &&
                     productState?.map((item, index) => {
-                      if(item.tags === "popular") {
-                        return (
-                          <div key={index} className={"col-3"}>
-                            <div
-                              className="product-card position-relative"
-                            >
-                                <div className="wishlist-icon position-absolute">
-                                  <button className="border-0 bg-transparent">
-                                    <img 
-                                      onClick={() => addToWish(item?._id)}
-                                      src={wish}
-                                      alt="wishlist"
-                                    />
-                                  </button>
-                                </div>
-                                <div className="product-image">
-                                  <img 
-                                    src={item?.image[0].url}
-                                    className="img-fluid mx-auto"
-                                    alt="product image"
-                                    width={160}
-                                  />
-                                  <img
-                                    src={watch2}
-                                    className="img-fluid mx-auto"
-                                    alt="product image"
-                                    width={160}
-                                  />
-                                </div>
-                                <div className="product-details">
-                                  <h6 className="brand">{item?.brand}</h6>
-                                  <h5 className="product-title">{item?.title}</h5>
-                                  <ReactStars
-                                    count={5}
-                                    size={24}
-                                    value={item?.totalrating.toString()}
-                                    edit={false}
-                                    activeColor="#ffd700"
-                                  />
-
-                                  <p className="price">$ {item?.price}</p>
-                                </div>
-                                <div className="action-bar position-absolute">
-                                  <div className="d-flex flex-column gap-15">
-                                    <button className="border-0 bg-transparent">
-                                      <img height="18px" width="18px" src="../images/pcompare.png" alt="compare" />
-                                    </button>
-                                    <button className="border-0 bg-transparent">
-                                     
-                                      <img onClick={()=>navigate("/product"+item?._id)} src={view} alt="view" />
-                                    </button>
-                                    <button className="border-0 bg-transparent">
-                                      <img src={addcart} alt="addcart" />
-                                    </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
+                      
+                        if( item &&item.tags==="popular") {
+                           
+                          itemPopular.push(item)
+                  
+                      }    
                     })}
+                    <ProductCard data={itemPopular} grid={"col-3"}/>
+                      
+                    
                 </div>
               </Container>
               
