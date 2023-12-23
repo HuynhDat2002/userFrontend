@@ -6,22 +6,20 @@ import ProductCard from "../components/ProductCard";
 import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getAllProducts } from "../features/products/productSlice";
-
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
-
   const productState = useSelector((state) => state?.product?.products);
-  console.log("productState: ",productState);
   const dispatch = useDispatch();
   useEffect(() => {
+    getProducts();
+  },[]);
+
+  const getProducts = () => {
     dispatch(getAllProducts());
-  },[])
-
+  };
   
-
   return (
     <>
       <Meta title={"Our Store"} />

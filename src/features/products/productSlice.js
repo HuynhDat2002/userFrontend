@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 import { toast } from "react-toastify";
-
 import { productService } from "./productService";
+
 
 export const getAllProducts = createAsyncThunk(
     "product/get",
@@ -14,8 +13,6 @@ export const getAllProducts = createAsyncThunk(
         }
     }
 ); 
-
-
 
 export const getAProduct = createAsyncThunk(
     "product/getA",
@@ -30,7 +27,7 @@ export const getAProduct = createAsyncThunk(
 
 export const addToWishlist = createAsyncThunk(
     "product/wishlist",
-    async (thunkAPI, prodId ) => {
+    async (prodId, thunkAPI ) => {
         try {
             return await productService.addToWishlist(prodId);
         } catch (error) {
@@ -51,13 +48,13 @@ export const addRating = createAsyncThunk(
 ); 
 
 
-const productState={
+const productState = {
     product:"",
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: "",
-}
+};
 export const productSlice = createSlice({
     name: "product",
     initialState: productState,
