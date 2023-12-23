@@ -68,7 +68,7 @@ const addToCart = async (cartData) => {
 };
 
 const getCart = async () => {
-    const response = await axios.get(`${base_url}`, config);
+    const response = await axios.get(`${base_url}user/cart`, config);
     if (response.data) {
         return response.data;
     }

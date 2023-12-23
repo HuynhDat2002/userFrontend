@@ -381,6 +381,7 @@ export const authSlice = createSlice({
                     toast.error("Something Went Wrong!")
                 }
             })
+            
     },
 });
 

@@ -17,6 +17,7 @@ import { addProdToCart, getUserCart } from "../features/user/userSlice";
 
 const SingleProduct = () => {
   const [color, setColor] = useState(null)
+  console.log("color",color)
   const [quantity, setQuantity] = useState(1)
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const location = useLocation();
@@ -25,6 +26,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const productState = useSelector(state => state?.product?.singleproduct)
   const productsState = useSelector(state => state?.product?.products)
+  console.log("pro",productState)
   const cartState = useSelector(state => state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
@@ -170,26 +172,10 @@ const SingleProduct = () => {
                   <h3 className="product-heading">Availablity :</h3>
                   <p className="product-data">In Stock</p>
                 </div>
-                <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                  <h3 className="product-heading">Size :</h3>
-                  <div className="d-flex flex-wrap gap-15">
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      S
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      M
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      XL
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      XXL
-                    </span>
-                  </div>
-                </div>
+              
                 <div className="d-flex gap-10 flex-column mt-2 mb-3">
                   <h3 className="product-heading">Color :</h3>
-                  <Color />
+                  <Color colorData={productState?.color} setColor={setColor}/>
                 </div>
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   <h3 className="product-heading">Quantity :</h3>
@@ -202,6 +188,7 @@ const SingleProduct = () => {
                       className="form-control"
                       style={{ width: "70px" }}
                       id=""
+                      onChange = {(e)=>setQuantity(e.target.value)}
                     />
                   </div>
                   <div className="d-flex align-items-center gap-30 ms-5">
@@ -210,6 +197,7 @@ const SingleProduct = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop"
                       type="button"
+                      onClick = {()=>uploadCart}
                     >
                       Add to Cart
                     </button>
@@ -260,7 +248,7 @@ const SingleProduct = () => {
             <h4>Description</h4>
             <div className="bg-white p-3">
               <p dangerouslySetInnerHTML={{
-                __html: productState.description,
+                __html: productState?.description,
               }}>
               </p>
             </div>
