@@ -4,8 +4,9 @@ const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData);
     if (response.data) {
         if (response.data) {
-            return response.data;
+            localStorage.setItem("customer",JSON.stringify(response.data)); 
         }
+        return response.data;
     }
 };
 const updateProfile = async (userData) => {
@@ -52,8 +53,9 @@ const logout = async () => {
     return response.data;
   }
   
-const getUserWislist = async () => {
+const getUserWishlist = async () => {
     const response = await axios.get(`${base_url}user/wishlist`, config);
+    
     if (response.data) {
             return response.data;
         }
@@ -125,7 +127,7 @@ export const authService = {
     logout,
     forgotPassword,
     resetPassword,
-    getUserWislist,
+    getUserWishlist,
     addToCart,
     getCart,
     removeProductFromCart,

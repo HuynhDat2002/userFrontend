@@ -6,12 +6,11 @@ import ProductCard from "../components/ProductCard";
 import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getAllProducts } from "../features/products/productSlice";
-
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
+
   const [randomProducts, setRandomProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
@@ -20,11 +19,14 @@ const OurStore = () => {
   const [tag, setTag] = useState([]);
   const productState = useSelector((state) => state?.product?.products);
   console.log("productState: ", productState);
+
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getAllProducts());
-  }, [])
+dispatch(getAllProducts());
+  },[]);
+
+ 
   useEffect(() => {
     if (productState && productState.length > 0) {
     let category=[]
@@ -62,7 +64,6 @@ const OurStore = () => {
     return randomValues;
   };
   console.log("random:", randomProducts);
-
 
 
   return (
