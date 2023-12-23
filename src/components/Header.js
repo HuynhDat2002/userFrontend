@@ -196,7 +196,7 @@ const navigate=useNavigate()
                     <NavLink to="/my-orders">Đơn hàng</NavLink>
                     <NavLink to="/blogs">Tin tức</NavLink>
                     <NavLink to="/contact">Liên hệ</NavLink>     
-                    <button onClick={handleLogout} className="border border-0 bg-transparent text-white text-uppercase" type="buttom">Đăng xuất</button>      
+                         
                   </div>
                 </div>
               </div>

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { base_url, config } from "../../utils/axiosConfig";
 
-const getProducts = async (userData) => {
+const getProducts = async () => {
     const response = await axios.get(`${base_url}product/`, config);
     if (response.data) {
         return response.data;
     }
 };
 
-const getProduct = async (id) => {
+const getSingleProduct = async (id) => {
     const response = await axios.get(`${base_url}product/${id}`, config);
 
     if (response.data) {
@@ -45,5 +45,5 @@ export const productService = {
    getProducts,
    addToWishlist,
    rateProduct,
-   getProduct
+   getSingleProduct
 };

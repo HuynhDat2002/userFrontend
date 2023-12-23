@@ -10,10 +10,11 @@ import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
 import { addToWishlist } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 const ProductCard = (props) => {
+  axios.defaults.withCredentials=true;
   const { grid, data } = props;
   const dispatch = useDispatch();
-
   console.log("dataprodcard: ", data);
   let location = useLocation();
 
@@ -32,15 +33,7 @@ const ProductCard = (props) => {
             className={` ${location.pathname === "/product" ? `gr-${grid}` : "col-3"
               } `}
           >
-            <Link
-              // to={`${
-              //   location.pathname == "/"
-              //     ? "/product/:id"
-              //     : location.pathname == "/product/:id"
-              //     ? "/product/:id"
-              //     : ":id"
-
-              //   }`}
+            <div
               className="product-card position-relative"
             >
               <div className="wishlist-icon position-absolute">
@@ -88,9 +81,9 @@ const ProductCard = (props) => {
                   <button className="border-0 bg-transparent">
                     <img src={prodcompare} alt="compare" />
                   </button>
-                  <button className="border-0 bg-transparent">
+                  <Link to={'/product/'+item?._id} className="border-0 bg-transparent">
                     <img src={view} alt="view" />
-                  </button>
+                  </Link>
                   <button className="border-0 bg-transparent">
                     <img src={addcart} alt="addcart" />
 
@@ -98,11 +91,11 @@ const ProductCard = (props) => {
                 </div>
 
               </div>
-            </Link>
+            </div>
 
 
           </div>
-        )
+        );
       }
       )
       }
