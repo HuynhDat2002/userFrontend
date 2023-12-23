@@ -19,14 +19,12 @@ import ProductCard from "../components/ProductCard";
 
 const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blog);
-  const productState=useSelector((state) => state.product.products);
+  const productState=useSelector((state) => state?.product?.product);
   const navigate=useNavigate()
   
   const dispatch = useDispatch();
-  // useEffect(() => {
-    //   dispatch(getAllBlogs());
-    //     }, []);
-    useEffect(() => {
+  useEffect(() => {
+      dispatch(getAllBlogs());
       dispatch(getAllProducts());
     } , []);
     const addToWish = (id) => {
@@ -45,9 +43,15 @@ const Home = () => {
                     alt="main banner"
                     />
                     <div className="main-banner-content position-absolute">
+<<<<<<< HEAD
                       {/* <h4>{productState[0].tags}</h4> 
                       <h5>{productState[0].title}</h5> 
                       <p>Giá chỉ từ {productState[0].price} VNĐ</p> */}
+=======
+                      <h4>{productState[0]?.tags}</h4> 
+                      <h5>{productState[0]?.title}</h5> 
+                      <p>Giá chỉ từ {productState[0]?.price} VNĐ</p>
+>>>>>>> fcbaf3aae815a27b76aec4eac81b4c5a3c5f4ecf
                       <Link to="/product/:id" className="button">BUY NOW</Link>
                     </div>
                   </div>
