@@ -80,7 +80,7 @@ dispatch(getAllProducts());
         <div className="row">
           <div className="col-3">
             <div className="filter-card mb-3">
-              <h3 className="filter-title">Shop By Categories</h3>
+              <h3 className="filter-title">Loại sản phẩm</h3>
               <div>
                 <ul className="ps-0">
                   {
@@ -93,9 +93,9 @@ dispatch(getAllProducts());
             </div>
            
             <div className="filter-card mb-3">
-              <h3 className="filter-title">Filter By</h3>
+              <h3 className="filter-title">Lọc bởi</h3>
               <div>
-                <h5 className="sub-title">Availablity</h5>
+                <h5 className="sub-title">Khả dụng</h5>
                 <div>
                   <div className="form-check">
                     <input
@@ -105,7 +105,7 @@ dispatch(getAllProducts());
                       id=""
                     />
                     <label className="form-check-label" htmlFor="">
-                      In Stock (1)
+                      Còn hàng (1)
                     </label>
                   </div>
                   <div className="form-check">
@@ -116,11 +116,11 @@ dispatch(getAllProducts());
                       id=""
                     />
                     <label className="form-check-label" htmlFor="">
-                      Out of Stock(0)
+                      Hết hàng (0)
                     </label>
                   </div>
                 </div>
-                <h5 className="sub-title">Price</h5>
+                <h5 className="sub-title">Giá</h5>
                 <div className="d-flex align-items-center gap-10">
                   <div className="form-floating">
                     <input
@@ -130,7 +130,7 @@ dispatch(getAllProducts());
                       placeholder="From"
                       onChange={(e)=>setMinPrice(e.target.value)}
                     />
-                    <label htmlFor="floatingInput">From</label>
+                    <label htmlFor="floatingInput">Từ</label>
                   </div>
                   <div className="form-floating">
                     <input
@@ -140,13 +140,13 @@ dispatch(getAllProducts());
                       placeholder="To"
                       onChange={(e)=>setMaxPrice(e.target.value)}
                     />
-                    <label htmlFor="floatingInput1">To</label>
+                    <label htmlFor="floatingInput1">Đến</label>
                   </div>
                 </div>
               </div>
             </div>
             <div className="filter-card mb-3">
-              <h3 className="filter-title">Product Tags</h3>
+              <h3 className="filter-title">Thẻ sản phẩm</h3>
               <div>
                 <div className="product-tags d-flex flex-wrap align-items-center gap-10">
                 {
@@ -159,7 +159,7 @@ dispatch(getAllProducts());
               </div>
             </div>
             <div className="filter-card mb-3" >
-              <h3 className="filter-title">Random Product</h3>
+              <h3 className="filter-title">Sản phẩm ngẫu nhiên</h3>
               <div>
                 {randomProducts?.map((product) => (
                   <div className="random-products mb-3 d-flex  justify-content-center" key={product?._id}>
@@ -193,7 +193,7 @@ dispatch(getAllProducts());
               <div className="d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-10">
                   <p className="mb-0 d-block" style={{ width: "100px" }}>
-                    Sort By:
+                    Sắp xếp:
                   </p>
                   <select
                     name=""
@@ -203,18 +203,16 @@ dispatch(getAllProducts());
                     onChange={(e)=>setSort(e.target.value)}
                   >
                     
-                    <option value="title">Alphabetically, A-Z</option>
+                    <option value="title"> A-Z</option>
                     <option value="-title">
-                      Alphabetically, Z-A
+                      Z-A
                     </option>
-                    <option value="price">Price, low to high</option>
-                    <option value="-price">Price, high to low</option>
-                    <option value="createdAt">Date, old to new</option>
-                    <option value="-createdAt">Date, new to old</option>
+                    <option value="price">Giá thấp đến cao</option>
+                    <option value="-price">Giá cao đến thấp</option>
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="totalproducts mb-0">{productState?.length} Products</p>
+                  <p className="totalproducts mb-0">{productState?.length} Sản phẩm</p>
                   <div className="d-flex gap-10 align-items-center grid">
                     {/* <img
                       onClick={() => {
