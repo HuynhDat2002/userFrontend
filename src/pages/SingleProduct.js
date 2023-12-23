@@ -14,11 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAProduct, getAllProducts } from "../features/products/productSlice";
 import { toast } from "react-toastify";
 import { addProdToCart, getUserCart } from "../features/user/userSlice";
+import axios from "axios";
 
 const SingleProduct = () => {
+  axios.defaults.withCredentials=true;
+
   const [color, setColor] = useState(null)
   console.log("color",color)
   const [quantity, setQuantity] = useState(1)
+  console.log("quantity",quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const location = useLocation();
   const navigate = useNavigate()
@@ -93,10 +97,10 @@ const SingleProduct = () => {
       toast.error("Please Write Review About The Product.")
       return false
     } else {
-      //   dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
-      //   setTimeout(() => {
-      //     dispatch(getAProduct(getProductId))
-      //   }, 100);
+        // dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
+        // setTimeout(() => {
+        //   dispatch(getAProduct(getProductId))
+        // }, 100);
 
     }
     return false
@@ -197,7 +201,7 @@ const SingleProduct = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop"
                       type="button"
-                      onClick = {()=>uploadCart}
+                      onClick = {()=>uploadCart()}
                     >
                       Add to Cart
                     </button>
