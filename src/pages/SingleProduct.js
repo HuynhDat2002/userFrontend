@@ -177,11 +177,14 @@ const SingleProduct = () => {
                   <p className="product-data">In Stock</p>
                 </div>
               
+               {alreadyAdded===false&&<>
                 <div className="d-flex gap-10 flex-column mt-2 mb-3">
                   <h3 className="product-heading">Color :</h3>
                   <Color colorData={productState?.color} setColor={setColor}/>
                 </div>
+               </>}
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
+                 {alreadyAdded===false&& <>
                   <h3 className="product-heading">Quantity :</h3>
                   <div className="">
                     <input
@@ -195,6 +198,7 @@ const SingleProduct = () => {
                       onChange = {(e)=>setQuantity(e.target.value)}
                     />
                   </div>
+                 </>}
                   <div className="d-flex align-items-center gap-30 ms-5">
                     <button
                       className="button border-0"
@@ -203,7 +207,7 @@ const SingleProduct = () => {
                       type="button"
                       onClick = {()=>uploadCart()}
                     >
-                      Add to Cart
+                      {alreadyAdded? "Go To Cart" : "Add To Cart"}
                     </button>
                     <button className="button signup">Buy It Now</button>
                   </div>
