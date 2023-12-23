@@ -14,12 +14,17 @@ const OurStore = () => {
   const [randomProducts, setRandomProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
-
+  
+  
+  //Filer States
   const [categories, setCategories] = useState([]);
   const [tag, setTag] = useState([]);
+  const [minPrice, setMinPrice]=useState([]);
+  const [maxPrice, setMaxPrice]=useState([]);
+  const [sort, setSort]=useState(null);
   const productState = useSelector((state) => state?.product?.products);
   console.log("productState: ", productState);
-
+  console.log("sort", sort);
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -51,6 +56,7 @@ dispatch(getAllProducts());
       setRandomProducts(randomIndices);
     }
   }, [productState]);
+ 
   console.log("s",productState);
   const getRandomIndices = () => {
     const randomValues = [];
@@ -122,6 +128,7 @@ dispatch(getAllProducts());
                       className="form-control"
                       id="floatingInput"
                       placeholder="From"
+                      onChange={(e)=>setMinPrice(e.target.value)}
                     />
                     <label htmlFor="floatingInput">From</label>
                   </div>
@@ -131,6 +138,7 @@ dispatch(getAllProducts());
                       className="form-control"
                       id="floatingInput1"
                       placeholder="To"
+                      onChange={(e)=>setMaxPrice(e.target.value)}
                     />
                     <label htmlFor="floatingInput1">To</label>
                   </div>
@@ -192,23 +200,23 @@ dispatch(getAllProducts());
                     defaultValue={"manula"}
                     className="form-control form-select"
                     id=""
+                    onChange={(e)=>setSort(e.target.value)}
                   >
-                    <option value="manual">Featured</option>
-                    <option value="best-selling">Best selling</option>
-                    <option value="title-ascending">Alphabetically, A-Z</option>
-                    <option value="title-descending">
+                    
+                    <option value="title">Alphabetically, A-Z</option>
+                    <option value="-title">
                       Alphabetically, Z-A
                     </option>
-                    <option value="price-ascending">Price, low to high</option>
-                    <option value="price-descending">Price, high to low</option>
-                    <option value="created-ascending">Date, old to new</option>
-                    <option value="created-descending">Date, new to old</option>
+                    <option value="price">Price, low to high</option>
+                    <option value="-price">Price, high to low</option>
+                    <option value="createdAt">Date, old to new</option>
+                    <option value="-createdAt">Date, new to old</option>
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="totalproducts mb-0">21 Products</p>
+                  <p className="totalproducts mb-0">{productState?.length} Products</p>
                   <div className="d-flex gap-10 align-items-center grid">
-                    <img
+                    {/* <img
                       onClick={() => {
                         setGrid(3);
                       }}
@@ -240,7 +248,8 @@ dispatch(getAllProducts());
                       src="images/gr.svg"
                       className="d-block img-fluid"
                       alt="grid"
-                    />
+                    /> */}
+                    
                   </div>
                 </div>
               </div>

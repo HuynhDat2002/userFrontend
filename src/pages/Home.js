@@ -210,10 +210,11 @@ const Home = () => {
                   </div>
                   {productState &&
                       productState?.map((item, index) => {
+
                           if( item &&item.tags==="featured") {
                            
                             itemFeatured.push(item)
-                    
+
                         }    
                       })}
                       <ProductCard data={itemFeatured} grid={"col-3"}/>
@@ -324,6 +325,7 @@ const Home = () => {
                   <div className="row">
                     {productState &&
                     productState?.map((item, index) => {
+
                       
                         if( item &&item.tags==="popular") {
                            

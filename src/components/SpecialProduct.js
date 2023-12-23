@@ -3,7 +3,9 @@ import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 const SpecialProduct = (props) => {
   const { title, brand, totalrating, price, sold, quantity,id } =props;
-  console.log("k",quantity / quantity +sold*100);
+
+  console.log(quantity / quantity +sold*100);
+
   return (
     <>
       <div className="col-6 mb-3">
@@ -49,7 +51,9 @@ const SpecialProduct = (props) => {
                   ></div>
                 </div>
               </div>
-              <Link className="button" to={'/product/'+id}>View</Link>
+
+              <Link className="button" to={'/product/'+id}>view</Link>
+
             </div>
           </div>
         </div>
