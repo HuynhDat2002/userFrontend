@@ -77,7 +77,7 @@ const SingleProduct = () => {
   const [popularProduct, setPopularProduct] = useState([])
   useEffect(() => {
     let data = []
-    for (let index = 0; index < productsState.length; index++) {
+    for (let index = 0; index < productsState?.length; index++) {
       const element = productsState[index];
       if (element.tag === 'popular') {
         data.push(element)
