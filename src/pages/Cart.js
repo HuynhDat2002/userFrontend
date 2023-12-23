@@ -9,24 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCartProduct, getUserCart, updateCartProduct } from "../features/user/userSlice";
 
 const Cart = () => {
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-  ? JSON.parse(localStorage.getItem("customer"))
-  : null;
+  
 
-  const config2 = {
-    headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
-      Accept: "application/json",
-    },
-  }; 
+  
   const dispatch = useDispatch();
   const [prodctUpdateDetail, setProdctUpdateDetail ] = useState(null)
   const [totalAmount, setTotalAmount]=useState(null)
   const userCartState=useSelector(state=>state.auth.cartProducts)
+  console.log("ur",userCartState);
   useEffect(() => {
-    dispatch(getUserCart(config2))
+    dispatch(getUserCart())
   }, [])
   useEffect(() => {
     if(prodctUpdateDetail !== null) {
@@ -37,7 +29,7 @@ const Cart = () => {
     }
   }, [prodctUpdateDetail])
   const deleteCartProduct = (id) => {
-    dispatch(deleteCartProduct({id:id, config2:config2}))
+    dispatch(deleteCartProduct({id:id}))
     setTimeout(() =>{
       dispatch(getUserCart())
     }, 200)
