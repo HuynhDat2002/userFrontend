@@ -45,9 +45,9 @@ const Home = () => {
                     alt="main banner"
                     />
                     <div className="main-banner-content position-absolute">
-                      <h4>{productState[0].tags}</h4> 
+                      {/* <h4>{productState[0].tags}</h4> 
                       <h5>{productState[0].title}</h5> 
-                      <p>Giá chỉ từ {productState[0].price} VNĐ</p>
+                      <p>Giá chỉ từ {productState[0].price} VNĐ</p> */}
                       <Link to="/product/:id" className="button">BUY NOW</Link>
                     </div>
                   </div>
@@ -223,7 +223,7 @@ const Home = () => {
                                   <div className="product-image">
                                     
                                     <img
-                                      src={item?.images[0].url}
+                                      //src={item?.images[0].url}
                                       className="img-fluid mx-auto"
                                       alt="product image"
                                       width={160}
@@ -390,7 +390,7 @@ const Home = () => {
                                 </div>
                                 <div className="product-image">
                                   <img 
-                                    src={item?.image[0].url}
+                                    //src={item?.image[0].url}
                                     className="img-fluid mx-auto"
                                     alt="product image"
                                     width={160}
