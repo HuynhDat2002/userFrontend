@@ -15,14 +15,15 @@ import { getAProduct, getAllProducts } from "../features/products/productSlice";
 import { toast } from "react-toastify";
 import { addProdToCart, getUserCart } from "../features/user/userSlice";
 import axios from "axios";
+import { config } from '../utils/axiosConfig'
 
 const SingleProduct = () => {
-  axios.defaults.withCredentials=true;
+  axios.defaults.withCredentials = true;
 
   const [color, setColor] = useState(null)
-  console.log("color",color)
+  console.log("color", color)
   const [quantity, setQuantity] = useState(0)
-  console.log("quantity",quantity);
+  console.log("quantity", quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const location = useLocation();
   const navigate = useNavigate()
@@ -30,11 +31,11 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const productState = useSelector(state => state?.product?.singleproduct)
   const productsState = useSelector(state => state?.product?.products)
-  console.log("pro",productState)
+  console.log("pro", productState)
   const cartState = useSelector(state => state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
-    dispatch(getUserCart())
+    dispatch(getUserCart(config))
     dispatch(getAllProducts())
 
   }, [])
@@ -47,16 +48,19 @@ const SingleProduct = () => {
   }, [cartState, getProductId])
 
   const uploadCart = () => {
-    if(alreadyAdded){
+    if (alreadyAdded) {
       navigate('/cart')
     }
-    else{
+    else {
 
       if (color === null) {
         toast.error("Please Choose Color")
         return false
       } else {
         dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
+        setTimeout(() => {
+          dispatch(getUserCart(config))
+        }, 200)
         // navigate('/cart')
       }
     }
@@ -103,10 +107,10 @@ const SingleProduct = () => {
       toast.error("Please Write Review About The Product.")
       return false
     } else {
-        // dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
-        // setTimeout(() => {
-        //   dispatch(getAProduct(getProductId))
-        // }, 100);
+      // dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
+      // setTimeout(() => {
+      //   dispatch(getAProduct(getProductId))
+      // }, 100);
 
     }
     return false
@@ -182,39 +186,39 @@ const SingleProduct = () => {
                   <h3 className="product-heading">Availablity :</h3>
                   <p className="product-data">In Stock</p>
                 </div>
-              
-               {alreadyAdded===false&&<>
-                <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                  <h3 className="product-heading">Color :</h3>
-                  <Color colorData={productState?.color} setColor={setColor}/>
-                </div>
-               </>}
-                <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
-                 {alreadyAdded===false&& <>
-                  <h3 className="product-heading">Quantity :</h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      name=""
-                      min={1}
-                      max={10}
-                      className="form-control"
-                      style={{ width: "70px" }}
-                      id=""
-                      onChange = {(e)=>setQuantity(e.target.value)}
-                    defaultValue={quantity}
-                    />
+
+                {alreadyAdded === false && <>
+                  <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                    <h3 className="product-heading">Color :</h3>
+                    <Color colorData={productState?.color} setColor={setColor} />
                   </div>
-                 </>}
+                </>}
+                <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
+                  {alreadyAdded === false && <>
+                    <h3 className="product-heading">Quantity :</h3>
+                    <div className="">
+                      <input
+                        type="number"
+                        name=""
+                        min={1}
+                        max={10}
+                        className="form-control"
+                        style={{ width: "70px" }}
+                        id=""
+                        onChange={(e) => setQuantity(e.target.value)}
+                        defaultValue={quantity}
+                      />
+                    </div>
+                  </>}
                   <div className="d-flex align-items-center gap-30 ms-5">
                     <button
                       className="button border-0"
                       data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop"
                       type="button"
-                      onClick = {()=>uploadCart()}
+                      onClick={() => uploadCart()}
                     >
-                      {alreadyAdded? "Go To Cart" : "Add To Cart"}
+                      {alreadyAdded ? "Go To Cart" : "Add To Cart"}
                     </button>
                     {/* <button className="button signup">Buy It Now</button> */}
                   </div>
@@ -365,68 +369,68 @@ const SingleProduct = () => {
         </div>
       </Container>
 
-           {!alreadyAdded && color!==null && quantity !==0 && 
-           
-            <>
-      <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered ">
-          <div className="modal-content">
-            <div className="modal-header py-0 border-0">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body py-0">
-              <div className="d-flex align-items-center">
-                <div className="flex-grow-1 w-50">
-                  <img src={watch} className="img-fluid" alt="product imgae" />
+      {/* {!alreadyAdded && color !== null && quantity !== 0 &&
+
+        <>
+          <div
+            className="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered ">
+              <div className="modal-content">
+                <div className="modal-header py-0 border-0">
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
-                <div className="d-flex flex-column flex-grow-1 w-50">
-                  <h6 className="mb-3">Apple Watch</h6>
-                  <p className="mb-1">Quantity: asgfd</p>
-                  <p className="mb-1">Color: asgfd</p>
-                  <p className="mb-1">Size: asgfd</p>
+                <div className="modal-body py-0">
+                  <div className="d-flex align-items-center">
+                    <div className="flex-grow-1 w-50">
+                      <img src={watch} className="img-fluid" alt="product imgae" />
+                    </div>
+                    <div className="d-flex flex-column flex-grow-1 w-50">
+                      <h6 className="mb-3">Apple Watch</h6>
+                      <p className="mb-1">Quantity: asgfd</p>
+                      <p className="mb-1">Color: asgfd</p>
+                      <p className="mb-1">Size: asgfd</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-footer border-0 py-0 justify-content-center gap-30">
+
+                  <button type="button" onClick={() => navigate("/cart")} className="button" data-bs-dismiss="modal">
+                    View My Cart
+                  </button>
+                  <button type="button" className="button signup">
+                    Checkout
+                  </button>
+                </div>
+                <div className="d-flex justify-content-center py-3">
+                  <Link
+                    className="text-dark"
+                    to="/product"
+                    onClick={() => {
+                      closeModal();
+                    }}
+                  >
+                    Continue To Shopping
+                  </Link>
                 </div>
               </div>
             </div>
-
-           <div className="modal-footer border-0 py-0 justify-content-center gap-30">
-            
-              <button type="button" onClick={()=>navigate("/cart")} className="button" data-bs-dismiss="modal">
-                View My Cart
-              </button>
-              <button type="button" className="button signup">
-                Checkout
-              </button>
-            </div>
-            <div className="d-flex justify-content-center py-3">
-              <Link
-                className="text-dark"
-                to="/product"
-                onClick={() => {
-                  closeModal();
-                }}
-              >
-                Continue To Shopping
-              </Link>
-            </div>
           </div>
-        </div>
-      </div>
-            </>
-           
-           }
+        </>
+
+      } */}
     </>
   );
 };

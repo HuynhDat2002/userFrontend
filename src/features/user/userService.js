@@ -32,7 +32,7 @@ const logout = async () => {
     const response = await axios.get(`${base_url}user/logout`);
     console.log("logout")
     if(response) {
-      await localStorage.removeItem("customer");
+      await localStorage.clear();
     }
   
     return response.data;
@@ -68,8 +68,8 @@ const addToCart = async (cartData) => {
         }
 };
 
-const getCart = async () => {
-    const response = await axios.get(`${base_url}user/cart`, config);
+const getCart = async (config2) => {
+    const response = await axios.get(`${base_url}user/cart`, config2);
     if (response.data) {
         return response.data;
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrumb from '../components/BreadCrumb'
 import Container from '../components/Container'
 import { useFormik } from 'formik'
@@ -8,6 +8,8 @@ import { updateProfile } from '../features/user/userSlice'
 import { FiEdit } from "react-icons/fi"
 import CustomInput from '../components/CustomInput'
 import 'react-toastify/dist/ReactToastify.css';
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 const profileSchema = yup.object({
@@ -39,28 +41,25 @@ export const config2 = {
 };
 
 const Profile = () => {
+ 
+ 
+  console.log('ud',getTokenFromLocalStorage);
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const userState = useSelector(state => state?.auth?.user)
   const [edit, setEdit] = useState(true)
   
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-  ? JSON.parse(localStorage.getItem("customer"))
-    : null;
-    
-  const config2 = {
-    headers: {
-      Authorization: `Bearer ${getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-        }`,
-      Accept: "application/json",
-    },
-  };
-  
+  useEffect(()=>{
+    if(userState===""){
+      navigate("/")
+    }
+  },[userState]);
         const formik = useFormik({
           initialValues: {
-            firstname: userState?.firstname || "",
-            lastname: userState?.lastname || "",
-            email: userState?.email || "",
-            mobile: userState?.mobile || "",
+            firstname: getTokenFromLocalStorage?.firstname || "",
+            lastname: getTokenFromLocalStorage?.lastname || "",
+            email: getTokenFromLocalStorage?.email || "",
+            mobile: getTokenFromLocalStorage?.mobile || "",
           },
           validationSchema: profileSchema,
           onSubmit: (values) => {
@@ -80,7 +79,7 @@ const Profile = () => {
         <div className='row'>
           <div className='col-12'>
             <div className='d-flex justify-content-between align-items-center py-3'>
-              <h3 className='my-3'> Update Profile</h3>
+              <h3 className='my-3'>Chỉnh sửa tài khoản</h3>
               <FiEdit className='fs-3' onClick={() => setEdit(false)} />
             </div>
           </div>
@@ -90,9 +89,11 @@ const Profile = () => {
               className="d-flex flex-column gap-15"
               onSubmit={formik.handleSubmit}
             >
+            <label className = "px-1 fw-semibold ">Họ</label>
               <CustomInput
                 type="text"
                 name="firstname"
+                
                 placeholder="firstname"
                 value={formik.values.firstname}
                 onChange={formik.handleChange("firstname")}
@@ -103,6 +104,8 @@ const Profile = () => {
               <div className="error">
                 {formik.touched.firstname && formik.errors.firstname}
               </div>
+            <label className = "px-1 fw-semibold ">Tên</label>
+
               <CustomInput
                 type="text"
                 name="lastname"
@@ -116,6 +119,8 @@ const Profile = () => {
               <div className="error">
                 {formik.touched.lastname && formik.errors.lastname}
               </div>
+            <label className = "px-1 fw-semibold ">Email</label>
+
               <CustomInput
                 type="email"
                 name="email"
@@ -128,6 +133,7 @@ const Profile = () => {
               <div className="error">
                 {formik.touched.email && formik.errors.email}
               </div>
+              <label className = "px-1 fw-semibold ">Số điện thoại</label>
 
               <CustomInput
                 type="text"

@@ -8,9 +8,11 @@ import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartProduct, getUserCart, updateCartProduct } from "../features/user/userSlice";
 import axios from "axios";
+import { config } from "../utils/axiosConfig";
 
 const Cart = () => {
   axios.defaults.withCredentials=true;
+
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -23,26 +25,26 @@ const Cart = () => {
   const dispatch = useDispatch();
   const [prodctUpdateDetail, setProdctUpdateDetail ] = useState(null)
   const [totalAmount, setTotalAmount]=useState(null)
-  const userCartState=useSelector(state=>state.auth.cartProducts)
+  const userCartState=useSelector(state=>state?.auth?.cartProducts)
   console.log("user: ",JSON.parse(localStorage.getItem("customer")))
   console.log("ur",prodctUpdateDetail);
   useEffect(() => {
-    dispatch(getUserCart())
+    dispatch(getUserCart(config))
   }, [])
   useEffect(() => {
     if(prodctUpdateDetail !== null) {
       dispatch(updateCartProduct({cartItemId:prodctUpdateDetail?.cartItemId,quantity:prodctUpdateDetail?.quantity}))
-    setTimeout(() => {
-      dispatch(getUserCart())
-    }, 200)
+   
+      dispatch(getUserCart(config))
+ 
     }
   }, [prodctUpdateDetail])
 
   const removeCartProduct = (id) => {
     dispatch(deleteCartProduct(id))
-    setTimeout(() =>{
-      dispatch(getUserCart())
-    }, 200)
+  
+      dispatch(getUserCart(config))
+
   }
   useEffect(() => {
     let sum = 0;
@@ -64,7 +66,7 @@ const Cart = () => {
     }
 
     // Lấy thông tin giỏ hàng từ Redux khi trang Cart được load
-    dispatch(getUserCart());
+    dispatch(getUserCart(config));
   }, [dispatch, productId, quantity, color]);
   console.log("userCartState:", userCartState);
   return (
@@ -89,7 +91,7 @@ const Cart = () => {
                   <img src={item?.productId?.images[0]?.url} className="img-fluid rounded-2" alt="product image" />
                 </div>
                 <div className="w-75">
-                  <p>{item?.productId.title}</p>
+                  <p>{item?.productId?.title}</p>
                   <p className="d-flex gap-3">Color: <ul className="colors ps-0">
                     <li style={{backgroundColor:item?.color.title}}></li>
                     </ul></p>
