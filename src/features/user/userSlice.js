@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { authService } from "./userService";
+import 'react-toastify/dist/ReactToastify.css';
+
 export const registerUser = createAsyncThunk("auth/register", async (userData, thunkAPI) => {
     try {
         return await authService.register(userData);
@@ -12,7 +14,6 @@ export const registerUser = createAsyncThunk("auth/register", async (userData, t
 
 export const updateProfile = createAsyncThunk("auth/updateProfile", async (userData, thunkAPI) => {
     try {
-      console.log('a')
 
         return await authService.updateProfile(userData);
     } catch (error) {
@@ -167,7 +168,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError === true) {
-                    toast.error(action.error);
+                    toast.error(action?.payload?.response?.data?.message);
                 }
             })
             
@@ -198,16 +199,21 @@ export const authSlice = createSlice({
                     state.isSuccess = true;
                     state.message = "UpdateProfile Success";
     
-                    state.updateProfile = action.payload;
+                    state.updatedProfile = action.payload;
                     if (state.isSuccess === true) {
-
-                        let current = localStorage.getItem("customer");
+                        let current = JSON.parse(localStorage.getItem("customer"));
                         let newUserData={
                             _id: current?._id,
                             token:current.token,
-
+                            firstname:action?.payload?.firstname,
+                            lastname:action?.payload?.lastname,
+                            email:action?.payload?.email,
+                            mobile: action?.payload?.mobile,
+                            image:action?.payload?.image,
                         }
-            toast.success("Update Profile Successfully");
+                        localStorage.setItem("customer",JSON.stringify(newUserData))
+                        console.log("new:",JSON.parse(localStorage.getItem("customer")))
+                         toast.success("Update Profile Successfully");
 
                     }
                 })

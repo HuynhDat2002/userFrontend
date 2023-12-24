@@ -10,8 +10,8 @@ const register = async (userData) => {
     }
 };
 const updateProfile = async (userData) => {
-    console.log("upd",response.data);
     const response = await axios.put(`${base_url}user/edit-user`, userData.data,userData.config);
+    console.log("upd",response.data);
     if (response.data) {
        
             return response.data;
