@@ -10,15 +10,15 @@ import { FiEdit } from "react-icons/fi"
 
 const profileSchema = yup.object({
   firstname: yup
-    .string()
+  .string()
     .required("First Name is Required"),
-  lastname: yup
+    lastname: yup
     .string()
     .required("Last Name is Required"),
-  lastname: yup
-    .string()
+    lastname: yup
+  .string()
     .required("First Name is Required"),
-  lastname: yup
+    lastname: yup
     .string()
     .required("Last Name is Required"),
   email: yup
@@ -30,6 +30,18 @@ const profileSchema = yup.object({
     .required("Mobile No is Required"),
 
 });
+
+const getTokenFromLocalStorage = localStorage.getItem("customer")
+? JSON.parse(localStorage.getItem("customer"))
+: null;
+export const config2 = {
+  headers: {
+    Authorization: `Bearer ${
+      getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token :""
+    }`,
+    Accept: "application/json",
+  },
+};
 
 const Profile = () => {
   const dispatch = useDispatch()

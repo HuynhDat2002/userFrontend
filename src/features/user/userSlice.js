@@ -200,13 +200,15 @@ export const authSlice = createSlice({
     
                     state.updateProfile = action.payload;
                     if (state.isSuccess === true) {
+
                         let current = localStorage.getItem("customer");
                         let newUserData={
                             _id: current?._id,
                             token:current.token,
 
                         }
-                        toast.info("UpdateProfile Successfully");
+            toast.success("Update Profile Successfully");
+
                     }
                 })
                 .addCase(updateProfile.rejected, (state, action) => {
@@ -215,7 +217,7 @@ export const authSlice = createSlice({
                     state.isSuccess = false;
                     state.message = action.error;
                     if (state.isError === true) {
-                        toast.error(action.error);
+                        toast.success("Something Went Wrong!");
                     }
                 })
 
