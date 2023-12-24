@@ -3,13 +3,18 @@ import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import watch from "../images/watch.jpg";
 import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartProduct, getUserCart, updateCartProduct } from "../features/user/userSlice";
 
 const Cart = () => {
-  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const productId = searchParams.get("productId");
+  const quantity = searchParams.get("quantity");
+  const color = searchParams.get("color");
 
   
   const dispatch = useDispatch();
@@ -41,7 +46,19 @@ const Cart = () => {
       setTotalAmount(sum)
     }
   },[userCartState])
+  
+  useEffect(() => {
+    // Thực hiện các hành động cần thiết dựa trên thông tin sản phẩm từ URL
+    if (productId && quantity && color) {
+      // Thêm thông tin sản phẩm vào giỏ hàng hoặc hiển thị thông tin sản phẩm
+      // Ví dụ: dispatch một action để thêm sản phẩm vào giỏ hàng
+       //dispatch(addToCart({ productId, quantity, color }));
+    }
 
+    // Lấy thông tin giỏ hàng từ Redux khi trang Cart được load
+    dispatch(getUserCart());
+  }, [dispatch, productId, quantity, color]);
+  console.log("userCartState:", userCartState);
   return (
     <>
       <Meta title={"Cart"} />
@@ -59,7 +76,7 @@ const Cart = () => {
               return( <div key={index} className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
               <div className="cart-col-1 gap-15 d-flex align-items-center">
                 <div className="w-25">
-                  <img src={watch} className="img-fluid" alt="product image" />
+                  <img src={item?.productId?.images[0]?.url} className="img-fluid" alt="product image" />
                 </div>
                 <div className="w-75">
                   <p>{item?.productId.title}</p>

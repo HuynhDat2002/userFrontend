@@ -58,7 +58,7 @@ const Header = () => {
           <div className="row">
             <div className="col-6">
               <p className="text-white mb-0">
-                Miễn phí vận chuyển trên 10tr và trả hàng miễn phí
+                Miễn phí vận chuyển cho đơn hàng trên 10tr và trả hàng miễn phí
               </p>
             </div>
             <div className="col-6">
@@ -77,7 +77,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white">DT SHOP</Link>
+                <Link to="/" className="text-white">DT SHOP</Link>
               </h2>
             </div>
             <div className="col-5">

@@ -29,7 +29,7 @@
                                     <h5>Total Amount after Discount</h5>
                                 </div>
                                 <div className="col-3">
-                                    <h5>Ststus</h5>
+                                    <h5>Status</h5>
                                 </div>
                             </div>  
 
