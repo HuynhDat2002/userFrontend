@@ -50,6 +50,9 @@ const Cart = () => {
       sum = sum + (Number(userCartState[index].quantity) * userCartState[index].price)
       setTotalAmount(sum)
     }
+    if(userCartState?.length===0){
+      setTotalAmount(0);
+    }
   },[userCartState])
   
   useEffect(() => {
