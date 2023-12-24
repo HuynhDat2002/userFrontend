@@ -50,14 +50,14 @@ const Header = () => {
 
   
   const {isSuccess,message,isLoading} =authState
-useEffect(()=>{
-  if(isSuccess && message==="loggedin"){
-    toast.success("User Logged In Successfully");
-  }
-  if(isSuccess && message ==="logout success"){
-    toast.success("User Logged Out Successfully");
-  }
-},[isSuccess,isLoading])
+// useEffect(()=>{
+//   if(isSuccess && message==="loggedin"){
+//     toast.success("User Logged In Successfully");
+//   }
+//   if(isSuccess && message ==="logout success"){
+//     toast.success("User Logged Out Successfully");
+//   }
+// },[isSuccess,isLoading])
   return (
     <>
       <header className="header-top-strip py-3">

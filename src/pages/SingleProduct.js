@@ -21,7 +21,7 @@ const SingleProduct = () => {
 
   const [color, setColor] = useState(null)
   console.log("color",color)
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(0)
   console.log("quantity",quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
   const location = useLocation();
@@ -47,12 +47,18 @@ const SingleProduct = () => {
   }, [cartState, getProductId])
 
   const uploadCart = () => {
-    if (color === null) {
-      toast.error("Please Choose Color")
-      return false
-    } else {
-      dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
+    if(alreadyAdded){
       navigate('/cart')
+    }
+    else{
+
+      if (color === null) {
+        toast.error("Please Choose Color")
+        return false
+      } else {
+        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
+        // navigate('/cart')
+      }
     }
   }
   const props = {
@@ -196,6 +202,7 @@ const SingleProduct = () => {
                       style={{ width: "70px" }}
                       id=""
                       onChange = {(e)=>setQuantity(e.target.value)}
+                    defaultValue={quantity}
                     />
                   </div>
                  </>}
@@ -209,7 +216,7 @@ const SingleProduct = () => {
                     >
                       {alreadyAdded? "Go To Cart" : "Add To Cart"}
                     </button>
-                    <button className="button signup">Buy It Now</button>
+                    {/* <button className="button signup">Buy It Now</button> */}
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
@@ -358,6 +365,9 @@ const SingleProduct = () => {
         </div>
       </Container>
 
+           {!alreadyAdded && color!==null && quantity !==0 && 
+           
+            <>
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -390,8 +400,10 @@ const SingleProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="modal-footer border-0 py-0 justify-content-center gap-30">
-              <button type="button" className="button" data-bs-dismiss="modal">
+
+           <div className="modal-footer border-0 py-0 justify-content-center gap-30">
+            
+              <button type="button" onClick={()=>navigate("/cart")} className="button" data-bs-dismiss="modal">
                 View My Cart
               </button>
               <button type="button" className="button signup">
@@ -412,6 +424,9 @@ const SingleProduct = () => {
           </div>
         </div>
       </div>
+            </>
+           
+           }
     </>
   );
 };

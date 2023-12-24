@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { authService } from "./userService";
-import 'react-toastify/dist/ReactToastify.css';
 
 export const registerUser = createAsyncThunk("auth/register", async (userData, thunkAPI) => {
     try {
@@ -158,9 +157,7 @@ export const authSlice = createSlice({
 
 
                 state.createdUser = action.payload;
-                if (state.isSuccess === true) {
-                    toast.info("User Created Successfully");
-                }
+               
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -213,7 +210,11 @@ export const authSlice = createSlice({
                         }
                         localStorage.setItem("customer",JSON.stringify(newUserData))
                         console.log("new:",JSON.parse(localStorage.getItem("customer")))
-                         toast.success("Update Profile Successfully");
+
+                        if (!state.toastShown) {
+                            toast.success("Update Profile Successfully");
+                            state.toastShown = true; // Thêm trạng thái để chỉ hiển thị một lần
+                        }
 
                     }
                 })
@@ -235,9 +236,10 @@ export const authSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.message='loggedin'
-                state.user = action.payload;
-                if (state.isSuccess === true) {
-                    toast.success("User Logged In Successfully");
+                state.user = action.payload;    
+                if (!state.toastShown && state.isSuccess===true) {
+                    toast.success("User ogged In Successfully");
+                    state.toastShown = true; // Thêm trạng thái để chỉ hiển thị một lần
                 }
             })
             .addCase(loginUser.rejected, (state, action) => {
