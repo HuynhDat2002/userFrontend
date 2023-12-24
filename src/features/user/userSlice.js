@@ -10,8 +10,10 @@ export const registerUser = createAsyncThunk("auth/register", async (userData, t
 }
 );
 
-export const updateProfile = createAsyncThunk("auth/getupdateProfile", async (userData, thunkAPI) => {
+export const updateProfile = createAsyncThunk("auth/updateProfile", async (userData, thunkAPI) => {
     try {
+      console.log('a')
+
         return await authService.updateProfile(userData);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
@@ -198,7 +200,15 @@ export const authSlice = createSlice({
     
                     state.updateProfile = action.payload;
                     if (state.isSuccess === true) {
-                        toast.success("Update Profile Successfully");
+
+                        let current = localStorage.getItem("customer");
+                        let newUserData={
+                            _id: current?._id,
+                            token:current.token,
+
+                        }
+            toast.success("Update Profile Successfully");
+
                     }
                 })
                 .addCase(updateProfile.rejected, (state, action) => {
@@ -218,9 +228,10 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
+                state.message='loggedin'
                 state.user = action.payload;
                 if (state.isSuccess === true) {
-                    toast.info("User Logged In Successfully");
+                    toast.success("User Logged In Successfully");
                 }
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -242,8 +253,8 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.message = "logout success";
-                if (state.isSuccess === true) {
-                    toast.info("User Logged Out Successfully");
+                if (state.isSuccess ) {
+                    toast.success("User Logged Out Successfully");
                 }
             })
             .addCase(logout.rejected, (state, action) => {

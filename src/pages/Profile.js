@@ -45,12 +45,25 @@ export const config2 = {
 
 const Profile = () => {
   const dispatch = useDispatch()
-  const userState = useSelector(state => state.auth.user)
+  const userState = useSelector(state => state?.auth?.user)
   const [edit, setEdit] = useState(true)
+console.log("us",userState)
 
+const getTokenFromLocalStorage = localStorage.getItem("customer")
+  ? JSON.parse(localStorage.getItem("customer"))
+  : null;
+
+ const config2 = {
+  headers: {
+    Authorization: `Bearer ${
+      getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+    }`,
+    Accept: "application/json",
+  },
+};
   const formik = useFormik({
     enableReinitialize: true,
-    initiaValues: {
+    initialValues: {
       firstname: userState?.firstname || "",
       lastname: userState?.lastname || "",
       email: userState?.email || "",
@@ -59,23 +72,23 @@ const Profile = () => {
 
     validationSchema: profileSchema,
     onSubmit: (values) => {
-      dispatch(updateProfile(values))
+      dispatch(updateProfile({data:values,config:config2}))
       setEdit(true)
     },
   });
   return (
     <>
       <BreadCrumb title='My Profile' />
-      <Container class1='cart-wrapper home-wrapper-2 py-5'>         {/* 37:47 */}
+      <Container class1='cart-wrapper home-wrapper-2 py-5'>         
         <div className='row'>
           <div className='col-12'>
-            <div className='f-flex justify-content-between align-items-center'>
+            <div className='f-flex justify-content-between align-items-center py-3'>
               <h3 className='my-3'> Update Profile</h3>
               <FiEdit className='fs-3' onClick={() => setEdit(false)} />
             </div>
           </div>
           <div className="col-12">
-            <form onSubmit={formik.handleSubmit}>
+            <form   onSubmit={formik.handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="example1" className="form-label">First Name</label>
                 <input type="text" name='firstname' disabled={edit} className="form-control" id="example1"
@@ -90,7 +103,7 @@ const Profile = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="example2" className="form-label">Last Name</label>
+                <label className="form-label">Last Name</label>
                 <input type="text" name='lastname' className="form-control" disabled={edit} id="example2"
                   value={formik.values.lastname}
                   onChange={formik.handleChange('lastname')}
@@ -102,7 +115,7 @@ const Profile = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                <label className="form-label">Email address</label>
                 <input type="email" name='email' className="form-control" disabled={edit} id="exampleInputEmail1" aria-describedby="emailHelp"
                   value={formik.values.email}
                   onChange={formik.handleChange('email')}
@@ -124,9 +137,9 @@ const Profile = () => {
                   {formik.touched.mobile && formik.errors.mobile}
                 </div>
               </div>
-              {
-                edit === false && <button type="submit" className="btn btn-primary">Save</button>
-              }
+              <button type="submit">A</button>
+                {/* <button  type="submit" className="btn btn-primary">Save</button> */}
+              
 
             </form>
           </div>

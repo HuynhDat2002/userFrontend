@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
@@ -25,7 +26,8 @@ const Header = () => {
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
   const handleClickSignOut = () => {
-    dispatch(logout());
+    localStorage.clear();
+    navigate("/")
   }
   useEffect(() => {
     let sum = 0
@@ -46,11 +48,16 @@ const Header = () => {
 
   }, [productState])
 
-  const handleLogout = () => {
-    localStorage.clear()
-    window.location.reload()
+  
+  const {isSuccess,message,isLoading} =authState
+useEffect(()=>{
+  if(isSuccess && message==="loggedin"){
+    toast.success("User Logged In Successfully");
   }
-
+  if(isSuccess && message ==="logout success"){
+    toast.success("User Logged Out Successfully");
+  }
+},[isSuccess,isLoading])
   return (
     <>
       <header className="header-top-strip py-3">
