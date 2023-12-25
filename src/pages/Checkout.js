@@ -154,7 +154,7 @@ const Checkout = () => {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Link className="text-dark total-price" to="/cart">
-                      Cart
+                      Giỏ hàng
                     </Link>
                   </li>
                   &nbsp; /&nbsp;
@@ -162,18 +162,18 @@ const Checkout = () => {
                     className="breadcrumb-ite total-price active"
                     aria-current="page"
                   >
-                    Information
+                    Thông tin
                   </li>
                   &nbsp; /
                   <li className="breadcrumb-item total-price active">
-                    Shipping
+                    Vận chuyển
                   </li>
                   &nbsp; /
                   <li
                     className="breadcrumb-item total-price active"
                     aria-current="page"
                   >
-                    Payment
+                    Thanh toán
                   </li>
                 </ol>
               </nav>

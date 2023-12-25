@@ -10,10 +10,10 @@ import { useDispatch } from "react-redux";
 import { createQuery } from "../features/contact/contactSlice";
 
 const contactSchema = yup.object({
-  name: yup.string().required("Name is Required"),
-  email: yup.string().nullable().email("Email should be valid.").required("Email is Required"),
-  mobile: yup.string().default('').nullable().required("Mobile Number is Required"),
-  comment: yup.string().default('').nullable().required("Comment is Required"),
+  name: yup.string().required("Tên bắt buộc"),
+  email: yup.string().nullable().email("Email should be valid.").required("Email bắt buộc"),
+  mobile: yup.string().default('').nullable().required("Số điện thoại bắt buộc"),
+  comment: yup.string().default('').nullable().required("Không được để trống"),
 });
      
 const Contact = () => {

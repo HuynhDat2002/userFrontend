@@ -16,7 +16,7 @@ const Forgotpassword = () => {
     email: yup
       .string()
       .email("Email should be valid")
-      .required("Email is Required"),
+      .required("Email là bắt buộc"),
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -128,11 +128,7 @@ export const updateCartProduct = createAsyncThunk(
     }
 );
 
-<<<<<<< HEAD
 export const resetAuthState = createAsyncThunk("resetauth")
-=======
-export const resetAuthState = createAsyncThunk("auth/resetState");
->>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
 
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
@@ -163,6 +159,10 @@ export const authSlice = createSlice({
 
 
                 state.createdUser = action.payload;
+                if (state.isSuccess === true) {
+                    toast.success("Đăng ký thành công");
+
+                }
 
             })
             .addCase(registerUser.rejected, (state, action) => {
@@ -244,11 +244,7 @@ export const authSlice = createSlice({
                 state.message = 'loggedin'
                 state.user = action.payload;
                 if (state.isSuccess === true) {
-<<<<<<< HEAD
                     toast.success("Đăng nhập thành công");
-=======
-                    toast.success("User ogged In Successfully");
->>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
 
                 }
             })
@@ -419,11 +415,7 @@ export const authSlice = createSlice({
                 }
             })
             .addCase(resetAuthState, (state)=>{
-<<<<<<< HEAD
                 return initialState
-=======
-                return initialState;
->>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
             })
 
     },
