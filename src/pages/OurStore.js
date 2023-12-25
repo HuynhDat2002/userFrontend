@@ -23,6 +23,7 @@ const OurStore = () => {
   const [maxPrice, setMaxPrice]=useState([]);
   const [sort, setSort]=useState(null);
   const productState = useSelector((state) => state?.product?.products);
+  const [popularProduct, setPopularProduct]=useState([])
   console.log("productState: ", productState);
   console.log("sort", sort);
   const dispatch = useDispatch();

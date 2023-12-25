@@ -23,14 +23,14 @@ const Signup = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-  const authState = useSelector((state) => state);
-  const { isError, isSuccess, isLoading, message } = authState.auth;
+  const authState = useSelector((state) => state.auth);
+  const { isError, isSuccess, isLoading, message,createdUser } = authState;
 
-  useEffect(() => {
-    if (message==="register success") {
-      navigate("/login",{relative:"path"});
-    }
-  }, [isSuccess]);
+//   useEffect(() => {
+//     if (message==="register success") {
+//       navigate("/login",{relative:"path"});
+//     }
+//   }, [isSuccess]);
     const formik = useFormik({
         initialValues: {
             firstname: "",
@@ -44,7 +44,13 @@ const Signup = () => {
             dispatch(registerUser(values))
         },
     });
+    useEffect(()=>{
+        if(createdUser!== null && isError ===false){
+            navigate('/login')
 
+        }
+    },[authState])
+  
     return (
         <>
         <Meta title ={"Sign up"} />
