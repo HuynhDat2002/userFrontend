@@ -128,6 +128,8 @@ export const updateCartProduct = createAsyncThunk(
     }
 );
 
+export const resetAuthState = createAsyncThunk("auth/resetState");
+
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
     : null;
@@ -248,7 +250,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError === true) {
-                    toast.error(action.error);
+                    toast.error("");
                 }
             })
 
@@ -407,6 +409,9 @@ export const authSlice = createSlice({
                 if (state.isSuccess === false) {
                     toast.error("Something Went Wrong!")
                 }
+            })
+            .addCase(resetAuthState, (state)=>{
+                return initialState;
             })
 
     },

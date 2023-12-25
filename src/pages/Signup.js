@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { useDispatch , useSelector} from "react-redux";
 import { registerUser } from "../features/user/userSlice";
 import { useNavigate} from "react-router-dom";
+import { resetAuthState } from "../features/user/userSlice";
 
 
 const signUpSchema = yup.object({
@@ -42,10 +43,11 @@ const Signup = () => {
         validationSchema: signUpSchema,
         onSubmit: (values) => {
             dispatch(registerUser(values))
+           
         },
     });
     useEffect(()=>{
-        if(createdUser!== null && isError ===false){
+        if(createdUser && authState.user.token){
             navigate('/login')
 
         }

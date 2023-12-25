@@ -28,6 +28,29 @@ const Header = () => {
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
+
+  const [totalAmount,setTotalAmount] = useState(0)
+
+  useEffect(()=>{
+    if(userData)
+    dispatch(getUserCart(config))
+  },[])
+  useEffect(() => {
+    let sum = 0;
+    if(authState.user!==""){
+      for (let index = 0; index <cartState?.length; index++) {
+        sum = sum + Number(cartState[index].quantity) 
+        setTotalAmount(sum)
+      }
+      if(cartState?.length===0){
+        setTotalAmount(0);
+      }
+    }
+    else{
+      setTotalAmount(0);
+    }
+  }, [authState])
+
   const handleClickSignOut = () => {
     dispatch(logout());
     navigate("/")
@@ -57,6 +80,10 @@ const Header = () => {
     localStorage.clear()
     window.location.reload()
   }
+
+  
+  console.log("pro:",productState);
+  
 
   return (
     <>
@@ -122,7 +149,7 @@ const Header = () => {
                     </p>
                   </Link>
                 </div>
-                {!userData && (
+                {!userData.token && (
 
                   <div>
                     <Link
@@ -136,7 +163,7 @@ const Header = () => {
                     </Link>
                   </div>)
                 }
-                {userData !== null && (
+                {userData.token && (
                   <div className="d-flex gap-4 align-items-center">
                     <div className="d-flex gap-3 align-items-center dropdown">
                       <div>
