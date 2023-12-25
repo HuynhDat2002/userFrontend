@@ -19,7 +19,7 @@ import { config } from '../utils/axiosConfig'
 
 const SingleProduct = () => {
   axios.defaults.withCredentials = true;
-
+  const [isInStock, setIsInStock] = useState(false)
   const [color, setColor] = useState(null)
   console.log("color", color)
   const [quantity, setQuantity] = useState(0)
@@ -45,6 +45,7 @@ const SingleProduct = () => {
         setAlreadyAdded(true);
       }
     }
+    
   }, [cartState, getProductId])
 
   const uploadCart = () => {
@@ -56,7 +57,11 @@ const SingleProduct = () => {
       if (color === null) {
         toast.error("Hãy chọn màu sản phẩm")
         return false
-      } else {
+      }
+       else if (quantity===0){
+        toast.error("Hãy thêm số lượng sản phẩm")
+      } 
+      else {
         dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
         setTimeout(() => {
           dispatch(getUserCart(config))
@@ -94,6 +99,7 @@ const SingleProduct = () => {
       }
       setPopularProduct(data)
     }
+    if(productState?.quantity ===0 ) setIsInStock(true)
   }, [productState])
   console.log("popularProduct:", popularProduct);
 
@@ -203,6 +209,7 @@ const SingleProduct = () => {
                         className="form-control"
                         style={{ width: "70px" }}
                         id=""
+                        disabled = {isInStock}
                         onChange={(e) => setQuantity(e.target.value)}
                         defaultValue={quantity}
                       />

@@ -27,7 +27,7 @@ const Wishlist = () => {
         dispatch(addToWishlist(id));
         setTimeout(() => {
             dispatch(getUserProductWishlist());
-        }, 300);
+        }, 300);    
     };
     const grid = 3
     return (

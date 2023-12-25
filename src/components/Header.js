@@ -24,9 +24,11 @@ const Header = () => {
   const productState = useSelector(state => state?.product?.product)
   const [productOpt, setProductOpt] = useState([])
   const [paginate, setPaginate] = useState(true);
+  
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
+
   const [totalAmount,setTotalAmount] = useState(0)
 
   useEffect(()=>{
@@ -48,12 +50,19 @@ const Header = () => {
       setTotalAmount(0);
     }
   }, [authState])
-//
 
   const handleClickSignOut = () => {
     dispatch(logout());
     navigate("/")
   }
+
+  useEffect(() => {
+    let sum=0
+    for (let index=0; index <cartState?.length; index++) {
+      sum= sum + (Number(cartState[index].quantity) * Number(cartState[index].price))
+      setTotal(sum)
+    }
+  },[cartState])
 
   useEffect(() => {
     let data = []
@@ -66,8 +75,11 @@ const Header = () => {
 
   }, [productState])
 
-  
-  const {isSuccess,message,isLoading} =authState
+
+  const handleLogout = () => {
+    localStorage.clear()
+    window.location.reload()
+  }
 
   
   console.log("pro:",productState);
