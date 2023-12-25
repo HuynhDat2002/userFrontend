@@ -99,7 +99,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link to="/" className="text-white">DT SHOP</Link>
+                <Link to="" className="text-white">DT SHOP</Link>
               </h2>
             </div>
             <div className="col-5">
@@ -179,7 +179,7 @@ const Header = () => {
                             style={{ height: "auto", lineHeight: "20px" }}
                             to="/profile"
                           >
-                            View Profile
+                            Xem thông tin
                           </Link>
                         </li>
                         <li>
@@ -191,7 +191,7 @@ const Header = () => {
 
                           >
 
-                            Signout
+                            Đăng xuất
 
 
                           </Link>
@@ -238,7 +238,7 @@ const Header = () => {
               <div className="menu-bottom d-flex align-items-center gap-30">
                 <div>
                   <div className="dropdown">
-                    <button
+                    {/* <button
                       className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
                       type="button"
                       id="dropdownMenuButton1"
@@ -249,7 +249,7 @@ const Header = () => {
                       <span className="me-5 d-inline-block">
                         Danh mục
                       </span>
-                    </button>
+                    </button> */}
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton1"

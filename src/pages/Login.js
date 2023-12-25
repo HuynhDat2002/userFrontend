@@ -21,8 +21,8 @@ const Login = () =>{
     const authState = useSelector((state) => state.auth);
     const { isSuccess,user,isError ,isLoading} = authState;
     const loginSchema = yup.object({
-      email: yup.string().email("Email should be valid").required("Email Address is Required"),
-      password: yup.string().required("Password is Required"),
+      email: yup.string().email("Email không được bỏ trống").required("Email không được bỏ trống"),
+      password: yup.string().required("Mật khẩu không được bỏ trống"),
   });
 
     const formik = useFormik({
@@ -45,13 +45,13 @@ const Login = () =>{
   
     return (
         <>
-        <Meta title ={"Login"} />
-        <BreadCrumb title="Login" />
+        <Meta title ={"Đăng nhập"} />
+        <BreadCrumb title="Đăng nhập" />
         <Container class1="login-wrapper py-5 home-wrapper-2">
             <div className="row">
                 <div className="col-12">
                     <div className="auth-card">
-                        <h3 className="text-center mb-3">Login</h3>
+                        <h3 className="text-center mb-3">Đăng nhập</h3>
                         <form 
                             action="" 
                             className="d-flex flex-column gap-15"
@@ -80,11 +80,11 @@ const Login = () =>{
                                 {formik.touched.password && formik.errors.password}
                             </div>
                             <div>
-                                <Link to="/forgot-password">Forgot Password</Link>
+                                <Link to="/forgot-password">Quên mật khẩu</Link>
 
                                 <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                                        <button className="button border-0" type="submit">Login</button>
-                                        <Link to="/signup" className="button signup">SignUp</Link> 
+                                        <button className="button border-0" type="submit">Đăng nhập</button>
+                                        <Link to="/signup" className="button signup">Đăng ký</Link> 
                                 </div>
                             </div>
                         </form>

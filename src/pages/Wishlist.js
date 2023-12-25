@@ -5,65 +5,114 @@ import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProductWishlist } from "../features/user/userSlice";
 import { addToWishlist } from "../features/products/productSlice";
+import { Link } from "react-router-dom";
+import view from "../images/view.svg";
+import ReactStars from "react-rating-stars-component";
+import { useLocation } from "react-router-dom";
+
 
 
 const Wishlist = () => {
+    let location = useLocation();
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getUserProductWishlist());
     }, []);
-  
+
     const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
-    console.log("t",wishlistState)
+
+    console.log("t", wishlistState)
     const removeFromWishlist = (id) => {
         dispatch(addToWishlist(id));
         setTimeout(() => {
-            dispatch(getUserProductWishlist()); 
-        },300);
+            dispatch(getUserProductWishlist());
+        }, 300);
     };
-
+    const grid = 3
     return (
         <>
-            <Meta title={"Wishlist"} />
-            <BreadCrumb title="Wishlist" />
-            <Container class1="wishlist-wrapper home-wrapper-2 py-5">
+            <Meta title={"Danh sách yêu thích"} />
+            <BreadCrumb title="Danh sách yêu thích" />
+            <Container className="wishlist-wrapper home-wrapper-2 py-5">
                 <div className="row">
                     {wishlistState?.length === 0 && (
-                         <div className="text-center fs-3"> No Data </div>
-                    )};  
+                        <div className="text-center fs-3">Bạn chưa thích sản phẩm nào </div>
+                    )};
                     {wishlistState?.map((item, index) => {
                         return (
-                            <div className="col-3" key={index}>
-                                <div className="wishlist-card position-relative">
-                                    <img 
-                                        onClick={() => {
-                                            removeFromWishlist(item?._id);
-                                        }}
-                                        src="images/cross.svg"
-                                        alt="cross"
-                                        className="position-absolute cross img-fluid"
-                                    />
-                                    <div className="wishlist-card-image bg-white">
+                            <div
+
+                                key={index}
+                                className={` ${location.pathname === "/product" ? `gr-${grid}` : "col-3"
+                                    } `}
+
+                            >
+                                <div
+                                    className="product-card position-relative"
+                                >
+                                   
+                                    <div className="product-image">
                                         <img
-                                            src={
-                                                item.images[0]
-                                                    ? item.images[0].url
-                                                    : "images/watch.jpg"
-                                            }
+                                            src={item?.images[0]?.url}
                                             className="img-fluid d-block mx-auto"
-                                            alt="watch"
+                                            alt="product image"
                                             width={160}
                                         />
+
                                     </div>
-                                    <div className="py-3 px-3">
-                                        <h5 className="title">{item?.title}</h5>
-                                        <h6 className="price">$ {item?.price}</h6>
+                                    <div className="product-details">
+                                        <h6 className="brand">{item?.brand}</h6>
+                                        <h5 className="product-title">
+                                            {item?.title}
+                                        </h5>
+                                        <ReactStars
+                                            count={5}
+                                            size={24}
+                                            value={item?.totalrating.toString()}
+                                            edit={false}
+                                            activeColor="#ffd700"
+                                        />
+                                        <p
+                                            className={`description ${grid === 12 ? "d-block" : "d-none"
+                                                }`}
+                                            dangerouslySetInnerHTML={{ __html: item?.description }}
+                                        ></p>
+                                        <p className="price">$ {item?.price}</p>
+                                    </div>
+                                    <div className="action-bar position-absolute">
+                                        <div className="d-flex flex-column gap-3 ">
+                                            <button className="border-0 bg-transparent" >
+
+                                            <img
+                                                onClick={() => {
+                                                    removeFromWishlist(item?._id);
+                                                }}
+                                                src="images/cross.svg"
+                                                alt="cross"
+                                                className=" cross img-fluid border-0 bg-transparent"
+                                                
+                                                />
+                                                </button>
+
+                                           
+                                            <button className="border-0 bg-transparent">
+                                                <Link to={`/product/${item?._id}`}>
+                                                    <img src={view} alt="view" />
+                                                </Link>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         );
-                    })
                     }
+                    )
+
+                    }
+
+
+
 
                 </div>
             </Container>
