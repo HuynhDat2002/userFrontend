@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { resetAuthState } from "../features/user/userSlice";
 
 
 
@@ -32,14 +33,15 @@ const Login = () =>{
         validationSchema: loginSchema,
         onSubmit: (values) => {
             dispatch(loginUser(values));
-            
-            navigate('/')
-            
-            
-            
+
         },
     });
-    
+    useEffect(()=>{
+        if(authState.user.token && authState.message==="loggedin")
+        navigate('/')
+ 
+        
+    },[authState])
   
     return (
         <>
