@@ -128,7 +128,7 @@ export const updateCartProduct = createAsyncThunk(
     }
 );
 
-export const resetAuthState = createAsyncThunk("auth/resetState");
+export const resetAuthState = createAsyncThunk("resetauth")
 
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
@@ -159,6 +159,10 @@ export const authSlice = createSlice({
 
 
                 state.createdUser = action.payload;
+                if (state.isSuccess === true) {
+                    toast.success("Đăng ký thành công");
+
+                }
 
             })
             .addCase(registerUser.rejected, (state, action) => {
@@ -196,7 +200,7 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.message = "UpdateProfile Success";
+                state.message = "Cập nhật thành công";
 
                 state.updatedProfile = action.payload;
                 if (state.isSuccess === true) {
@@ -214,7 +218,7 @@ export const authSlice = createSlice({
                     console.log("new:", JSON.parse(localStorage.getItem("customer")))
 
                     if (!state.toastShown) {
-                        toast.success("Update Profile Successfully");
+                        toast.success("Cập nhật thành công");
                         state.toastShown = true; // Thêm trạng thái để chỉ hiển thị một lần
                     }
 
@@ -226,7 +230,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError === true) {
-                    toast.success("Something Went Wrong!");
+                    toast.success("Cập nhật không thành công");
                 }
             })
 
@@ -240,7 +244,7 @@ export const authSlice = createSlice({
                 state.message = 'loggedin'
                 state.user = action.payload;
                 if (state.isSuccess === true) {
-                    toast.success("User ogged In Successfully");
+                    toast.success("Đăng nhập thành công");
 
                 }
             })
@@ -265,7 +269,7 @@ export const authSlice = createSlice({
                 state.message = "logout success";
                 state.user = action.payload
                 if (state.isSuccess) {
-                    toast.success("User Logged Out Successfully");
+                    toast.success("Đăng xuất thành công");
                 }
             })
             .addCase(logout.rejected, (state, action) => {
@@ -311,7 +315,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true;
                 state.message = "reset password success";
                 if (state.isSuccess === true) {
-                    toast.success("Reset Password Successfully");
+                    toast.success("Đổi mật khẩu thành công");
                 }
             })
             .addCase(resetPassword.rejected, (state, action) => {
@@ -347,7 +351,7 @@ export const authSlice = createSlice({
                 state.cartProducts = [...state.cartProducts,action.payload]
                 
                 if (state.isSuccess) {
-                    toast.success("Product Added to Cart")
+                    toast.success("Đã thêm sản phẩm vào giỏ hàng")
                 }
             }).addCase(addProdToCart.rejected, (state, action) => {
                 state.isLoading = false;
@@ -379,7 +383,7 @@ export const authSlice = createSlice({
                 state.cartProducts = state.cartProducts.filter(item=>item!==action.payload)
 
                 if (state.isSuccess) {
-                    toast.success("Prouct Deleted From Cart Successfully!")
+                    toast.success("Đã xóa sản phẩm khỏi giỏ hàng")
                 }
             }).addCase(deleteCartProduct.rejected, (state, action) => {
                 state.isLoading = false;
@@ -387,7 +391,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isSuccess === false) {
-                    toast.error("Something Went Wrong!")
+                    toast.error("Xóa không thành công")
                 }
             })
             .addCase(updateCartProduct.pending, (state) => {
@@ -407,11 +411,11 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isSuccess === false) {
-                    toast.error("Something Went Wrong!")
+                    toast.error("Cập nhật không thành công")
                 }
             })
             .addCase(resetAuthState, (state)=>{
-                return initialState;
+                return initialState
             })
 
     },

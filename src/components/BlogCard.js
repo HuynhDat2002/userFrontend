@@ -22,7 +22,7 @@ const BlogCard = (props) => {
         }}
         ></p>
         <Link to={"/blog/" + id} className="button">
-          Read More
+          Đọc thêm
         </Link>
       </div>
     </div>

@@ -12,13 +12,13 @@ import { config } from "../utils/axiosConfig";
 import ScripeContainer from "../components/ScripeContainer";
 
 const shippingSchema = yup.object({
-  firstName: yup.string().required("First Name is Required"),
-  lastName: yup.string().required("Last Name is Required"),
-  address: yup.string().required("Address Detail is Required"),
-  state: yup.string().required("State is Required"),
-  city: yup.string().required("City is Required"),
-  country: yup.string().required("Country is Required"),
-  pincode: yup.string().required("Pincode is Required")
+  firstName: yup.string().required("Không được để trống"),
+  lastName: yup.string().required("Không được để trống "),
+  address: yup.string().required("Địa chỉ là bắt buộc"),
+  state: yup.string().required("Không được để trống"),
+  city: yup.string().required("Không được để trông"),
+  country: yup.string().required("Không được để trống"),
+  pincode: yup.string().required("Không được để trống")
 });
 const Checkout = () => {
   axios.defaults.withCredentials=true;
@@ -154,7 +154,7 @@ const Checkout = () => {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Link className="text-dark total-price" to="/cart">
-                      Cart
+                      Giỏ hàng
                     </Link>
                   </li>
                   &nbsp; /&nbsp;
@@ -162,18 +162,18 @@ const Checkout = () => {
                     className="breadcrumb-ite total-price active"
                     aria-current="page"
                   >
-                    Information
+                    Thông tin
                   </li>
                   &nbsp; /
                   <li className="breadcrumb-item total-price active">
-                    Shipping
+                    Vận chuyển
                   </li>
                   &nbsp; /
                   <li
                     className="breadcrumb-item total-price active"
                     aria-current="page"
                   >
-                    Payment
+                    Thanh toán
                   </li>
                 </ol>
               </nav>

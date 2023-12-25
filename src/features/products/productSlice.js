@@ -102,6 +102,9 @@ export const productSlice = createSlice({
             state.isSuccess=true;
             state.addToWishlist=action.payload;
             state.message="Product Added To WishList !"
+            if (state.isSuccess ===true) {
+                toast.success("Đã thêm sản phẩm vào danh sách yêu thích");
+            }
         }).addCase(addToWishlist.rejected, (state,action) => {
             state.isLoading=false;
             state.isError=true;
@@ -118,7 +121,7 @@ export const productSlice = createSlice({
             state.rating=action.payload;
             state.message="Rating Added Successfully!"
             if (state.isSuccess) {
-                toast.success("Rating Added Successfully")
+                toast.success("Đánh giá thành công")
             }
         }).addCase(addRating.rejected, (state,action) => {
             state.isLoading=false;

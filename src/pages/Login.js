@@ -37,7 +37,7 @@ const Login = () =>{
         },
     });
     useEffect(()=>{
-        if(authState.user.token && authState.message==="loggedin")
+        if(authState?.user?.token && authState?.message==="loggedin")
         navigate('/')
  
         

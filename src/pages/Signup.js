@@ -26,6 +26,7 @@ const Signup = () => {
 
   const authState = useSelector((state) => state.auth);
   const { isError, isSuccess, isLoading, message,createdUser } = authState;
+  console.log(authState)
 
 //   useEffect(() => {
 //     if (message==="register success") {
@@ -47,7 +48,7 @@ const Signup = () => {
         },
     });
     useEffect(()=>{
-        if(createdUser && authState.user.token){
+        if(createdUser && !authState?.user?.token){
             navigate('/login')
 
         }
