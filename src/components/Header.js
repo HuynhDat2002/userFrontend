@@ -24,6 +24,7 @@ const Header = () => {
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
+  
   const handleClickSignOut = () => {
     dispatch(logout());
   }
@@ -50,6 +51,10 @@ const Header = () => {
     localStorage.clear()
     window.location.reload()
   }
+
+  
+  console.log("pro:",productState);
+  
 
   return (
     <>
@@ -86,8 +91,10 @@ const Header = () => {
                   id="pagination-example"
                   onPaginate={() => console.log('Results paginated')}
                   onChange={(selected) => {
+                    if (selected.length > 0) {
                     navigate(`/product/${selected[0]?.prod}`)
                     dispatch(getAProduct(selected[0]?.prod))
+                    }
                   }}
                   options={productOpt}
                   paginate={paginate}
@@ -96,7 +103,7 @@ const Header = () => {
                   placeholder="Tìm sản phẩm tại đây..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-6" />
+                  <BsSearch type="submit" className="fs-6" />
                 </span>
               </div>
             </div>
