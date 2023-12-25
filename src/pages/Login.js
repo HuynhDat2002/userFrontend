@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { resetAuthState } from "../features/user/userSlice";
 
 
 
@@ -33,25 +34,24 @@ const Login = () =>{
         onSubmit: (values) => {
             dispatch(loginUser(values));
 
-            
-            
-            
         },
     });
-    useEffect(() => {
-        if (authState.user!==""  && authState.message === "loggedin")     navigate('/')
-
+    useEffect(()=>{
+        if(authState.user.token && authState.message==="loggedin")
+        navigate('/')
+ 
+        
     },[authState])
   
     return (
         <>
-        <Meta title ={"Đăng nhập/Đăng ký"} />
-        <BreadCrumb title="Đăng nhập-Đăng ký" />
+        <Meta title ={"Login"} />
+        <BreadCrumb title="Login" />
         <Container class1="login-wrapper py-5 home-wrapper-2">
             <div className="row">
                 <div className="col-12">
                     <div className="auth-card">
-                        <h3 className="text-center mb-3">Đăng nhập</h3>
+                        <h3 className="text-center mb-3">Login</h3>
                         <form 
                             action="" 
                             className="d-flex flex-column gap-15"
@@ -80,11 +80,11 @@ const Login = () =>{
                                 {formik.touched.password && formik.errors.password}
                             </div>
                             <div>
-                                <Link to="/forgot-password">Quên mật khẩu</Link>
+                                <Link to="/forgot-password">Forgot Password</Link>
 
                                 <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                                        <button className="button border-0" type="submit">Đăng Nhập</button>
-                                        <Link to="/Signup" className="button Signup">Đăng ký</Link> 
+                                        <button className="button border-0" type="submit">Login</button>
+                                        <Link to="/signup" className="button signup">SignUp</Link> 
                                 </div>
                             </div>
                         </form>

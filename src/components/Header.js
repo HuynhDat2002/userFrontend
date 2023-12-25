@@ -30,15 +30,21 @@ const Header = () => {
   const [totalAmount,setTotalAmount] = useState(0)
 
   useEffect(()=>{
+    if(userData)
     dispatch(getUserCart(config))
   },[])
   useEffect(() => {
     let sum = 0;
-    for (let index = 0; index <cartState?.length; index++) {
-      sum = sum + Number(cartState[index].quantity) 
-      setTotalAmount(sum)
+    if(authState.user!==""){
+      for (let index = 0; index <cartState?.length; index++) {
+        sum = sum + Number(cartState[index].quantity) 
+        setTotalAmount(sum)
+      }
+      if(cartState?.length===0){
+        setTotalAmount(0);
+      }
     }
-    if(cartState?.length===0){
+    else{
       setTotalAmount(0);
     }
   }, [authState])
@@ -62,6 +68,10 @@ const Header = () => {
 
   
   const {isSuccess,message,isLoading} =authState
+
+  
+  console.log("pro:",productState);
+  
 
   return (
     <>
@@ -98,8 +108,10 @@ const Header = () => {
                   id="pagination-example"
                   onPaginate={() => console.log('Results paginated')}
                   onChange={(selected) => {
+                    if (selected.length > 0) {
                     navigate(`/product/${selected[0]?.prod}`)
                     dispatch(getAProduct(selected[0]?.prod))
+                    }
                   }}
                   options={productOpt}
                   paginate={paginate}
@@ -108,7 +120,7 @@ const Header = () => {
                   placeholder="Tìm sản phẩm tại đây..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-6" />
+                  <BsSearch type="submit" className="fs-6" />
                 </span>
               </div>
             </div>
@@ -125,7 +137,7 @@ const Header = () => {
                     </p>
                   </Link>
                 </div>
-                {!userData && (
+                {!userData.token && (
 
                   <div>
                     <Link
@@ -139,7 +151,7 @@ const Header = () => {
                     </Link>
                   </div>)
                 }
-                {userData !== null && (
+                {userData.token && (
                   <div className="d-flex gap-4 align-items-center">
                     <div className="d-flex gap-3 align-items-center dropdown">
                       <div>
@@ -167,7 +179,7 @@ const Header = () => {
                             style={{ height: "auto", lineHeight: "20px" }}
                             to="/profile"
                           >
-                            Thông tin cá nhân
+                            View Profile
                           </Link>
                         </li>
                         <li>
@@ -179,7 +191,7 @@ const Header = () => {
 
                           >
 
-                            Đăng xuất
+                            Signout
 
 
                           </Link>
