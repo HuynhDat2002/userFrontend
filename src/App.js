@@ -21,7 +21,7 @@ import TermAndContions from "./pages/TermAndContions";
 import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-
+import StripeContainer from './components/ScripeContainer'
 import Orders from "./pages/Orders";
 
 import { PrivateRoutes } from "./routing/PrivateRoutes";
@@ -38,7 +38,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="profile" element={<Profile />} />
-
+            {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
