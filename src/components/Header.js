@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
@@ -13,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { logout } from "../features/user/userSlice";
+import { getUserCart } from "../features/user/userSlice";
+import {config} from "../utils/axiosConfig.js"
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -24,17 +27,27 @@ const Header = () => {
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
-  
+  const [totalAmount,setTotalAmount] = useState(0)
+
+  useEffect(()=>{
+    dispatch(getUserCart(config))
+  },[])
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index <cartState?.length; index++) {
+      sum = sum + Number(cartState[index].quantity) 
+      setTotalAmount(sum)
+    }
+    if(cartState?.length===0){
+      setTotalAmount(0);
+    }
+  }, [authState])
+//
+
   const handleClickSignOut = () => {
     dispatch(logout());
+    navigate("/")
   }
-  useEffect(() => {
-    let sum = 0
-    for (let index = 0; index < cartState?.length; index++) {
-      sum = sum + (Number(cartState[index].quantity) * Number(cartState[index].price))
-      setTotal(sum)
-    }
-  }, [cartState])
 
   useEffect(() => {
     let data = []
@@ -47,10 +60,8 @@ const Header = () => {
 
   }, [productState])
 
-  const handleLogout = () => {
-    localStorage.clear()
-    window.location.reload()
-  }
+  
+  const {isSuccess,message,isLoading} =authState
 
   
   console.log("pro:",productState);
@@ -141,7 +152,7 @@ const Header = () => {
                         <img
                           width={32}
                           height={32}
-                          src={userData && userData.image}
+                          src={user}
                           alt="avatar"
                         />
                       </div>
@@ -204,8 +215,8 @@ const Header = () => {
                   >
                     <img src={cart} alt="cart" />
                     {<div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$</p>
+                      <span className="badge bg-white text-dark">{totalAmount}</span>
+                      <p className="mb-0"></p>
                     </div>}
                   </Link>
                 </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
@@ -12,12 +12,13 @@ import axios from "axios";
 
 
 
+
 const Login = () =>{
     axios.defaults.withCredentials=true;
     const dispatch= useDispatch();
     const navigate = useNavigate();
-    const authState = useSelector((state) => state);
-    const { isSuccess } = authState.auth;
+    const authState = useSelector((state) => state.auth);
+    const { isSuccess,user,isError ,isLoading} = authState;
     const loginSchema = yup.object({
       email: yup.string().email("Email should be valid").required("Email Address is Required"),
       password: yup.string().required("Password is Required"),
@@ -31,15 +32,14 @@ const Login = () =>{
         validationSchema: loginSchema,
         onSubmit: (values) => {
             dispatch(loginUser(values));
-            setTimeout(() => {
-                if (isSuccess) {
-                    navigate('/')
-                }
-            },300)
+            
+            navigate('/')
+            
+            
+            
         },
     });
-
-
+    
   
     return (
         <>
