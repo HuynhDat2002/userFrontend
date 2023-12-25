@@ -38,7 +38,7 @@ export const addToWishlist = createAsyncThunk(
 
 export const addRating = createAsyncThunk(
     "product/rating",
-    async (thunkAPI, data) => {
+    async (data, thunkAPI) => {
         try {
             return await productService.rateProduct(data);
         } catch (error) {
