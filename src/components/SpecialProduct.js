@@ -30,7 +30,7 @@ const SpecialProduct = (props) => {
               </p>
               { <div className="discount-till d-flex align-items-center gap-10">
                 <p className="mb-0">
-                  <b>5 </b>days
+                  <b>5 </b>ngày
                 </p>
                 <div className="d-flex gap-10 align-items-center">
                   <span className="badge rounded-circle p-3 bg-danger">1</span>:
@@ -39,7 +39,7 @@ const SpecialProduct = (props) => {
                 </div>
               </div> }
               <div className="prod-count my-3">
-                <p>Products: {quantity}</p>
+                <p>Số lượng còn lại: {quantity}</p>
                 <div className="progress">
                   <div
                     className="progress-bar"
@@ -52,7 +52,7 @@ const SpecialProduct = (props) => {
                 </div>
               </div>
 
-              <Link className="button" to={'/product/'+id}>view</Link>
+              <Link className="button" to={'/product/'+id}>Xem sản phẩm</Link>
 
             </div>
           </div>

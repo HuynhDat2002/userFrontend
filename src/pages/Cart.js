@@ -133,7 +133,7 @@ const Cart = () => {
                 Tiếp tục mua hàng
               </Link>
               <div className="d-flex flex-column align-items-end">
-                <h4>SubTotal: {totalAmount}   </h4>
+                <h4>Tổng cộng: {totalAmount} VND  </h4>
                 <p>Thuế và phí vận chuyển được tính khi thanh toán</p>
                 <Link to="/checkout" className="button">
                   Kiểm tra

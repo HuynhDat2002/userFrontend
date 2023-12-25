@@ -11,13 +11,13 @@ import axios from "axios";
 import {config} from "../utils/axiosConfig";
 
 const shippingSchema = yup.object({
-  firstName: yup.string().required("First Name is Required"),
-  lastName: yup.string().required("Last Name is Required"),
-  address: yup.string().required("Address Detail is Required"),
-  state: yup.string().required("State is Required"),
-  city: yup.string().required("City is Required"),
-  country: yup.string().required("Country is Required"),
-  pincode: yup.string().required("Pincode is Required")
+  firstName: yup.string().required("Không được để trống"),
+  lastName: yup.string().required("Không được để trống "),
+  address: yup.string().required("Địa chỉ là bắt buộc"),
+  state: yup.string().required("Không được để trống"),
+  city: yup.string().required("Không được để trông"),
+  country: yup.string().required("Không được để trống"),
+  pincode: yup.string().required("Không được để trống")
 });
 const Checkout = () => {
   const dispatch = useDispatch()
