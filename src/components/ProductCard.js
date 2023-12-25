@@ -19,7 +19,6 @@ const ProductCard = (props) => {
 
   const addToWish = (id) => {
     dispatch(addToWishlist(id));
-   
 
   };
   console.log("w", data)
