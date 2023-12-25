@@ -128,7 +128,11 @@ export const updateCartProduct = createAsyncThunk(
     }
 );
 
+<<<<<<< HEAD
 export const resetAuthState = createAsyncThunk("resetauth")
+=======
+export const resetAuthState = createAsyncThunk("auth/resetState");
+>>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
 
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
@@ -155,7 +159,7 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.message = "Đăng ký thành công";
+                state.message = "register success";
 
 
                 state.createdUser = action.payload;
@@ -240,7 +244,11 @@ export const authSlice = createSlice({
                 state.message = 'loggedin'
                 state.user = action.payload;
                 if (state.isSuccess === true) {
+<<<<<<< HEAD
                     toast.success("Đăng nhập thành công");
+=======
+                    toast.success("User ogged In Successfully");
+>>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
 
                 }
             })
@@ -250,7 +258,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if (state.isError === true) {
-                    toast.error("Email hoặc mật khẩu không đúng");
+                    toast.error("");
                 }
             })
 
@@ -411,7 +419,11 @@ export const authSlice = createSlice({
                 }
             })
             .addCase(resetAuthState, (state)=>{
+<<<<<<< HEAD
                 return initialState
+=======
+                return initialState;
+>>>>>>> 936e1fe32d36f094a2ded5711baafd96082f2983
             })
 
     },
