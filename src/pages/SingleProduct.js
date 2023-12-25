@@ -162,13 +162,13 @@ const SingleProduct = () => {
                   <p className="mb-0 t-review">( 2 Reviews )</p>
                 </div>
                 <a className="review-btn" href="#review">
-                  Write a Review
+                  Viết đánh giá sản phẩm
                 </a>
               </div>
               <div className=" py-3">
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Type :</h3>
-                  <p className="product-data">Watch</p>
+                  <h3 className="product-heading">Loại sản phẩm :</h3>
+                  <p className="product-data">Đổng hồ</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand :</h3>
@@ -218,7 +218,7 @@ const SingleProduct = () => {
                       type="button"
                       onClick={() => uploadCart()}
                     >
-                      {alreadyAdded ? "Go To Cart" : "Add To Cart"}
+                      {alreadyAdded ? "Go To Cart" : "Thêm vào giỏ hàng"}
                     </button>
                     {/* <button className="button signup">Buy It Now</button> */}
                   </div>

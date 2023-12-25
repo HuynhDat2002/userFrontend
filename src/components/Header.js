@@ -173,7 +173,7 @@ const Header = () => {
                             style={{ height: "auto", lineHeight: "20px" }}
                             to="/profile"
                           >
-                            View Profile
+                            Thông tin cá nhân
                           </Link>
                         </li>
                         <li>
@@ -185,7 +185,7 @@ const Header = () => {
 
                           >
 
-                            Signout
+                            Đăng xuất
 
 
                           </Link>

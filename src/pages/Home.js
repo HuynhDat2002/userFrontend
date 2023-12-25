@@ -54,7 +54,7 @@ const Home = () => {
                 <h4>{productState && productState[0]?.tags}</h4>
                 <h5>{productState && productState[0]?.title}</h5>
                 <p>Giá chỉ từ {productState && productState[0]?.price} VNĐ</p>
-                <Link to="/product/:id" className="button">BUY NOW</Link>
+                <Link to="/product/:id" className="button">Mua ngay</Link>
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>Best Sake</h4>
+                  <h4>Sản phẩm tốt nhất</h4>
                   <h5>Ipad S13+ Pro.</h5>
                   <p>
                     From $999.00 <br /> or $41.62/mo.
