@@ -63,6 +63,10 @@ const Header = () => {
   
   const {isSuccess,message,isLoading} =authState
 
+  
+  console.log("pro:",productState);
+  
+
   return (
     <>
       <header className="header-top-strip py-3">
@@ -98,8 +102,10 @@ const Header = () => {
                   id="pagination-example"
                   onPaginate={() => console.log('Results paginated')}
                   onChange={(selected) => {
+                    if (selected.length > 0) {
                     navigate(`/product/${selected[0]?.prod}`)
                     dispatch(getAProduct(selected[0]?.prod))
+                    }
                   }}
                   options={productOpt}
                   paginate={paginate}
@@ -108,7 +114,7 @@ const Header = () => {
                   placeholder="Tìm sản phẩm tại đây..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-6" />
+                  <BsSearch type="submit" className="fs-6" />
                 </span>
               </div>
             </div>
