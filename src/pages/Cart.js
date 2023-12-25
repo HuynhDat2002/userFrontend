@@ -71,16 +71,16 @@ const Cart = () => {
   console.log("userCartState:", userCartState);
   return (
     <>
-      <Meta title={"Giỏ hàng"} />
-      <BreadCrumb title="Giỏ hàng" />
+      <Meta title={"Cart"} />
+      <BreadCrumb title="Cart" />
       <Container class1="cart-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
             <div className="cart-header py-3 d-flex justify-content-between align-items-center">
-              <h4 className="cart-col-1">Sản phẩm</h4>
-              <h4 className="cart-col-2">Giá</h4>
-              <h4 className="cart-col-3">Số lượng</h4>
-              <h4 className="cart-col-4">Tổng</h4>
+              <h4 className="cart-col-1">Product</h4>
+              <h4 className="cart-col-2">Price</h4>
+              <h4 className="cart-col-3">Quantity</h4>
+              <h4 className="cart-col-4">Total</h4>
             </div>
             { userCartState && userCartState?.map((item, index) => {
               return( <div key={index} className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
@@ -130,13 +130,13 @@ const Cart = () => {
           <div className="col-12 py-2 mt-4">
             <div className="d-flex justify-content-between align-items-baseline">
               <Link to="/product" className="button">
-                Tiếp tục mua hàng
+                Continue To Shopping
               </Link>
               <div className="d-flex flex-column align-items-end">
                 <h4>SubTotal: {totalAmount}   </h4>
-                <p>Thuế và phí vận chuyển được tính khi thanh toán</p>
+                <p>Taxes and shipping calculated at checkout</p>
                 <Link to="/checkout" className="button">
-                  Kiểm tra
+                  Checkout
                 </Link>
               </div>
             </div>

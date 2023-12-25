@@ -142,7 +142,7 @@ const checkOutHandler = async () => {
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                       <Link className="text-dark total-price" to="/cart">
-                        Giỏ hàng
+                        Cart
                       </Link>
                     </li>
                     &nbsp; /&nbsp;
@@ -150,18 +150,18 @@ const checkOutHandler = async () => {
                       className="breadcrumb-ite total-price active"
                       aria-current="page"
                     >
-                      Thông tin
+                      Information
                     </li>
                     &nbsp; /
                     <li className="breadcrumb-item total-price active">
-                      Vận chuyển
+                      Shipping
                     </li>
                     &nbsp; /
                     <li
                       className="breadcrumb-item total-price active"
                       aria-current="page"
                     >
-                      Thanh toán
+                      Payment
                     </li>
                   </ol>
                 </nav>
