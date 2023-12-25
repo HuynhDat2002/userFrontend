@@ -14,22 +14,22 @@
         },[])    
     return (
         <>
-            <BreadCrumb title='My Orders'/>
+            <BreadCrumb title='Đơn đặt hàng'/>
                 <Container class1='cart-wrapper home-wrapper-2 py-5'>
                     <div className="row">
                         <div className='col-12'>
                             <div className='row'>
                                 <div className="col-3">
-                                    <h5>Order Id</h5>
+                                    <h5>Mã đặt hàng</h5>
                                 </div>
                                 <div className="col-3">
-                                    <h5>Total Amount</h5>
+                                    <h5>Tổng</h5>
                                 </div>
                                 <div className="col-3">
-                                    <h5>Total Amount after Discount</h5>
+                                    <h5>Tổng số tiền sau khi đã giảm giá</h5>
                                 </div>
                                 <div className="col-3">
-                                    <h5>Status</h5>
+                                    <h5>Trạng thái</h5>
                                 </div>
                             </div>  
 
@@ -57,13 +57,13 @@
                                     <h6>Product Name</h6>
                                 </div>
                                 <div className="col-3">
-                                    <h6>Quantity</h6>
+                                    <h6>Số lượng</h6>
                                 </div>
                                 <div className="col-3">
-                                    <h6>Price</h6>
+                                    <h6>Giá</h6>
                                 </div>
                                 <div className="col-3">
-                                    <h6>Color</h6>
+                                    <h6>Màu sắc</h6>
                                 </div>
                                 {
                                     item?.orderItems?.map((i,index)=>{

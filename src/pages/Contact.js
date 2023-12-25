@@ -32,8 +32,8 @@ const Contact = () => {
   });
   return (
     <>
-      <Meta title={"Contact Us"} />
-      <BreadCrumb title="Contact Us" />
+      <Meta title={"Liên hệ"} />
+      <BreadCrumb title="Liên hệ" />
       <Container class1="contact-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">

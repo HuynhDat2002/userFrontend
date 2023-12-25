@@ -24,12 +24,12 @@ const Wishlist = () => {
 
     return (
         <>
-            <Meta title={"Wishlist"} />
-            <BreadCrumb title="Wishlist" />
+            <Meta title={"Danh sách yêu thích"} />
+            <BreadCrumb title="Danh sách yêu thích" />
             <Container class1="wishlist-wrapper home-wrapper-2 py-5">
                 <div className="row">
                     {wishlistState?.length === 0 && (
-                         <div className="text-center fs-3"> No Data </div>
+                         <div className="text-center fs-3"> Không có sản phẩm nào </div>
                     )};  
                     {wishlistState?.map((item, index) => {
                         return (
