@@ -9,7 +9,7 @@ import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
-import { getAProduct } from "../features/products/productSlice";
+import { getAProduct, getAllProducts } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -18,18 +18,21 @@ import { getUserCart } from "../features/user/userSlice";
 import {config} from "../utils/axiosConfig.js"
 
 const Header = () => {
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
   const dispatch = useDispatch();
   const cartState = useSelector(state => state?.auth?.cartProducts)
   const authState = useSelector(state => state?.auth)
-  const productState = useSelector(state => state?.product?.product)
-  const [productOpt, setProductOpt] = useState([])
+  const productState = useSelector(state => state?.product?.products)
+  const [productOpt, setProductOpt] = useState([])    
   const [paginate, setPaginate] = useState(true);
   
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
 
-  const [totalAmount,setTotalAmount] = useState(0)
+
 
   useEffect(()=>{
     
@@ -66,7 +69,7 @@ const Header = () => {
 
   useEffect(() => {
     let data = []
-    for (let index = 0; index < productState.length; index++) {
+    for (let index = 0; index < productState?.length; index++) {
       const element = productState[index];
       data.push({ id: index, prod: element?._id, name: element?.title })
 
@@ -74,13 +77,14 @@ const Header = () => {
     setProductOpt(data)
 
   }, [productState])
-
-
+  console.log("prodopt",productOpt);
+  
+  
   const handleLogout = () => {
     localStorage.clear()
     window.location.reload()
   }
-
+  
   
   console.log("pro:",productState);
   
