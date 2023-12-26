@@ -9,7 +9,7 @@ import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
-import { getAProduct } from "../features/products/productSlice";
+import { getAProduct, getAllProducts } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -30,18 +30,23 @@ const getTokenFromLocalStorage = localStorage.getItem("customer")
 };
 
 const Header = () => {
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
   const dispatch = useDispatch();
   const cartState = useSelector(state => state?.auth?.cartProducts)
   const authState = useSelector(state => state?.auth)
-  const productState = useSelector(state => state?.product?.product)
-  const [productOpt, setProductOpt] = useState([])
+  const productState = useSelector(state => state?.product?.products)
+  const [productOpt, setProductOpt] = useState([])    
   const [paginate, setPaginate] = useState(true);
-  // const [totalAmount, setTotalAmount ] = useState(null)
+
+   const [totalAmount, setTotalAmount ] = useState(null)
+
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
 
-  const [totalAmount,setTotalAmount] = useState(0)
+
 
   useEffect(()=>{
     if(authState?.user?.token)
@@ -83,7 +88,7 @@ const Header = () => {
 
   useEffect(() => {
     let data = []
-    for (let index = 0; index < productState.length; index++) {
+    for (let index = 0; index < productState?.length; index++) {
       const element = productState[index];
       data.push({ id: index, prod: element?._id, name: element?.title })
 
@@ -91,13 +96,14 @@ const Header = () => {
     setProductOpt(data)
 
   }, [productState])
-
-
+  console.log("prodopt",productOpt);
+  
+  
   const handleLogout = () => {
     localStorage.clear()
     window.location.reload()
   }
-
+  
   
   console.log("pro:",productState);
   
@@ -128,7 +134,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link to="/" className="text-white">DT SHOP</Link>
+                <Link to="" className="text-white">DT SHOP</Link>
               </h2>
             </div>
             <div className="col-5">
@@ -208,7 +214,7 @@ const Header = () => {
                             style={{ height: "auto", lineHeight: "20px" }}
                             to="/profile"
                           >
-                            View Profile
+                            Xem thông tin
                           </Link>
                         </li>
                         <li>
@@ -219,7 +225,10 @@ const Header = () => {
                             onClick={handleClickSignOut}
 
                           >
-                            Signout
+
+                            Đăng xuất
+
+
                           </Link>
                         </li>
                       </div>
@@ -264,7 +273,7 @@ const Header = () => {
               <div className="menu-bottom d-flex align-items-center gap-30">
                 <div>
                   <div className="dropdown">
-                    <button
+                    {/* <button
                       className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
                       type="button"
                       id="dropdownMenuButton1"
@@ -275,7 +284,7 @@ const Header = () => {
                       <span className="me-5 d-inline-block">
                         Danh mục
                       </span>
-                    </button>
+                    </button> */}
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton1"

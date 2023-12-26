@@ -1,10 +1,52 @@
-import React from "react";
+
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 const SpecialProduct = (props) => {
   const { title, brand, totalrating, price, sold, quantity,id } =props;
+  const [remainingTime, setRemainingTime] = useState({ days: 5, hours: 18, minutes: 32, seconds: 21 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      // Update the remaining time logic here
+      setRemainingTime((prevTime) => {
+        let updatedTime = { ...prevTime };
+
+        if (updatedTime.seconds > 0) {
+          updatedTime.seconds -= 1;
+        } else {
+          if (updatedTime.minutes > 0) {
+            updatedTime.minutes -= 1;
+            updatedTime.seconds = 59;
+          } else {
+            if (updatedTime.hours > 0) {
+              updatedTime.hours -= 1;
+              updatedTime.minutes = 59;
+              updatedTime.seconds = 59;
+            } else {
+              if (updatedTime.days > 0) {
+                updatedTime.days -= 1;
+                updatedTime.hours = 23;
+                updatedTime.minutes = 59;
+                updatedTime.seconds = 59;
+              } else {
+                clearInterval(timer);
+              }
+            }
+          }
+        }
+
+        return updatedTime;
+      });
+    }, 1000);
+
+    // Clear interval when component unmounts
+    return () => clearInterval(timer);
+  }, []);
 
   console.log(quantity / quantity +sold*100);
+
+ 
 
   return (
     <>
@@ -30,12 +72,12 @@ const SpecialProduct = (props) => {
               </p>
               { <div className="discount-till d-flex align-items-center gap-10">
                 <p className="mb-0">
-                  <b>5 </b>ngày
+                  <b>{remainingTime.days} </b>ngày
                 </p>
                 <div className="d-flex gap-10 align-items-center">
-                  <span className="badge rounded-circle p-3 bg-danger">1</span>:
-                  <span className="badge rounded-circle p-3 bg-danger">1</span>:
-                  <span className="badge rounded-circle p-3 bg-danger">1</span>
+                  <span className="badge rounded-circle p-3 bg-danger">{remainingTime.hours}</span>giờ:
+                  <span className="badge rounded-circle p-3 bg-danger">{remainingTime.minutes}</span>phút:
+                  <span className="badge rounded-circle p-3 bg-danger">{remainingTime.seconds}</span>giây
                 </div>
               </div> }
               <div className="prod-count my-3">

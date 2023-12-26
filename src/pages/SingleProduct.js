@@ -11,7 +11,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import watch from "../images/watch.jpg";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getAProduct, getAllProducts } from "../features/products/productSlice";
+import { addRating ,getAProduct, getAllProducts } from "../features/products/productSlice";
 import { toast } from "react-toastify";
 import { addProdToCart, getUserCart } from "../features/user/userSlice";
 import axios from "axios";
@@ -19,12 +19,13 @@ import { config } from '../utils/axiosConfig'
 
 const SingleProduct = () => {
   axios.defaults.withCredentials = true;
-
+  const [isInStock, setIsInStock] = useState(false)
   const [color, setColor] = useState(null)
   console.log("color", color)
   const [quantity, setQuantity] = useState(0)
   console.log("quantity", quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
+  const [ratings, setRatings] = useState([]); //State để lưu trữ danh sách đánh giá
   const location = useLocation();
   const navigate = useNavigate()
   const getProductId = location.pathname.split("/")[2]
@@ -45,6 +46,7 @@ const SingleProduct = () => {
         setAlreadyAdded(true);
       }
     }
+    
   }, [cartState, getProductId])
 
   const uploadCart = () => {
@@ -54,9 +56,13 @@ const SingleProduct = () => {
     else {
 
       if (color === null) {
-        toast.error("Please Choose Color")
+        toast.error("Hãy chọn màu sản phẩm")
         return false
-      } else {
+      }
+       else if (quantity===0){
+        toast.error("Hãy thêm số lượng sản phẩm")
+      } 
+      else {
         dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price }))
         setTimeout(() => {
           dispatch(getUserCart(config))
@@ -94,6 +100,7 @@ const SingleProduct = () => {
       }
       setPopularProduct(data)
     }
+    if(productState?.quantity ===0 ) setIsInStock(true)
   }, [productState])
   console.log("popularProduct:", popularProduct);
 
@@ -101,26 +108,36 @@ const SingleProduct = () => {
   const [comment, setComment] = useState(null)
   const addRatingToProduct = () => {
     if (star === null) {
-      toast.error("Please add star rating")
+      toast.error("Hãy đánh giá sản phẩm")
       return false
     } else if (comment === null) {
-      toast.error("Please Write Review About The Product.")
+      toast.error("Hãy đánh giá sản phẩm")
       return false
     } else {
-      // dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
-      // setTimeout(() => {
-      //   dispatch(getAProduct(getProductId))
-      // }, 100);
+      dispatch(addRating({star:star,comment:comment,prodId:getProductId}))
+      setTimeout(() => {
+        dispatch(getAProduct(getProductId))
+      }, 100);
 
     }
     return false
   }
+  const reloadProductRatings = async () => {
+    try {
+      // Gọi API để lấy lại danh sách đánh giá theo ID sản phẩm
+      const response = await axios.get(`/api/products/${getProductId}/ratings`);
+      setRatings(response.data);
+    } catch (error) {
+      console.error('Failed to reload product ratings:', error.message);
+    }
+  };
+
 
 
 
   return (
     <>
-      <Meta title={"Product Name"} />
+      <Meta title={"Tên sản phẩm"} />
       <BreadCrumb title={productState?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
@@ -159,52 +176,63 @@ const SingleProduct = () => {
                     edit={false}
                     activeColor="#ffd700"
                   />
-                  <p className="mb-0 t-review">( 2 Reviews )</p>
+                  <p className="mb-0 t-review">( 2 Đánh giá )</p>
                 </div>
                 <a className="review-btn" href="#review">
-                  Write a Review
+                  Viết đánh giá
                 </a>
               </div>
               <div className=" py-3">
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Type :</h3>
+
+                  <h3 className="product-heading">Kiểu :</h3>
                   <p className="product-data">Watch</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Brand :</h3>
+                  <h3 className="product-heading">Nhãn hàng :</h3>
                   <p className="product-data">{productState?.brand}</p>
                 </div>
+                
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Category :</h3>
+                  <h3 className="product-heading">loại :</h3>
+
                   <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Tags :</h3>
+                  <h3 className="product-heading">Đặc điểm :</h3>
                   <p className="product-data">{productState?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Availablity :</h3>
-                  <p className="product-data">In Stock</p>
+
+
+                  <h3 className="product-heading">Trạng thái :</h3>
+                 
+                  <p className="product-data">{productState?.quantity>0 ? "Còn hàng":"Hết hàng"}</p>
+                 
+
                 </div>
 
                 {alreadyAdded === false && <>
                   <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                    <h3 className="product-heading">Color :</h3>
+
+                    <h3 className="product-heading">Màu sắc :</h3>
+
                     <Color colorData={productState?.color} setColor={setColor} />
                   </div>
                 </>}
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   {alreadyAdded === false && <>
-                    <h3 className="product-heading">Quantity :</h3>
+                    <h3 className="product-heading">Số lượng :</h3>
                     <div className="">
                       <input
                         type="number"
                         name=""
                         min={1}
-                        max={10}
+                        max={productState?.quantity}
                         className="form-control"
                         style={{ width: "70px" }}
                         id=""
+                        disabled = {isInStock}
                         onChange={(e) => setQuantity(e.target.value)}
                         defaultValue={quantity}
                       />
@@ -218,33 +246,40 @@ const SingleProduct = () => {
                       type="button"
                       onClick={() => uploadCart()}
                     >
-                      {alreadyAdded ? "Go To Cart" : "Add To Cart"}
+                      {alreadyAdded ? "Tới giỏ hàng" : "Thêm vào giỏ hàng"}
                     </button>
                     {/* <button className="button signup">Buy It Now</button> */}
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
+                 
                   <div>
                     <a href="">
-                      <TbGitCompare className="fs-5 me-2" /> Add to Compare
+
+                      <TbGitCompare className="fs-5 me-2" /> Thêm để so sánh
                     </a>
                   </div>
                   <div>
                     <a href="">
-                      <AiOutlineHeart className="fs-5 me-2" /> Add to Wishlist
+              
+
+                      <AiOutlineHeart className="fs-5 me-2" /> Thêm vào mục yêu thích
+
                     </a>
                   </div>
                 </div>
                 <div className="d-flex gap-10 flex-column  my-3">
-                  <h3 className="product-heading">Shipping & Returns :</h3>
+
+
+                  <h3 className="product-heading">Vận chuyển và hoàn tiền :</h3>
                   <p className="product-data">
-                    Free shipping and returns available on all orders! <br /> We
-                    ship all US domestic orders within
-                    <b>5-10 business days!</b>
+                  Miễn phí vận chuyển cho các đơn hàng từ 500.000đ và hoàn tiền có sẵn trên tất cả các đơn đặt hàng! <br /> Chúng tôi vận chuyển tất cả các đơn đặt hàng nội địa Việt Nam trong vòng
+                    <b> 5-10 ngày !</b>
+
                   </p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-3">
-                  <h3 className="product-heading">Product Link:</h3>
+                  <h3 className="product-heading">Link sản phẩm:</h3>
                   <a
                     href="javascript:void(0);"
                     onClick={() => {
@@ -253,7 +288,9 @@ const SingleProduct = () => {
                       );
                     }}
                   >
-                    Copy Product Link
+
+                    Sao chép Link sản phẩm
+
                   </a>
                 </div>
               </div>
@@ -264,7 +301,9 @@ const SingleProduct = () => {
       <Container class1="description-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h4>Description</h4>
+
+            <h4>Mô tả</h4>
+
             <div className="bg-white p-3">
               <p dangerouslySetInnerHTML={{
                 __html: productState?.description,
@@ -277,11 +316,13 @@ const SingleProduct = () => {
       <Container class1="reviews-wrapper home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 id="review">Reviews</h3>
+            <h3 id="review">Đánh giá</h3>
             <div className="review-inner-wrapper">
               <div className="review-head d-flex justify-content-between align-items-end">
                 <div>
-                  <h4 className="mb-2">Customer Reviews</h4>
+
+                  <h4 className="mb-2">Đánh giá của khách hàng</h4>
+
                   <div className="d-flex align-items-center gap-10">
                     <ReactStars
                       count={5}
@@ -296,13 +337,13 @@ const SingleProduct = () => {
                 {orderedProduct && (
                   <div>
                     <a className="text-dark text-decoration-underline" href="">
-                      Write a Review
+                      Viết đánh giá
                     </a>
                   </div>
                 )}
               </div>
               <div className="review-form py-4">
-                <h4>Write a Review</h4>
+                <h4>Viết đánh giá</h4>
                 <div>
                   <ReactStars
                     count={5}
@@ -322,19 +363,23 @@ const SingleProduct = () => {
                     className="w-100 form-control"
                     cols="30"
                     rows="4"
-                    placeholder="Comments"
+                    placeholder="Viết đánh giá tại đây"
+
                     onChange={(e) => {
                       setComment(e.target.value)
                     }}
                   ></textarea>
                 </div>
                 <div className="d-flex justify-content-end mt-3">
-                  <button onClick={addRatingToProduct} className="button border-0" type="buttom">Submit Review</button>
+
+                  <button onClick={addRatingToProduct} className="button border-0" type="button">Gửi đánh giá</button>
+
                 </div>
+               
               </div>
               <div className="reviews mt-4">
                 {
-                  productState && productState.rating?.map((item, index) => {
+                  productState && productState.ratings?.map((item, index) => {
                     return (
                       <div key={index} className="review">
                         <div className="d-flex gap-10 align-items-center">
@@ -361,7 +406,8 @@ const SingleProduct = () => {
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Popular Products</h3>
+            <h3 className="section-heading">Sản phẩm phổ biến của chúng tôi</h3>
+
           </div>
         </div>
         <div className="row">
