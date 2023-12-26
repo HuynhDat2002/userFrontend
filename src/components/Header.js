@@ -40,7 +40,7 @@ const Header = () => {
   const [productOpt, setProductOpt] = useState([])    
   const [paginate, setPaginate] = useState(true);
 
-   const [totalAmount, setTotalAmount ] = useState(null)
+   const [totalAmount, setTotalAmount ] = useState(0)
 
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()

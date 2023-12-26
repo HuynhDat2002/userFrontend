@@ -33,7 +33,7 @@ const addToWishlist = async (prodId) => {
 const rateProduct = async (data) => {
     const response = await axios.put(
         `${base_url}product/rating`,
-        data,
+        {star:data.star,prodId:data.prodId,comment:data.comment},
         config
     );
     if (response.data) {
