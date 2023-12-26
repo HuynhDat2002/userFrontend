@@ -18,7 +18,7 @@ import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
 import prodcompare from "../images/prodcompare.svg";
 import axios from "axios";
-import {config} from "../utils/axiosConfig";
+import {config2} from "../utils/axiosConfig";
 const Home = () => {
 
   axios.defaults.withCredentials = true;
@@ -36,7 +36,7 @@ const Home = () => {
 
   console.log("i", blogState)
   const addToWish = (id) => {
-    dispatch(addToWishlist({config:config(auth),id:id}));
+    dispatch(addToWishlist({config:config2(auth),id:id}));
   };
   console.log("productstate: ", productState);
   const itemFeatured = [];

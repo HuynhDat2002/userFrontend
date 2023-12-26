@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { getUserCart } from "../features/user/userSlice";
 import axios from "axios";
-import { config } from "../utils/axiosConfig";
+import { config2 } from "../utils/axiosConfig";
 import ScripeContainer from "../components/ScripeContainer";
 import { Transition, Dialog } from '@headlessui/react';
 
@@ -133,7 +133,7 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    dispatch(getUserCart(config(auth)))
+    dispatch(getUserCart(config2(auth)))
   }, [])
   // useEffect(() => {
   //   if(authState?.orderedProduct?.order !== null && authState?.orderedProduct?.success === true) {

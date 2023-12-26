@@ -15,7 +15,7 @@ import { addRating ,getAProduct, getAllProducts } from "../features/products/pro
 import { toast } from "react-toastify";
 import { addProdToCart, getUserCart } from "../features/user/userSlice";
 import axios from "axios";
-import { config } from '../utils/axiosConfig'
+import { config2 } from '../utils/axiosConfig'
 
 const SingleProduct = () => { 
   axios.defaults.withCredentials = true;
@@ -37,7 +37,7 @@ const SingleProduct = () => {
   const cartState = useSelector(state => state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
-    dispatch(getUserCart(config(auth)))
+    dispatch(getUserCart(config2(auth)))
     dispatch(getAllProducts())
 
   }, [])
@@ -64,9 +64,9 @@ const SingleProduct = () => {
         toast.error("Hãy thêm số lượng sản phẩm")
       } 
       else {
-        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config }))
+        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config2 }))
         setTimeout(() => {
-          dispatch(getUserCart(config(auth)))
+          dispatch(getUserCart(config2(auth)))
         }, 200)
          navigate('/cart')
       }
@@ -115,7 +115,7 @@ const SingleProduct = () => {
       toast.error("Hãy đánh giá sản phẩm")
       return false
     } else {
-      dispatch(addRating({star:star,comment:comment,prodId:getProductId,config:config(auth)}))
+      dispatch(addRating({star:star,comment:comment,prodId:getProductId,config:config2(auth)}))
       setTimeout(() => {
         dispatch(getAProduct(getProductId))
       }, 100);

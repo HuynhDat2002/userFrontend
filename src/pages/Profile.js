@@ -9,7 +9,7 @@ import { FiEdit } from "react-icons/fi"
 import CustomInput from '../components/CustomInput'
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
-import {config} from "../utils/axiosConfig";
+import {config2} from "../utils/axiosConfig";
 
 
 const profileSchema = yup.object({
@@ -55,12 +55,12 @@ const Profile = () => {
           validationSchema: profileSchema,
           onSubmit: (values) => {
            
-            dispatch(updateProfile({data:values,config:config(auth)}));
+            dispatch(updateProfile({data:values,config:config2(auth)}));
             
           },
         });
         const handleSave = ()=>{
-          dispatch(updateProfile({data:formik?.values,config:config(auth)}));
+          dispatch(updateProfile({data:formik?.values,config:config2(auth)}));
           setEdit(true);
         }
         return (

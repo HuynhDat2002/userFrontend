@@ -15,10 +15,12 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { logout } from "../features/user/userSlice";
 import { getUserCart } from "../features/user/userSlice";
+
 import {config2} from "../utils/axiosConfig.js"
 const getTokenFromLocalStorage = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
+
 
 //  const config2 = {
 //   headers: {
@@ -31,6 +33,7 @@ const getTokenFromLocalStorage = localStorage.getItem("customer")
 // console.log("fig2:",config2)
 
 const Header = () => {
+  console.log("he:")
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);

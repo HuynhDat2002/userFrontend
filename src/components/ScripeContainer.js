@@ -7,7 +7,9 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
+
 import {config2} from "../utils/axiosConfig";
+
 
 
 
@@ -60,7 +62,7 @@ import {config2} from "../utils/axiosConfig";
   
  
   `
-const authState = useSelector(state => state?.auth)
+const authState = useSelector(state => state.auth)
 console.log('auth',authState);
 console.log('shipinfo',shipInfo)
  

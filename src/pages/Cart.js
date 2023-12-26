@@ -9,7 +9,7 @@ import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartProduct, getUserCart, updateCartProduct } from "../features/user/userSlice";
 import axios from "axios";
-import { config } from "../utils/axiosConfig";
+import { config2 } from "../utils/axiosConfig";
 
 const Cart = () => {
   axios.defaults.withCredentials = true;
@@ -34,23 +34,23 @@ const Cart = () => {
   console.log("ur", quantity);
   console.log('uc:', userCartState);
   useEffect(() => {
-    dispatch(getUserCart(config(auth)))
+    dispatch(getUserCart(config2(auth)))
   }, [])
   // useEffect(() => {
   //   if (prodctUpdateDetail !== null) {
   //     dispatch(updateCartProduct({ cartItemId: prodctUpdateDetail?.cartItemId, quantity: prodctUpdateDetail?.quantity }))
   //     // setTimeout(()=>{
 
-  //     //   dispatch(getUserCart(config))
+  //     //   dispatch(getUserCart(config2))
   //     // },300);
 
   //   }
   // }, [prodctUpdateDetail])
 
   const removeCartProduct = (id) => {
-    dispatch(deleteCartProduct({id:id, config:config(auth)}))
+    dispatch(deleteCartProduct({id:id, config:config2(auth)}))
 
-    dispatch(getUserCart(config(auth)))
+    dispatch(getUserCart(config2(auth)))
 
   }
   useEffect(() => {
@@ -73,7 +73,7 @@ const Cart = () => {
   //   }
 
   //   // Lấy thông tin giỏ hàng từ Redux khi trang Cart được load
-  //   dispatch(getUserCart(config));
+  //   dispatch(getUserCart(config2));
   // }, [dispatch, productId, quantity, color]);
   console.log("userCartState:", userCartState);
   const handleChangeQuantity = (e, id) => {
@@ -85,8 +85,8 @@ const Cart = () => {
   useEffect(()=>{
     if(quantity!==0){
 
-      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config(auth) }))
-      dispatch(getUserCart(config(auth)))
+      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config2(auth) }))
+      dispatch(getUserCart(config2(auth)))
     }
 
   },[quantity])
