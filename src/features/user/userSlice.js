@@ -65,9 +65,9 @@ export const resetPassword = createAsyncThunk("auth/reset-password",
 
 export const getUserProductWishlist = createAsyncThunk(
     "user/wishlist",
-    async (thunkAPI) => {
+    async (config,thunkAPI) => {
         try {
-            return await authService.getUserWishlist();
+            return await authService.getUserWishlist(config);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -98,9 +98,9 @@ export const getUserCart = createAsyncThunk(
 
 export const getOrders = createAsyncThunk(
     "user/order/get",
-    async (thunkAPI) => {
+    async (config,thunkAPI) => {
         try {
-            return await authService.getUserOrders();
+            return await authService.getUserOrders(config);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -119,9 +119,9 @@ export const deleteCartProduct = createAsyncThunk(
 );
 export const emptyCart = createAsyncThunk(
     "user/cart/delete",
-    async ( thunkAPI) => {
+    async (config, thunkAPI) => {
         try {
-            return await authService.deleteCart();
+            return await authService.deleteCart(config);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
