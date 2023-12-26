@@ -319,7 +319,7 @@ const SingleProduct = () => {
                       edit={false}
                       activeColor="#ffd700"
                     />
-                    <p className="mb-0">Based on 2 Reviews</p>
+                    <p className="mb-0">{productState?.ratings?.length} Đánh giá</p>
                   </div>
                 </div>
                 {orderedProduct && (
@@ -336,7 +336,7 @@ const SingleProduct = () => {
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={0}
                     edit={true}
                     activeColor="#ffd700"
                     onChange={(e) => {
@@ -360,7 +360,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex justify-content-end mt-3">
 
-                  <button onClick={addRatingToProduct} className="button border-0" type="button">Gửi đánh giá</button>
+                  <button onClick={()=>addRatingToProduct()} className="button border-0" type="button">Gửi đánh giá</button>
 
                 </div>
                

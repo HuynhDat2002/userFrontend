@@ -81,7 +81,7 @@ const Cart = () => {
     
   }
   useEffect(()=>{
-    if(quantity!==null){
+    if(quantity!==0){
 
       dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value }))
       dispatch(getUserCart(config))
