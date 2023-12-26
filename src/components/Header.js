@@ -20,14 +20,15 @@ const getTokenFromLocalStorage = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
 
- const config2 = {
-  headers: {
-    Authorization: `Bearer ${
-      getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-    }`,
-    Accept: "application/json",
-  },
-};
+//  const config2 = {
+//   headers: {
+//     Authorization: `Bearer ${
+//       getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+//     }`,
+//     Accept: "application/json",
+//   },
+// };
+// console.log("fig2:",config2)
 
 const Header = () => {
   useEffect(() => {
@@ -40,7 +41,7 @@ const Header = () => {
   const [productOpt, setProductOpt] = useState([])    
   const [paginate, setPaginate] = useState(true);
 
-   const [totalAmount, setTotalAmount ] = useState(null)
+   const [totalAmount, setTotalAmount ] = useState(0)
 
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
@@ -50,11 +51,11 @@ const Header = () => {
 
   useEffect(()=>{
     if(authState?.user?.token)
-    dispatch(getUserCart(config2))
+    dispatch(getUserCart(config(authState.user)))
   },[authState.user])
   useEffect(()=>{
     
-    dispatch(getUserCart(config2))
+    dispatch(getUserCart(config(authState.user)))
   },[])
   console.log('cart',cartState);
   useEffect(() => {

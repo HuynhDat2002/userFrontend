@@ -1,14 +1,14 @@
 import axios from "axios";
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url } from "../../utils/axiosConfig";
 
 const getProducts = async () => {
-    const response = await axios.get(`${base_url}product/`, config);
+    const response = await axios.get(`${base_url}product/`);
     if (response.data) {
         return response.data;
     }
 };
 
-const getSingleProduct = async (id) => {
+const getSingleProduct = async (id,config) => {
     const response = await axios.get(`${base_url}product/${id}`, config);
 
     if (response.data) {
@@ -16,12 +16,12 @@ const getSingleProduct = async (id) => {
     }
 };
 
-const addToWishlist = async (prodId) => {
+const addToWishlist = async (prod) => {
     
     const response =await axios.put(
         `${base_url}product/wishlist`,
-        { prodId:prodId },
-        config
+        { prodId:prod.id },
+        prod.config
         );
     console.log("test", response.data);
     if (response.data){
@@ -30,10 +30,10 @@ const addToWishlist = async (prodId) => {
     }
 };
 
-const rateProduct = async (data) => {
+const rateProduct = async (data, config) => {
     const response = await axios.put(
         `${base_url}product/rating`,
-        data,
+        {star:data.star,prodId:data.prodId,comment:data.comment},
         config
     );
     if (response.data) {

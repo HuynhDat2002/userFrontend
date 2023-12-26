@@ -1,9 +1,10 @@
 import axios from "axios";
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url} from "../../utils/axiosConfig";
 const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData);
     if (response.data) {
         if (response.data) {
+            localStorage.clear()
             localStorage.setItem("customer",JSON.stringify(response.data)); 
         }
         return response.data;
@@ -20,17 +21,19 @@ const updateProfile = async (userData) => {
 };
 const login = async (userData) => {
     const response = await axios.post(`${base_url}user/login`, userData);
-    
+
     if (response.data) {
         console.log(response.data)
+        localStorage.clear()
         localStorage.setItem("customer", JSON.stringify(response.data));
+        // console.log("loginconf:",config)
         return response.data;
     }
 };
-const logout = async () => {
+const logout = async (config) => {
   
     
-    const response = await axios.get(`${base_url}user/logout`);
+    const response = await axios.get(`${base_url}user/logout`, config);
     console.log("logout")
     if(response) {
       await localStorage.clear();
@@ -55,34 +58,35 @@ const logout = async () => {
     return response.data;
   }
   
-const getUserWishlist = async () => {
+const getUserWishlist = async (config) => {
     const response = await axios.get(`${base_url}user/wishlist`, config);
     
     if (response.data) {
             return response.data;
         }
 };
-const addToCart = async (cartData) => {
-    const response = await axios.post(`${base_url}user/cart`, cartData, config);
+const addToCart = async (cartData, config) => {
+    const response = await axios.post(`${base_url}user/cart`, cartData,config);
     if (response.data) {
             return response.data;
         }
 };
 
 const getCart = async (config2) => {
+    console.log("conf22",config2)
     const response = await axios.get(`${base_url}user/cart`, config2);
     if (response.data) {
         return response.data;
     }
 };
 
-const removeProductFromCart = async (cartItemId) => {
-    const response = await axios.delete(`${base_url}user/cart/delete-product-cart/${cartItemId}`, config);
+const removeProductFromCart = async (cartItem) => {
+    const response = await axios.delete(`${base_url}user/cart/delete-product-cart/${cartItem.id}`, cartItem.config);
     if (response.data) {
         return response.data;
     }
 }
-const deleteCart = async () => {
+const deleteCart = async (config) => {
     const response = await axios.delete(`${base_url}user/cart/delete-cart`, config);
     console.log("delete",response.data);
     if (response.data) {
@@ -91,8 +95,8 @@ const deleteCart = async () => {
 }
 
 const updateProductFromCart = async (cartDetail) => {
-    console.log("config",config)
-    const response = await axios.delete(`${base_url}user/update-product-cart/${cartDetail.cartItemId}/${cartDetail.quantity}`, config);
+    // console.log("config",config)
+    const response = await axios.delete(`${base_url}user/update-product-cart/${cartDetail.cartItemId}/${cartDetail.quantity}`,cartDetail.config);
     console.log("resup:",response.data)
     if (response.data) {
 
@@ -101,7 +105,7 @@ const updateProductFromCart = async (cartDetail) => {
 }
 
 
-const createOrder = async (orderDetail) => {
+const createOrder = async (orderDetail, config) => {
     const response = await axios.post(`${base_url}user/cart/create-order`, orderDetail, config);
     console.log("createorder",response.data);
     if (response.data) {
@@ -109,8 +113,8 @@ const createOrder = async (orderDetail) => {
     }
 }
 
-const getUserOrder = async () => {
-    const response = await axios.get(`${base_url}user/getmyorders`,  config);
+const getUserOrder = async (config) => {
+    const response = await axios.get(`${base_url}user/getmyorders`, config);
     if (response.data) {
         return response.data;
     }

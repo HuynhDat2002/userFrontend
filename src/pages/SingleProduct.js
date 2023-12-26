@@ -17,7 +17,7 @@ import { addProdToCart, getUserCart } from "../features/user/userSlice";
 import axios from "axios";
 import { config } from '../utils/axiosConfig'
 
-const SingleProduct = () => {
+const SingleProduct = () => { 
   axios.defaults.withCredentials = true;
   const [isInStock, setIsInStock] = useState(false)
   const [color, setColor] = useState(null)
@@ -25,7 +25,6 @@ const SingleProduct = () => {
   const [quantity, setQuantity] = useState(0)
   console.log("quantity", quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
-  const [ratings, setRatings] = useState([]); //State để lưu trữ danh sách đánh giá
   const location = useLocation();
   const navigate = useNavigate()
   const getProductId = location.pathname.split("/")[2]
@@ -67,7 +66,7 @@ const SingleProduct = () => {
         setTimeout(() => {
           dispatch(getUserCart(config))
         }, 200)
-        // navigate('/cart')
+         navigate('/cart')
       }
     }
   }
@@ -122,17 +121,6 @@ const SingleProduct = () => {
     }
     return false
   }
-  const reloadProductRatings = async () => {
-    try {
-      // Gọi API để lấy lại danh sách đánh giá theo ID sản phẩm
-      const response = await axios.get(`/api/products/${getProductId}/ratings`);
-      setRatings(response.data);
-    } catch (error) {
-      console.error('Failed to reload product ratings:', error.message);
-    }
-  };
-
-
 
 
   return (
@@ -331,7 +319,7 @@ const SingleProduct = () => {
                       edit={false}
                       activeColor="#ffd700"
                     />
-                    <p className="mb-0">Based on 2 Reviews</p>
+                    <p className="mb-0">{productState?.ratings?.length} Đánh giá</p>
                   </div>
                 </div>
                 {orderedProduct && (
@@ -348,7 +336,7 @@ const SingleProduct = () => {
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={0}
                     edit={true}
                     activeColor="#ffd700"
                     onChange={(e) => {
@@ -372,7 +360,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex justify-content-end mt-3">
 
-                  <button onClick={addRatingToProduct} className="button border-0" type="button">Gửi đánh giá</button>
+                  <button onClick={()=>addRatingToProduct()} className="button border-0" type="button">Gửi đánh giá</button>
 
                 </div>
                

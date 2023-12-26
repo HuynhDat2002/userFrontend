@@ -31,9 +31,9 @@ export const loginUser = createAsyncThunk(
     }
 );
 export const logout = createAsyncThunk("auth/logout",
-    async (thunkAPI) => {
+    async (config,thunkAPI) => {
         try {
-            return await authService.logout();
+            return await authService.logout(config);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -109,9 +109,9 @@ export const getOrders = createAsyncThunk(
 
 export const deleteCartProduct = createAsyncThunk(
     "user/cart/product/delete",
-    async (cartItemId, thunkAPI) => {
+    async (cartItem, thunkAPI) => {
         try {
-            return await authService.removeProductFromCart(cartItemId);
+            return await authService.removeProductFromCart(cartItem);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }

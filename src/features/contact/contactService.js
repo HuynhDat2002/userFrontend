@@ -1,7 +1,7 @@
 import axios from "axios";
-import {base_url, config} from "../../utils/axiosConfig";
+import {base_url} from "../../utils/axiosConfig";
 const postQuery = async (contactData) => {
-    const response = await axios.post(`${base_url}enquiry`, contactData, config);
+    const response = await axios.post(`${base_url}enquiry`, contactData);
     if (response.data) {
         return response.data;
     }
