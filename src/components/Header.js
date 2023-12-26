@@ -16,6 +16,18 @@ import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { logout } from "../features/user/userSlice";
 import { getUserCart } from "../features/user/userSlice";
 import {config} from "../utils/axiosConfig.js"
+const getTokenFromLocalStorage = localStorage.getItem("customer")
+  ? JSON.parse(localStorage.getItem("customer"))
+  : null;
+
+ const config2 = {
+  headers: {
+    Authorization: `Bearer ${
+      getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+    }`,
+    Accept: "application/json",
+  },
+};
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -24,7 +36,7 @@ const Header = () => {
   const productState = useSelector(state => state?.product?.product)
   const [productOpt, setProductOpt] = useState([])
   const [paginate, setPaginate] = useState(true);
-  const [totalAmount, setTotalAmount ] = useState(null)
+  // const [totalAmount, setTotalAmount ] = useState(null)
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
@@ -32,9 +44,14 @@ const Header = () => {
   const [totalAmount,setTotalAmount] = useState(0)
 
   useEffect(()=>{
+    if(authState?.user?.token)
+    dispatch(getUserCart(config2))
+  },[authState.user])
+  useEffect(()=>{
     
-    dispatch(getUserCart(config))
+    dispatch(getUserCart(config2))
   },[])
+  console.log('cart',cartState);
   useEffect(() => {
     let sum = 0;
     if(authState.user!==""){

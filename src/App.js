@@ -23,18 +23,24 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import StripeContainer from './components/ScripeContainer'
 import Orders from "./pages/Orders";
-
+import PaymentStatus from './components/PaymentStatus'
 import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { OpenRoutes } from "./routing/OpenRoutes";
-
 import Profile from './pages/Profile'
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
+const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
+
+const options =localStorage.getItem("optionspayment")
 
 function App() {
+console.log('options',options)
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus/></Elements>}/> 
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="profile" element={<Profile />} />
