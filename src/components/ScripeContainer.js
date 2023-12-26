@@ -7,7 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import {config} from "../utils/axiosConfig";
+import {config2} from "../utils/axiosConfig";
 
 
 
@@ -81,7 +81,7 @@ console.log('shipinfo',shipInfo)
       address:shipInfo.address,
       city:shipInfo.city,
       country:shipInfo.country,
-    } }, config(authState.user))
+    } }, config2(authState.user))
     console.log('res', res);
     setClientSecret(res.data.clientSecret);
   }

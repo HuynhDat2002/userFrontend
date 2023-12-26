@@ -34,7 +34,6 @@ const profileSchema = yup.object({
 const Profile = () => {
  
  
-  console.log('ud',getTokenFromLocalStorage);
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const userState = useSelector(state => state?.auth?.user)
@@ -48,10 +47,10 @@ const Profile = () => {
   },[userState]);
         const formik = useFormik({
           initialValues: {
-            firstname: getTokenFromLocalStorage?.firstname || "",
-            lastname: getTokenFromLocalStorage?.lastname || "",
-            email: getTokenFromLocalStorage?.email || "",
-            mobile: getTokenFromLocalStorage?.mobile || "",
+            firstname: auth?.firstname || "",
+            lastname: auth?.lastname || "",
+            email: auth?.email || "",
+            mobile: auth?.mobile || "",
           },
           validationSchema: profileSchema,
           onSubmit: (values) => {

@@ -4,12 +4,12 @@ const getTokenFromLocalStorage = localStorage.getItem("customer")
   : null;
 
 //const authState = useSelector((state)=>state?.auth?.user)
-export const config =(auth)=> {
+export const config2 =(auth)=> {
   return{
 
     headers: {
       Authorization: `Bearer ${
-        auth !== null ? auth.token : ""
+        auth !== null ? auth?.token : ""
       }`,
       Accept: "application/json",
     }

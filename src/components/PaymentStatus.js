@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsHourglassSplit } from "react-icons/bs";
 import { MdErrorOutline } from "react-icons/md";
 import { createOrder } from '../features/user/userSlice';
-import {config} from '../utils/axiosConfig'
+import {config2} from '../utils/axiosConfig'
 import { getUserCart,emptyCart } from '../features/user/userSlice';
 const PaymentStatus = () => {
   const stripe = useStripe();
@@ -19,7 +19,7 @@ const PaymentStatus = () => {
 
   const cartState = useSelector(state => state.auth.cartProducts)
   useEffect(() => {
-    dispatch(getUserCart(config(auth)))
+    dispatch(getUserCart(config2(auth)))
   }, [])
     useEffect(() => {
         let sum = 0;
@@ -55,7 +55,7 @@ const PaymentStatus = () => {
                 id:id,
                 currency:currency,
                 paymentTypes:payment_method_types,
-           },config:config(auth)}))
+           },config:config2(auth)}))
            setTimeout(()=>{
               dispatch(emptyCart());
            },200)
