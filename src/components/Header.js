@@ -15,7 +15,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { logout } from "../features/user/userSlice";
 import { getUserCart } from "../features/user/userSlice";
-import {config} from "../utils/axiosConfig.js"
+import {config2} from "../utils/axiosConfig.js"
 const getTokenFromLocalStorage = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
@@ -51,11 +51,11 @@ const Header = () => {
 
   useEffect(()=>{
     if(authState?.user?.token)
-    dispatch(getUserCart(config(authState.user)))
+    dispatch(getUserCart(config2(authState.user)))
   },[authState.user])
   useEffect(()=>{
     
-    dispatch(getUserCart(config(authState.user)))
+    dispatch(getUserCart(config2(authState.user)))
   },[])
   console.log('cart',cartState);
   useEffect(() => {
