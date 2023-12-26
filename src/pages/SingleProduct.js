@@ -25,7 +25,6 @@ const SingleProduct = () => {
   const [quantity, setQuantity] = useState(0)
   console.log("quantity", quantity);
   const [alreadyAdded, setAlreadyAdded] = useState(false)
-  const [ratings, setRatings] = useState([]); //State để lưu trữ danh sách đánh giá
   const location = useLocation();
   const navigate = useNavigate()
   const getProductId = location.pathname.split("/")[2]
@@ -62,7 +61,7 @@ const SingleProduct = () => {
         setTimeout(() => {
           dispatch(getUserCart(config))
         }, 200)
-        // navigate('/cart')
+         navigate('/cart')
       }
     }
   }
@@ -116,17 +115,6 @@ const SingleProduct = () => {
     }
     return false
   }
-  const reloadProductRatings = async () => {
-    try {
-      // Gọi API để lấy lại danh sách đánh giá theo ID sản phẩm
-      const response = await axios.get(`/api/products/${getProductId}/ratings`);
-      setRatings(response.data);
-    } catch (error) {
-      console.error('Failed to reload product ratings:', error.message);
-    }
-  };
-
-
 
 
   return (
