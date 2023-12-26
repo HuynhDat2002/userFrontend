@@ -29,6 +29,7 @@ const Checkout = () => {
   const [isOpenStripe, setIsOpenStripe] = useState(false)
   const [totalAmount, setTotalAmount] = useState(0)
   const [shippingInfo, setShippingInfo] = useState(null)
+  const auth = useSelector((state)=>state?.auth?.user)
   const [paymentInfo, setPaymentInfo] = useState({ razorpayPaymentId: "", razorpayOrderId: "" })
   console.log(paymentInfo, shippingInfo);
   useEffect(() => {
@@ -132,7 +133,7 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    dispatch(getUserCart(config))
+    dispatch(getUserCart(config(auth)))
   }, [])
   // useEffect(() => {
   //   if(authState?.orderedProduct?.order !== null && authState?.orderedProduct?.success === true) {

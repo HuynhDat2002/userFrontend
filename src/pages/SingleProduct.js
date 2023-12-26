@@ -17,7 +17,7 @@ import { addProdToCart, getUserCart } from "../features/user/userSlice";
 import axios from "axios";
 import { config } from '../utils/axiosConfig'
 
-const SingleProduct = () => {
+const SingleProduct = () => { 
   axios.defaults.withCredentials = true;
   const [isInStock, setIsInStock] = useState(false)
   const [color, setColor] = useState(null)

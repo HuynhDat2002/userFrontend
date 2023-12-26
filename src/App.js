@@ -29,7 +29,6 @@ import { OpenRoutes } from "./routing/OpenRoutes";
 import Profile from './pages/Profile'
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-
 const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
 
 const options =localStorage.getItem("optionspayment")
@@ -40,8 +39,9 @@ console.log('options',options)
     <>
       <BrowserRouter>
         <Routes>
+
           <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus/></Elements>}/> 
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Layout />}/>
             <Route index element={<Home />} />
             <Route path="profile" element={<Profile />} />
             {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
