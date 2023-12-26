@@ -31,7 +31,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state)=>state?.auth?.user)
   
-  const productState = useSelector(state => state?.product?.singleproduct)
+  const productState = useSelector(state => state?.product?.singleproduct)  
   const productsState = useSelector(state => state?.product?.products)
   console.log("pro", productState)
   const cartState = useSelector(state => state?.auth?.cartProducts)
@@ -162,11 +162,11 @@ const SingleProduct = () => {
                   <ReactStars
                     count={5}
                     size={24}
-                    value={productState?.totalratings}
+                    value={Number(productState?.totalrating)}
                     edit={false}
                     activeColor="#ffd700"
                   />
-                  <p className="mb-0 t-review">( 2 Đánh giá )</p>
+                  <p className="mb-0 t-review">{productState?.ratings?.length} Đánh giá </p>
                 </div>
                 <a className="review-btn" href="#review">
                   Viết đánh giá
@@ -317,7 +317,7 @@ const SingleProduct = () => {
                     <ReactStars
                       count={5}
                       size={24}
-                      value={4}
+                      value={Number(productState?.totalrating)}
                       edit={false}
                       activeColor="#ffd700"
                     />
