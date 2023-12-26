@@ -15,10 +15,11 @@ const PaymentStatus = () => {
   const [statusIcon, setStatusIcon] = useState(null);
 
   const [totalAmount, setTotalAmount] = useState(0)
+  const auth = useSelector((state)=>state?.auth?.user)
 
   const cartState = useSelector(state => state.auth.cartProducts)
   useEffect(() => {
-    dispatch(getUserCart(config))
+    dispatch(getUserCart(config(auth)))
   }, [])
     useEffect(() => {
         let sum = 0;
@@ -54,7 +55,7 @@ const PaymentStatus = () => {
                 id:id,
                 currency:currency,
                 paymentTypes:payment_method_types,
-           }}))
+           },config:config(auth)}))
            setTimeout(()=>{
               dispatch(emptyCart());
            },200)

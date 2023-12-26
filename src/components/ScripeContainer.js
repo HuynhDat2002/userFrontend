@@ -7,20 +7,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
+import {config} from "../utils/axiosConfig";
 
-
-const getTokenFromLocalStorage = localStorage.getItem("customer")
-? JSON.parse(localStorage.getItem("customer"))
-: null;
-
-export const config2 = {
-headers: {
-  Authorization: `Bearer ${
-    getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-  }`,
-  Accept: "application/json",
-},
-};
 
   const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
   const ScripeContainer = ({total,shipInfo}) => {
@@ -71,7 +59,7 @@ headers: {
   
  
   `
-const authState = useSelector(state => state.auth)
+const authState = useSelector(state => state?.auth)
 console.log('auth',authState);
 console.log('shipinfo',shipInfo)
  
