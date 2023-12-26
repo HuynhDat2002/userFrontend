@@ -17,9 +17,9 @@ import { logout } from "../features/user/userSlice";
 import { getUserCart } from "../features/user/userSlice";
 
 import {config2} from "../utils/axiosConfig.js"
-const getTokenFromLocalStorage = localStorage.getItem("customer")
-  ? JSON.parse(localStorage.getItem("customer"))
-  : null;
+// const getTokenFromLocalStorage = localStorage.getItem("customer")
+//   ? JSON.parse(localStorage.getItem("customer"))
+//   : null;
 
 
 //  const config2 = {

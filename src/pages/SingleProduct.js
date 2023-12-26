@@ -64,7 +64,7 @@ const SingleProduct = () => {
         toast.error("Hãy thêm số lượng sản phẩm")
       } 
       else {
-        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config2 }))
+        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config2(auth) }))
         setTimeout(() => {
           dispatch(getUserCart(config2(auth)))
         }, 200)
