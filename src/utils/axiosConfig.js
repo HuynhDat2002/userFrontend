@@ -9,7 +9,7 @@ export const config2 =(auth)=> {
 
     headers: {
       Authorization: `Bearer ${
-        auth !== null ? auth.token : ""
+        auth !== null ? auth?.token : ""
       }`,
       Accept: "application/json",
     }

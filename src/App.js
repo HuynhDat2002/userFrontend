@@ -43,9 +43,9 @@ function App() {
         <Routes>
        
           
-          {/* <Route path="/" element={<Layout />} /> */}
+           <Route path="/" element={<Layout />} /> 
           <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus /></Elements>} />
-          <Route index element={<Layout />} />
+  <Route index element={<Home />} />
           <Route path="profile" element={<Profile />} />
           {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
           <Route path="about" element={<About />} />
@@ -55,8 +55,8 @@ function App() {
           <Route path="blogs" element={<Blog />} />
           <Route path="blog/:id" element={<SingleBlog />} />
 
-          <Route path="my-orders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
 
+          <Route path="my-orders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
 
           <Route path="cart" element={<PrivateRoutes><Cart /></PrivateRoutes>} />
           <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
@@ -65,15 +65,15 @@ function App() {
           <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
           <Route path="login" element={<OpenRoutes><Login /></OpenRoutes>} />
           <Route path="forgot-password" element={<Forgotpassword />} />
-
           <Route path="signup" element={<Signup />} />
           <Route path="reset-password/:token" element={<Resetpassword />} />
 
-          <Route path="privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="refund-policy" element={<RefundPloicy />} />
-          <Route path="shipping-policy" element={<ShippingPolicy />} />
-          <Route path="term-conditions" element={<TermAndContions />} /> 
- 
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="refund-policy" element={<RefundPloicy />} />
+            <Route path="shipping-policy" element={<ShippingPolicy />} />
+            <Route path="term-conditions" element={<TermAndContions />} />
+          
+
         </Routes>
       </BrowserRouter>
     </>
