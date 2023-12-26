@@ -27,10 +27,10 @@ const Resetpassword = () => {
   console.log('token: ', token);
   let schema = yup.object().shape({
 
-    password: yup.string().required("Password is Required"),
+    password: yup.string().required("Mật khẩu không được bỏ trống"),
     confirmPassword: yup.string()
       .oneOf([yup.ref('password')], 'Passwords must match')
-      .required('Please confirm your password'),
+      .required('Xác nhận mật khẩu'),
 
   });
 
@@ -47,13 +47,13 @@ const Resetpassword = () => {
   });
   return (
     <>
-      <Meta title={"Reset Password"} />
-      <BreadCrumb title="Reset Password" />
+      <Meta title={"Đổi mật khẩu"} />
+      <BreadCrumb title="Đổi mật khẩu" />
       <Container class1="login-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <div className="auth-card">
-              <h3 className="text-center mb-3">Reset Password</h3>
+              <h3 className="text-center mb-3">Đổi mật khẩu</h3>
           
               <form action="" className="d-flex flex-column gap-15" onSubmit={formik.handleSubmit}>
 
@@ -87,7 +87,7 @@ const Resetpassword = () => {
                 </div>
                 <div>
                   <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                    <button className="button border-0" type="submit">Submit</button>
+                    <button className="button border-0" type="submit">Gửi</button>
                   </div>
                 </div>
               </form>

@@ -13,11 +13,11 @@ import { resetAuthState } from "../features/user/userSlice";
 
 
 const signUpSchema = yup.object({
-    firstname: yup.string().required("First Name is Required"),
-    lastname: yup.string().required("Last Name is Required"),
-    email: yup.string().email("Email should be valid").required("Email Address is Required"),
-    mobile: yup.string().required("Mobile No is Required"),
-    password: yup.string().required("Password is Required"),
+    firstname: yup.string().required("Không được bỏ trống"),
+    lastname: yup.string().required("Không được bỏ trống"),
+    email: yup.string().email("Email là bắt buộc").required("Email là bắt buộc"),
+    mobile: yup.string().required("Số điện thoại không được bỏ trống"),
+    password: yup.string().required("Password không được bỏ trống"),
 });
 
 const Signup = () => {
@@ -56,13 +56,13 @@ const Signup = () => {
   
     return (
         <>
-        <Meta title ={"Sign up"} />
-        <BreadCrumb title="Sign up" />
+        <Meta title ={"Đăng ký"} />
+        <BreadCrumb title="Đăng ký" />
         <Container class1="login-wrapper py-5 home-wrapper-2">
             <div className="row">
                 <div className="col-12">
                     <div className="auth-card">
-                        <h3 className="text-center mb-3">Sign up</h3>
+                        <h3 className="text-center mb-3">Đăng ký</h3>
                         <form
                             action=""
                             onSubmit={formik.handleSubmit}
@@ -135,7 +135,7 @@ const Signup = () => {
                             </div>
                             <div>
                                 <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                                        <button className="button border-0" type="submit">Sign up</button>
+                                        <button className="button border-0" type="submit">Đăng ký</button>
                                 </div>
                             </div>
                         </form>

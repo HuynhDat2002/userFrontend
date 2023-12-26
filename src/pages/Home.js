@@ -54,7 +54,7 @@ const Home = () => {
                 <h4>{productState && productState[0]?.tags}</h4>
                 <h5>{productState && productState[0]?.title}</h5>
                 <p>Giá chỉ từ {productState && productState[0]?.price} VNĐ</p>
-                <Link to="/product/:id" className="button">BUY NOW</Link>
+                <Link to="/product/:id" className="button">Mua ngay</Link>
               </div>
             </div>
           </div>
@@ -67,10 +67,10 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>Best Sake</h4>
+                  <h4>Sản phẩm tốt nhất</h4>
                   <h5>Ipad S13+ Pro.</h5>
                   <p>
-                    From $999.00 <br /> or $41.62/mo.
+                     $999.00 <br /> hoặc $41.62/tháng.
                   </p>
                 </div>
               </div>
@@ -81,10 +81,10 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>NEW ARRIVAL</h4>
+                  <h4>Hàng mới</h4>
                   <h5>But Ipad Air</h5>
                   <p>
-                    From $999.00 <br /> or $41.62/mo.
+                     $999.00 <br /> hoặc $41.62/tháng.
                   </p>
                 </div>
               </div>
@@ -95,10 +95,10 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>NEW ARRIVAL</h4>
+                  <h4>Hàng mới</h4>
                   <h5>But Ipad Air</h5>
                   <p>
-                    From $999.00 <br /> or $41.62/mo.
+                    $999.00 <br /> hoặc $41.62/tháng.
                   </p>
                 </div>
               </div>
@@ -109,10 +109,10 @@ const Home = () => {
                   alt="main banner"
                 />
                 <div className="small-banner-content position-absolute">
-                  <h4>NEW ARRIVAL</h4>
+                  <h4>Hàng mới</h4>
                   <h5>But Ipad Air</h5>
                   <p>
-                    From $999.00 <br /> or $41.62/mo.
+                     $999.00 <br /> hoặc $41.62/tháng.
                   </p>
                 </div>
               </div>
@@ -212,7 +212,7 @@ const Home = () => {
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Featured Collection</h3>
+            <h3 className="section-heading">Bộ sưu tập</h3>
           </div>
           {productState &&
             productState?.map((item, index) => {
@@ -295,7 +295,7 @@ const Home = () => {
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Special Products</h3>
+            <h3 className="section-heading">Sản phẩm đặc biệt</h3>
           </div>
         </div>
         <div className="row">
@@ -325,7 +325,7 @@ const Home = () => {
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Popular Products</h3>
+            <h3 className="section-heading">Những sản phẩm nổi tiếng của chúng tôi</h3>
           </div>
         </div>
         <div className="row">
@@ -390,7 +390,7 @@ const Home = () => {
       <Container class1="blog-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Latest Blogs</h3>
+            <h3 className="section-heading">Tin tức mới nhất</h3>
           </div>
         </div>
         <div className="row">
