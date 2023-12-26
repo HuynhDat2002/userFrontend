@@ -72,9 +72,9 @@ const addToCart = async (cartData) => {
         }
 };
 
-const getCart = async (config2) => {
-    console.log("conf22",config2)
-    const response = await axios.get(`${base_url}user/cart`, config2);
+const getCart = async (config) => {
+    console.log("conf22",config)
+    const response = await axios.get(`${base_url}user/cart`, config);
     if (response.data) {
         return response.data;
     }
