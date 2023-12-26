@@ -9,7 +9,7 @@ import { FiEdit } from "react-icons/fi"
 import CustomInput from '../components/CustomInput'
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
-import {config} from "../utils/axiosConfig";
+import {config2} from "../utils/axiosConfig";
 
 
 const profileSchema = yup.object({
@@ -34,7 +34,6 @@ const profileSchema = yup.object({
 const Profile = () => {
  
  
-  console.log('ud',getTokenFromLocalStorage);
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const userState = useSelector(state => state?.auth?.user)
@@ -48,20 +47,20 @@ const Profile = () => {
   },[userState]);
         const formik = useFormik({
           initialValues: {
-            firstname: getTokenFromLocalStorage?.firstname || "",
-            lastname: getTokenFromLocalStorage?.lastname || "",
-            email: getTokenFromLocalStorage?.email || "",
-            mobile: getTokenFromLocalStorage?.mobile || "",
+            firstname: auth?.firstname || "",
+            lastname: auth?.lastname || "",
+            email: auth?.email || "",
+            mobile: auth?.mobile || "",
           },
           validationSchema: profileSchema,
           onSubmit: (values) => {
            
-            dispatch(updateProfile({data:values,config:config(auth)}));
+            dispatch(updateProfile({data:values,config:config2(auth)}));
             
           },
         });
         const handleSave = ()=>{
-          dispatch(updateProfile({data:formik?.values,config:config(auth)}));
+          dispatch(updateProfile({data:formik?.values,config:config2(auth)}));
           setEdit(true);
         }
         return (

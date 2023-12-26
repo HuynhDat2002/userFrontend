@@ -29,47 +29,51 @@ import { OpenRoutes } from "./routing/OpenRoutes";
 import Profile from './pages/Profile'
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
 
-const options =localStorage.getItem("optionspayment")
+const options = localStorage.getItem("optionspayment")
 
 function App() {
-console.log('options',options)
+  console.log('options', options)
   return (
     <>
       <BrowserRouter>
         <Routes>
+       
+          
+          {/* <Route path="/" element={<Layout />} /> */}
+          <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus /></Elements>} />
+          <Route index element={<Layout />} />
+          <Route path="profile" element={<Profile />} />
+          {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="product" element={<OurStore />} />
+          <Route path="product/:id" element={<SingleProduct />} />
+          <Route path="blogs" element={<Blog />} />
+          <Route path="blog/:id" element={<SingleBlog />} />
 
-          <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus/></Elements>}/> 
-          <Route path="/" element={<Layout />}/>
-            <Route index element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
-            <Route path="about" element={<About />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="product" element={<OurStore />} />
-            <Route path="product/:id" element={<SingleProduct />} />
-            <Route path="blogs" element={<Blog />} />
-            <Route path="blog/:id" element={<SingleBlog />} />
-
-            <Route path="my-orders" element={<PrivateRoutes><Orders/></PrivateRoutes>} />
+          <Route path="my-orders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
 
 
-            <Route path="cart" element={<PrivateRoutes><Cart/></PrivateRoutes>} />
-            <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
+          <Route path="cart" element={<PrivateRoutes><Cart /></PrivateRoutes>} />
+          <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
 
-            <Route path="compare-product" element={<CompareProduct />} />
-            <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
-            <Route path="login" element={<OpenRoutes><Login /></OpenRoutes>} />
-            <Route path="forgot-password" element={<Forgotpassword />} />
+          <Route path="compare-product" element={<CompareProduct />} />
+          <Route path="wishlist" element={<PrivateRoutes><Wishlist /></PrivateRoutes>} />
+          <Route path="login" element={<OpenRoutes><Login /></OpenRoutes>} />
+          <Route path="forgot-password" element={<Forgotpassword />} />
 
-            <Route path="signup" element={<Signup />} />
-            <Route path="reset-password/:token" element={<Resetpassword />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password/:token" element={<Resetpassword />} />
 
-            <Route path="privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="refund-policy" element={<RefundPloicy />} />
-            <Route path="shipping-policy" element={<ShippingPolicy />} />
-            <Route path="term-conditions" element={<TermAndContions />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="refund-policy" element={<RefundPloicy />} />
+          <Route path="shipping-policy" element={<ShippingPolicy />} />
+          <Route path="term-conditions" element={<TermAndContions />} /> 
+ 
         </Routes>
       </BrowserRouter>
     </>

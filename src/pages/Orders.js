@@ -3,7 +3,7 @@
     import BreadCrumb from '../components/BreadCrumb'
     import { useDispatch, useSelector } from 'react-redux'
     import { getOrders } from '../features/user/userSlice'
-    import {config} from "../utils/axiosConfig";
+    import {config2} from "../utils/axiosConfig";
     const Orders = () => {
         const dispatch = useDispatch()
     const auth = useSelector((state)=>state?.auth?.user)
@@ -12,7 +12,7 @@
         console.log("abc",orderState);
 
         useEffect(()=>{
-            dispatch(getOrders(config(auth)))
+            dispatch(getOrders(config2(auth)))
     
         },[])    
     return (
