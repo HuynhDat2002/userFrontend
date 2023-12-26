@@ -15,17 +15,17 @@ import { Link, useNavigate } from "react-router-dom";
 const profileSchema = yup.object({
   firstname: yup
     .string()
-    .required("First Name is Required"),
+    .required("Ô này không được để trống"),
   lastname: yup
     .string()
-    .required("Last Name is Required"),
+    .required("Ô này không được để trống"),
   email: yup
     .string()
-    .email("Email Should be vaild")
-    .required("Email Address is Required"),
+    .email("Email không được để trống")
+    .required("Email không được để trống"),
   Mobile: yup
     .string()
-    .required("Mobile No is Required"),
+    .required("Số điện thoại không được để trống"),
 
 });
 
@@ -74,12 +74,12 @@ const Profile = () => {
         }
         return (
     <>
-      <BreadCrumb title='My Profile' />
+      <BreadCrumb title='Thông tin cá nhân' />
       <Container class1='cart-wrapper home-wrapper-2 py-5'>
         <div className='row'>
           <div className='col-12'>
             <div className='d-flex justify-content-between align-items-center py-3'>
-              <h3 className='my-3'>Chỉnh sửa tài khoản</h3>
+              <h3 className='my-3'>Chỉnh sửa thông tin</h3>
               <FiEdit className='fs-3' onClick={() => setEdit(false)} />
             </div>
           </div>
