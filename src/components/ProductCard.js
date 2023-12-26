@@ -10,15 +10,19 @@ import view from "../images/view.svg";
 import { addToWishlist } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import {config} from '../utils/axiosConfig'
+
 const ProductCard = (props) => {
   axios.defaults.withCredentials=true;
   const { grid, data } = props;
   const dispatch = useDispatch();
   console.log("dataprodcard: ", data);
+const auth = useSelector(state=>state?.auth?.user);
+
   let location = useLocation();
 
   const addToWish = (id) => {
-    dispatch(addToWishlist(id));
+    dispatch(addToWishlist({id:id,config:config(auth)}));
 
   };
   console.log("w", data)

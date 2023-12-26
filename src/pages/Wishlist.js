@@ -13,7 +13,6 @@ import {config} from "../utils/axiosConfig";
 
 
 const Wishlist = () => {
-    const auth = useSelector((state)=>state?.auth?.user);
     let location = useLocation();
     const auth = useSelector((state)=>state?.auth?.user)
 

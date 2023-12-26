@@ -1,7 +1,7 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 
-
+import { Link } from "react-router-dom";
 import {  useLocation } from "react-router-dom";
 import wish from "../images/wish.svg";
 import wishlist from "../images/wishlist.svg";
@@ -12,6 +12,7 @@ import view from "../images/view.svg";
 import { addToWishlist } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import {config} from '../utils/axiosConfig'
 const ProductCard = (props) => {
   
   axios.defaults.withCredentials=true;
@@ -19,9 +20,9 @@ const ProductCard = (props) => {
   const dispatch = useDispatch();
   console.log("dataprodcard: ", data);
   let location = useLocation();
-
+const auth = useSelector(state=>state?.auth?.user);
   const addToWish = (id) => {
-    dispatch(addToWishlist(id));
+    dispatch(addToWishlist({id:id,config:config(auth)}));
 
   };
   console.log("w", data)
