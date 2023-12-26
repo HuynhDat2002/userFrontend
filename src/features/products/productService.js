@@ -8,8 +8,8 @@ const getProducts = async () => {
     }
 };
 
-const getSingleProduct = async (id,config) => {
-    const response = await axios.get(`${base_url}product/${id}`, config);
+const getSingleProduct = async (id) => {
+    const response = await axios.get(`${base_url}product/${id}`);
 
     if (response.data) {
         return response.data;
@@ -30,11 +30,11 @@ const addToWishlist = async (prod) => {
     }
 };
 
-const rateProduct = async (data, config) => {
+const rateProduct = async (data) => {
     const response = await axios.put(
         `${base_url}product/rating`,
         {star:data.star,prodId:data.prodId,comment:data.comment},
-        config
+        data.config
     );
     if (response.data) {
         return response.data;
