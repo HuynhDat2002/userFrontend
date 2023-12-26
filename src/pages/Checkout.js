@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import watch from "../images/watch.jpg";
@@ -10,53 +10,53 @@ import { getUserCart } from "../features/user/userSlice";
 import axios from "axios";
 import { config } from "../utils/axiosConfig";
 import ScripeContainer from "../components/ScripeContainer";
+import { Transition, Dialog } from '@headlessui/react';
 
 const shippingSchema = yup.object({
-  firstName: yup.string().required("Không được để trống"),
-  lastName: yup.string().required("Không được để trống "),
+  firstname: yup.string().required("Không được để trống"),
+  lastname: yup.string().required("Không được để trống "),
   address: yup.string().required("Địa chỉ là bắt buộc"),
-  state: yup.string().required("Không được để trống"),
   city: yup.string().required("Không được để trông"),
   country: yup.string().required("Không được để trống"),
-  pincode: yup.string().required("Không được để trống")
+  mobile: yup.string().required("Không được để trống"),
 });
 const Checkout = () => {
-  axios.defaults.withCredentials=true;
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch()
   const userData = JSON.parse(localStorage.getItem("customer"))
   console.log('userData', userData)
   const cartState = useSelector(state => state.auth.cartProducts)
-  const [isOpen,setIsOpen] = useState(false)
-  const [totalAmount, setTotalAmount] = useState(null)
+  const [isOpenStripe, setIsOpenStripe] = useState(false)
+  const [totalAmount, setTotalAmount] = useState(0)
   const [shippingInfo, setShippingInfo] = useState(null)
   const [paymentInfo, setPaymentInfo] = useState({ razorpayPaymentId: "", razorpayOrderId: "" })
   console.log(paymentInfo, shippingInfo);
   useEffect(() => {
     let sum = 0;
-    for (let index = 0; index < cartState?.length; index++){
+    for (let index = 0; index < cartState?.length; index++) {
       sum = sum + (Number(cartState[index].quantity) * cartState[index].price)
       setTotalAmount(sum)
     }
   }, [cartState])
-  let shipCost=0
-  if(totalAmount <500000) shipCost = 25000
-
+  let shipCost = 0
+  if (totalAmount < 500000) shipCost = 25000
+  localStorage.setItem("total", parseInt(totalAmount + shipCost));
+  console.log('total', localStorage.getItem('total'))
   const formik = useFormik({
     initialValues: {
-      firstName: userData.firstname || "",
-      lastName: userData.lastname || "",
+      firstname: userData.firstname || "",
+      lastname: userData.lastname || "",
       address: userData.address || "",
-      state: "",
+      mobile: userData.mobile || "",
       city: "",
       country: "",
-      pincode: "",
       other: ""
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
-      setIsOpen(true)
-      // checkOutHandler()
+      setIsOpenStripe(true)
       setShippingInfo(values)
+      // checkOutHandler()
     },
   });
 
@@ -73,7 +73,7 @@ const Checkout = () => {
     })
   }
   const checkOutHandler = async () => {
-      
+
     // const res = await loadScript("https://checkout.razorpay.com/vi/Checkout.js")
     // if (!res) {
     //   alert("Razorpay SDK failed to Load")
@@ -139,10 +139,10 @@ const Checkout = () => {
   //     navigate("/my-orders")
   //   }
   // })
-  
+
   return (
     <>
-      <Container class1="checkout-wrapper py-5 home-wrapper-2">
+      <Container class1="checkout-wrapper py-5 home-wrapper-2 z-0">
         <div className="row">
           <div className="col-7">
             <div className="checkout-left-data">
@@ -182,16 +182,66 @@ const Checkout = () => {
                 Trọng Đạt (hltdat2002@gmail.com)
               </p>
               <h4 className="mb-3">Địa chỉ giao hàng</h4>
-              <form onSubmit={formik.handleSubmit}
+              <form 
+                onSubmit={formik.handleSubmit}
                 action=""
                 className="d-flex gap-15 flex-wrap justify-content-between"
               >
+
+                <div className="flex-grow-1">
+                  <input
+                    type="text"
+                    placeholder="Tên"
+                    className="form-control"
+                    name="firstname"
+                    value={formik.values.firstname}
+                    onChange={formik.handleChange("firstname")}
+                    onBlur={formik.handleBlur("firstname")}
+                  />
+                  <div className="error ms-2 my-1">
+                    {
+                      formik.touched.firstname && formik.errors.firstname
+                    }
+                  </div>
+                </div>
+                <div className="flex-grow-1">
+                  <input
+                    type="text"
+                    placeholder="Họ"
+                    className="form-control"
+                    name="lastname"
+                    value={formik.values.lastname}
+                    onChange={formik.handleChange("lastname")}
+                    onBlur={formik.handleBlur("lastname")}
+                  />
+                  <div className="error ms-2 my-1">
+                    {
+                      formik.touched.lastname && formik.errors.lastname
+                    }
+                  </div>
+                </div>
+                <div className="flex-grow-1">
+                  <input
+                    type="text"
+                    placeholder="Số điện thoại người nhận"
+                    className="form-control"
+                    name="mobile"
+                    value={formik.values.mobile}
+                    onChange={formik.handleChange("mobile")}
+                    onBlur={formik.handleBlur("mobile")}
+                  />
+                  <div className="error ms-2 my-1">
+                    {
+                      formik.touched.mobile && formik.errors.mobile
+                    }
+                  </div>
+                </div>
                 <div className="w-100">
                   <select name="country" value={formik.values.country} onChange={formik.handleChange("country")} onBlur={formik.handleBlur("country")} className="form-control form-select" id="">
                     <option value="" selected disabled>
                       Chọn quốc gia
                     </option>
-                    <option value="Việt Nam" >
+                    <option value="vietnam" >
                       Việt Nam
                     </option>
                   </select>
@@ -204,32 +254,32 @@ const Checkout = () => {
                 <div className="flex-grow-1">
                   <input
                     type="text"
-                    placeholder="Tên"
+                    placeholder="Thành Phố/Tỉnh"
                     className="form-control"
-                    name="firstName"
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange("firstName")}
-                    onBlur={formik.handleBlur("firstName")}
+                    name="city"
+                    value={formik.values.city}
+                    onChange={formik.handleChange("city")}
+                    onBlur={formik.handleBlur("city")}
                   />
                   <div className="error ms-2 my-1">
                     {
-                      formik.touched.firstName && formik.errors.firstName
+                      formik.touched.city && formik.errors.city
                     }
                   </div>
                 </div>
-                <div className="flex-grow-1">
+                <div className="w-100">
                   <input
                     type="text"
-                    placeholder="Họ"
+                    placeholder="Quận/Huyện"
                     className="form-control"
-                    name="lastName"
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange("lastName")}
-                    onBlur={formik.handleBlur("lastName")}
+                    name="other"
+                    value={formik.values.other}
+                    onChange={formik.handleChange("other")}
+                    onBlur={formik.handleBlur("other")}
                   />
                   <div className="error ms-2 my-1">
                     {
-                      formik.touched.lastName && formik.errors.lastName
+                      formik.touched.other && formik.errors.other
                     }
                   </div>
                 </div>
@@ -249,67 +299,9 @@ const Checkout = () => {
                     }
                   </div>
                 </div>
-                <div className="w-100">
-                  <input
-                    type="text"
-                    placeholder="Căn hộ, Chung cư ,..."
-                    className="form-control"
-                    name="other"
-                    value={formik.values.other}
-                    onChange={formik.handleChange("other")}
-                    onBlur={formik.handleBlur("other")}
-                  />
-                </div>
-                <div className="flex-grow-1">
-                  <input
-                    type="text"
-                    placeholder="Thành Phố"
-                    className="form-control"
-                    name="city"
-                    value={formik.values.city}
-                    onChange={formik.handleChange("city")}
-                    onBlur={formik.handleBlur("city")}
-                  />
-                  <div className="error ms-2 my-1">
-                    {
-                      formik.touched.city && formik.errors.city
-                    }
-                  </div>
-                </div>
-                <div className="flex-grow-1">
-                  <select name="state"
-                    value={formik.values.state}
-                    onChange={formik.handleChange("state")}
-                    onBlur={formik.handleBlur("state")} className="form-control form-select" id="">
-                    <option value="" selected disabled>
-                      Trạng thái
-                    </option>
-                    <option value="TD" >
-                      TD
-                    </option>
-                  </select>
-                  <div className="error ms-2 my-1">
-                    {
-                      formik.touched.state && formik.errors.state
-                    }
-                  </div>
-                </div>
-                <div className="flex-grow-1">
-                  <input
-                    type="text"
-                    placeholder="Zipcode"
-                    className="form-control"
-                    name="pincode"
-                    value={formik.values.pincode}
-                    onChange={formik.handleChange("pincode")}
-                    onBlur={formik.handleBlur("pincode")}
-                  />
-                  <div className="error ms-2 my-1">
-                    {
-                      formik.touched.pincode && formik.errors.pincode
-                    }
-                  </div>
-                </div>
+
+
+
                 <div className="w-100">
                   <div className="d-flex justify-content-between align-items-center">
                     <Link to="/cart" className="text-dark">
@@ -319,7 +311,7 @@ const Checkout = () => {
                     <Link to="/cart" className="button">
                       Tiếp tục giao hàng
                     </Link>
-                    <button className="button"  type="submit" >Đặt hàng</button>
+                    <button className="button" type="submit" >Đặt hàng</button>
                   </div>
                 </div>
               </form>
@@ -356,7 +348,7 @@ const Checkout = () => {
             <div className="border-bottom py-4">
               <div className="d-flex justify-content-between align-items-center">
                 <p className="total">Tổng đơn hàng</p>
-                <p className="total-price">$ {totalAmount ? totalAmount : "0"}</p>
+                <p className="total-price"> {totalAmount ? totalAmount : "0"} VND</p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="mb-0 total">Phí giao hàng</p>
@@ -367,14 +359,46 @@ const Checkout = () => {
             </div>
             <div className="d-flex justify-content-between align-items-center border-bootom py-4">
               <h4 className="total">Tổng chi phí</h4>
-              <h5 className="total-price">$ {totalAmount + shipCost}</h5>
+              <h5 className="total-price"> {totalAmount + shipCost} VND</h5>
             </div>
           </div>
         </div>
-        <div className="d-flex justify-content-center align-items-center">
-            {isOpen && <ScripeContainer total={totalAmount+shipCost}/>}
-        </div>
       </Container>
+      <Transition appear show={isOpenStripe} as={Fragment}>
+        <Dialog as='div' className='position-relative z-1' onClose={() => setIsOpenStripe(false)}>
+
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity ease-out duration-300"
+            enterFrom='opacity-0'
+            enterTo="opacity-100"
+            leave="transition-opacity ease-in duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="position-fixed top-0 start-0 bg-black w-100 h-100  z-2"></div>
+          </Transition.Child>
+
+
+          <div className='position-relative'>
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity ease-out duration-300"
+              enterFrom='opacity-0'
+              enterTo="opacity-100"
+              leave="transition-opacity ease-in duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Panel className="position-fixed top-50 start-50 translate-middle overflow-auto mh-[95vh]  w-25 bg-white rounded-3 mx-auto p-4 ">
+                <div className="d-flex justify-content-center align-items-center">
+                  <ScripeContainer total={totalAmount+shipCost} shipInfo={shippingInfo} />
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 };

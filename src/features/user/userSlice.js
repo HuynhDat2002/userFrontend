@@ -117,11 +117,32 @@ export const deleteCartProduct = createAsyncThunk(
         }
     }
 );
+export const emptyCart = createAsyncThunk(
+    "user/cart/delete",
+    async ( thunkAPI) => {
+        try {
+            return await authService.deleteCart();
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
 export const updateCartProduct = createAsyncThunk(
     "user/cart/product/update",
     async (cartDetail, thunkAPI) => {
         try {
             return await authService.updateProductFromCart(cartDetail);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+export const createOrder = createAsyncThunk(
+    "user/order/create",
+    async (orderDetail, thunkAPI) => {
+        try {
+            return await authService.createOrder(orderDetail);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -394,6 +415,24 @@ export const authSlice = createSlice({
                     toast.error("Xóa không thành công")
                 }
             })
+            .addCase(emptyCart.pending, (state) => {
+                state.isLoading = true;
+            }).addCase(emptyCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.emptyCart = action.payload;
+                state.cartProducts = []
+
+            }).addCase(emptyCart.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isSuccess === false) {
+                    toast.error("Xóa không thành công")
+                }
+            })
             .addCase(updateCartProduct.pending, (state) => {
                 state.isLoading = true;
             }).addCase(updateCartProduct.fulfilled, (state, action) => {
@@ -401,11 +440,27 @@ export const authSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updateCartProduct = action.payload;
-                state.cartProducts = state.cartProducts.filter(item=>item._id!==action.payload._id)
-                state.cartProducts=[...state.cartProducts,action.payload]
+            
            
                 
             }).addCase(updateCartProduct.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isSuccess === false) {
+                    toast.error("Cập nhật không thành công")
+                }
+            })
+            .addCase(createOrder.pending, (state) => {
+                state.isLoading = true;
+            }).addCase(createOrder.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.createOrder = action.payload;
+                
+            }).addCase(createOrder.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
