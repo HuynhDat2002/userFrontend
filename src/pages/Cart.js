@@ -25,8 +25,8 @@ const Cart = () => {
 
   const dispatch = useDispatch();
   const navigate=useNavigate();
-  const [quantity, setQuantity] = useState(null)
-  const [totalAmount, setTotalAmount] = useState(null)
+  const [quantity, setQuantity] = useState(0)
+  const [totalAmount, setTotalAmount] = useState(0)
   const userCartState = useSelector(state => state?.auth?.cartProducts)
   const auth = useSelector((state)=>state?.auth?.user)
 
@@ -83,7 +83,7 @@ const Cart = () => {
     
   }
   useEffect(()=>{
-    if(quantity!==null){
+    if(quantity!==0){
 
       dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config(auth) }))
       dispatch(getUserCart(config(auth)))

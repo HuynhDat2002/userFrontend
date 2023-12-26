@@ -10,6 +10,7 @@ import styled from "styled-components";
 import {config} from "../utils/axiosConfig"
 
 
+
   const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
   const ScripeContainer = ({total,shipInfo}) => {
     
@@ -72,7 +73,7 @@ console.log('shipinfo',shipInfo)
     checkoutHandle();
   }, []);
   const checkoutHandle = async () => {
-    console.log(config2);
+
     const res = await axios.post("http://localhost:5000/api/user/create-payment-intent", { amountTotal: total,shipInfo:{
       firstname:shipInfo.firstname,
       lastname:shipInfo.lastname,
@@ -80,7 +81,7 @@ console.log('shipinfo',shipInfo)
       address:shipInfo.address,
       city:shipInfo.city,
       country:shipInfo.country,
-    } }, config2)
+    } }, config(authState.user))
     console.log('res', res);
     setClientSecret(res.data.clientSecret);
   }
