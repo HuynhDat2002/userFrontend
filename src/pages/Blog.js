@@ -8,15 +8,15 @@ import { getAllBlogs } from "../features/blogs/blogSlice";
 import moment from "moment";
 
 const Blog = () => {
+    const auth = useSelector((state)=>state?.auth?.user)
     const blogState = useSelector((state) => state?.blog?.blog);
 
     const dispatch = useDispatch();
     useEffect(() => {
-        getAllBlogs();
-    },[]);
-    const getblogs = () => {
+    
         dispatch(getAllBlogs());
-    };
+    },[]);
+
   return (
     <>
       <Meta title={"Tin tức"} />

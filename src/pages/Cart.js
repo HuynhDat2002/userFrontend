@@ -28,11 +28,13 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(null)
   const [totalAmount, setTotalAmount] = useState(null)
   const userCartState = useSelector(state => state?.auth?.cartProducts)
+  const auth = useSelector((state)=>state?.auth?.user)
+
   console.log("user: ", JSON.parse(localStorage.getItem("customer")))
   console.log("ur", quantity);
   console.log('uc:', userCartState);
   useEffect(() => {
-    dispatch(getUserCart(config))
+    dispatch(getUserCart(config(auth)))
   }, [])
   // useEffect(() => {
   //   if (prodctUpdateDetail !== null) {
@@ -46,9 +48,9 @@ const Cart = () => {
   // }, [prodctUpdateDetail])
 
   const removeCartProduct = (id) => {
-    dispatch(deleteCartProduct(id))
+    dispatch(deleteCartProduct({id:id, config:config(auth)}))
 
-    dispatch(getUserCart(config))
+    dispatch(getUserCart(config(auth)))
 
   }
   useEffect(() => {
@@ -83,8 +85,8 @@ const Cart = () => {
   useEffect(()=>{
     if(quantity!==null){
 
-      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value }))
-      dispatch(getUserCart(config))
+      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config(auth) }))
+      dispatch(getUserCart(config(auth)))
     }
 
   },[quantity])
