@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 
 
 const Wishlist = () => {
+    const auth = useSelector((state)=>state?.auth?.user);
     let location = useLocation();
 
     const dispatch = useDispatch();
