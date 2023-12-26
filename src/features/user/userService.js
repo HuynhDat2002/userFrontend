@@ -21,8 +21,7 @@ const updateProfile = async (userData) => {
 };
 const login = async (userData) => {
     const response = await axios.post(`${base_url}user/login`, userData);
-    console.log("res user:",response.data)
-    // console.log("login",config)
+
     if (response.data) {
         console.log(response.data)
         localStorage.clear()
