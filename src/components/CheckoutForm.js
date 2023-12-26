@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+
 import {
   PaymentElement,
   useStripe,
@@ -7,20 +9,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 const  CheckoutForm = () =>{
-  const [totalAmount, setTotalAmount] = useState(null)
 
-  const cartState = useSelector(state => state.auth.cartProducts)
-
-    useEffect(() => {
-        let sum = 0;
-        for (let index = 0; index <cartState?.length; index++) {
-          sum = sum + Number(cartState[index].quantity) 
-          setTotalAmount(sum)
-        }
-        if(cartState?.length===0){
-          setTotalAmount(0);
-        }
-      }, [cartState]);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -38,7 +27,16 @@ const  CheckoutForm = () =>{
     }
 
     setIsLoading(true);
-
+    // const card = elements.getElement(PaymentElement);
+    // const result = await stripe.createToken(card);
+    // if (result.error) {
+    //   // Show error to your customer.
+    //   console.log(result.error.message);
+    // } else {
+    //   // Send the token to your server.
+    //   // This function does not exist yet; we will define it in the next step.
+    //   stripeTokenHandler(result.token);
+    // }
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -73,7 +71,7 @@ const  CheckoutForm = () =>{
         <PaymentElement id="payment-element" options={paymentElementOptions} />
         <button disabled={isLoading || !stripe || !elements} id="submit" className="button-payment mt-3">
           <span id="button-text">
-            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+            {isLoading ? <div className="spinner-border text-light" id=""></div> : "Pay now"}
           </span>
         </button>
         {/* Show any error or success messages */}
