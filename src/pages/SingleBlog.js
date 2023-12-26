@@ -14,11 +14,9 @@ const SingleBlog = () => {
   const getBlogId = location.pathname.split("/")[2];
   const dispatch = useDispatch();
   useEffect(() => {
-    getblog();
-  }, []);
-  const getblog = () => {
     dispatch(getABlog(getBlogId));
-  };
+  }, []);
+
     return (
   <>
     <Meta title={blogState?.title} />

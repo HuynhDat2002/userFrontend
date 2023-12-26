@@ -19,6 +19,7 @@ const Resetpassword = () => {
   const { isError, isSuccess, isLoading, message } = authState.auth;
 
   useEffect(() => {
+    
     if (message==="reset password success") {
       navigate("/login",{relative:"path"});
     }

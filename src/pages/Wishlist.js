@@ -9,24 +9,25 @@ import { Link } from "react-router-dom";
 import view from "../images/view.svg";
 import ReactStars from "react-rating-stars-component";
 import { useLocation } from "react-router-dom";
-
+import {config} from "../utils/axiosConfig";
 
 
 const Wishlist = () => {
     let location = useLocation();
+    const auth = useSelector((state)=>state?.auth?.user)
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getUserProductWishlist());
+        dispatch(getUserProductWishlist(config(auth)));
     }, []);
 
     const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
 
     console.log("t", wishlistState)
     const removeFromWishlist = (id) => {
-        dispatch(addToWishlist(id));
+        dispatch(addToWishlist({id:id, config:config(auth)}));
         setTimeout(() => {
-            dispatch(getUserProductWishlist());
+            dispatch(getUserProductWishlist(config(auth)));
         }, 300);    
     };
     const grid = 3
