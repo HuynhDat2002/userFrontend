@@ -29,7 +29,7 @@ const Blog = () => {
               <div>
                 <ul className="ps-0">
                   <li>Đồng hồ</li>
-                  <li>TV</li>
+                  <li>Headphone</li>
                   <li>Máy ảnh</li>
                   <li>Laptop</li>
                 </ul>
