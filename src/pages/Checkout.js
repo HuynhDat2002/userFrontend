@@ -133,7 +133,7 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    dispatch(getUserCart(config2(auth)))
+    dispatch(getUserCart(config2(auth.token)))
   }, [])
   // useEffect(() => {
   //   if(authState?.orderedProduct?.order !== null && authState?.orderedProduct?.success === true) {

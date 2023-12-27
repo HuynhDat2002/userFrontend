@@ -36,7 +36,7 @@ const Home = () => {
 
   console.log("i", blogState)
   const addToWish = (id) => {
-    dispatch(addToWishlist({config:config2(auth),id:id}));
+    dispatch(addToWishlist({config:config2(auth.token),id:id}));
   };
   console.log("productstate: ", productState);
   const itemFeatured = [];

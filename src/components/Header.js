@@ -54,11 +54,11 @@ const Header = () => {
 
   useEffect(()=>{
     if(authState?.user?.token)
-    dispatch(getUserCart(config2(authState.user)))
+    dispatch(getUserCart(config2(authState.user.token)))
   },[authState.user])
   useEffect(()=>{
-    
-    dispatch(getUserCart(config2(authState.user)))
+      
+    dispatch(getUserCart(config2(authState.user.token)))
   },[])
   console.log('cart',cartState);
   useEffect(() => {

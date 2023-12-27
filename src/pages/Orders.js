@@ -12,7 +12,7 @@
         console.log("abc",orderState);
 
         useEffect(()=>{
-            dispatch(getOrders(config2(auth)))
+            dispatch(getOrders(config2(auth.token)))
     
         },[])    
     return (

@@ -22,7 +22,7 @@ const auth = useSelector(state=>state?.auth?.user);
   let location = useLocation();
 
   const addToWish = (id) => {
-    dispatch(addToWishlist({id:id,config:config2(auth)}));
+    dispatch(addToWishlist({id:id,config:config2(auth.token)}));
 
   };
   console.log("w", data)

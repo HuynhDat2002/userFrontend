@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from "react-dom/client";
 import { useStripe } from '@stripe/react-stripe-js';
 import { CiCircleCheck } from "react-icons/ci";
 import { Link } from 'react-router-dom';
@@ -19,7 +20,7 @@ const PaymentStatus = () => {
 
   const cartState = useSelector(state => state.auth.cartProducts)
   useEffect(() => {
-    dispatch(getUserCart(config2(auth)))
+    dispatch(getUserCart(config2(auth.token)))
   }, [])
     useEffect(() => {
         let sum = 0;
@@ -55,9 +56,9 @@ const PaymentStatus = () => {
                 id:id,
                 currency:currency,
                 paymentTypes:payment_method_types,
-           },config:config2(auth)}))
+           },config:config2(auth.token)}))
            setTimeout(()=>{
-              dispatch(emptyCart());
+              dispatch(emptyCart(config2(auth.token)));
            },200)
 
 
@@ -82,10 +83,10 @@ const PaymentStatus = () => {
 
   }, [stripe]);
 
-
+  
   return (
     <>
-      <div className=''>
+      <div id='root' className='z-1.bg-transparent' style={{margin:"350px",backgroundColor:"white"}}>
 
         <div className="position-absolute top-50 start-50 translate-middle">
           <div className='d-flex flex-column gap-3'>
