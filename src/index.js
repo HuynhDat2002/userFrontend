@@ -4,7 +4,10 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { ToastContainer } from 'react-toastify';
-
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import PaymentStatus from './components/PaymentStatus'
+import { loadStripe } from "@stripe/stripe-js";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -24,7 +27,7 @@ root.render(
             pauseOnHover
             theme="light"
         />
-
+      
         <App />
         <ToastContainer />
     </Provider>

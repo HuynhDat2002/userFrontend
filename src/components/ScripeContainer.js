@@ -83,7 +83,7 @@ console.log('shipinfo',shipInfo)
       address:shipInfo.address,
       city:shipInfo.city,
       country:shipInfo.country,
-    } }, config2(authState.user))
+    } }, config2(authState.user.token))
     console.log('res', res);
     setClientSecret(res.data.clientSecret);
   }

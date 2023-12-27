@@ -18,16 +18,16 @@ const Wishlist = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getUserProductWishlist(config2(auth)));
+        dispatch(getUserProductWishlist(config2(auth.token)));
     }, []);
 
     const wishlistState = useSelector((state) => state?.auth?.wishlist?.wishlist);
 
     console.log("t", wishlistState)
     const removeFromWishlist = (id) => {
-        dispatch(addToWishlist({id:id, config:config2(auth)}));
+        dispatch(addToWishlist({id:id, config:config2(auth.token)}));
         setTimeout(() => {
-            dispatch(getUserProductWishlist(config2(auth)));
+            dispatch(getUserProductWishlist(config2(auth.token)));
         }, 300);    
     };
     const grid = 3

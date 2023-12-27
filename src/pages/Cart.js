@@ -34,7 +34,7 @@ const Cart = () => {
   console.log("ur", quantity);
   console.log('uc:', userCartState);
   useEffect(() => {
-    dispatch(getUserCart(config2(auth)))
+    dispatch(getUserCart(config2(auth.token.token)))
   }, [])
   // useEffect(() => {
   //   if (prodctUpdateDetail !== null) {
@@ -48,9 +48,9 @@ const Cart = () => {
   // }, [prodctUpdateDetail])
 
   const removeCartProduct = (id) => {
-    dispatch(deleteCartProduct({id:id, config:config2(auth)}))
+    dispatch(deleteCartProduct({id:id, config:config2(auth.token)}))
 
-    dispatch(getUserCart(config2(auth)))
+    dispatch(getUserCart(config2(auth.token)))
 
   }
   useEffect(() => {
@@ -85,8 +85,8 @@ const Cart = () => {
   useEffect(()=>{
     if(quantity!==0){
 
-      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config2(auth) }))
-      dispatch(getUserCart(config2(auth)))
+      dispatch(updateCartProduct({ cartItemId: quantity?.id, quantity: quantity?.value, config: config2(auth.token) }))
+      dispatch(getUserCart(config2(auth.token)))
     }
 
   },[quantity])

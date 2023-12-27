@@ -22,7 +22,7 @@ const ProductCard = (props) => {
   let location = useLocation();
 const auth = useSelector(state=>state?.auth?.user);
   const addToWish = (id) => {
-    dispatch(addToWishlist({id:id,config:config2(auth)}));
+    dispatch(addToWishlist({id:id,config:config2(auth.token)}));
 
   };
   console.log("w", data)

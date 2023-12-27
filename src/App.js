@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route,Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 // import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -23,27 +23,27 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import StripeContainer from './components/ScripeContainer'
 import Orders from "./pages/Orders";
-import PaymentStatus from './components/PaymentStatus'
 import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { OpenRoutes } from "./routing/OpenRoutes";
 import Profile from './pages/Profile'
 import { Elements } from "@stripe/react-stripe-js";
+import PaymentStatus from './components/PaymentStatus'
 import { loadStripe } from "@stripe/stripe-js";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
 
 const options = localStorage.getItem("optionspayment")
-function Basic(){
+function Basic() {
   return (
 
-  <>
-  <Header/>
-  <Outlet/>
-  <Footer/>
-  </>
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
   )
-  
+
 }
 
 function App() {
@@ -51,16 +51,16 @@ function App() {
   return (
     <>
       <BrowserRouter>
-     
-
       
-        <Header/>
+
+          <Header />
         <Routes>
-          <Route path="/paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus /></Elements>} />
           <Route path="/" element={<Basic />} />
           <Route index element={<Home />} />
           <Route path="profile" element={<Profile />} />
           {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
+          <Route path="paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus /></Elements>} />
+
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="product" element={<OurStore />} />
@@ -85,7 +85,7 @@ function App() {
 
 
         </Routes>
-        <Footer/>
+          <Footer />
       </BrowserRouter>
     </>
   );
