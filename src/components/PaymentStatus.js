@@ -18,39 +18,41 @@ const PaymentStatus = () => {
   const [totalAmount, setTotalAmount] = useState(0)
   const auth = useSelector((state)=>state?.auth?.user)
 
-  const cartState = useSelector(state => state.auth.cartProducts)
   useEffect(() => {
     dispatch(getUserCart(config2(auth.token)))
   }, [])
-    useEffect(() => {
-        let sum = 0;
-        for (let index = 0; index <cartState?.length; index++) {
-          sum = sum + Number(cartState[index].quantity) 
-          setTotalAmount(sum)
-        }
-        if(cartState?.length===0){
-          setTotalAmount(0);
-        }
-      }, [cartState]);
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index <cartState?.length; index++) {
+      sum = sum + Number(cartState[index].quantity) 
+      setTotalAmount(sum)
+    }
+    if(cartState?.length===0){
+      setTotalAmount(0);
+    }
+  }, [cartState]);
   useEffect(() => {
     if (!stripe) {
       return;
     }
-
+    
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
-    );
+      );
+      
+      if (!clientSecret) {
+        return;
+      }
+      
+      stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+        switch (paymentIntent.status) {
+          case "succeeded":
+            setMessage("Thanh toán thành công!");
+            setStatusIcon(<CiCircleCheck style={{ color: 'green', height: '100px', width: 'auto', fontWeight: 900 }} />)
+            console.log('paymentintent',paymentIntent)  
+            const cartState = localStorage.getItem("cartstate")
+            console.log("car:",cartState)
 
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Thanh toán thành công!");
-          setStatusIcon(<CiCircleCheck style={{ color: 'green', height: '100px', width: 'auto', fontWeight: 900 }} />)
-          console.log('paymentintent',paymentIntent)  
            const {amount,shipping,id,currency,payment_method_types} = paymentIntent
            dispatch(createOrder({shippingInfo:shipping, orderItems:cartState, totalPrice:amount, totalPriceAfterDiscount:amount, paymentInfo:{
                 id:id,
@@ -59,7 +61,7 @@ const PaymentStatus = () => {
            },config:config2(auth.token)}))
            setTimeout(()=>{
               dispatch(emptyCart(config2(auth.token)));
-           },200)
+           },1000)
 
 
           break;

@@ -41,6 +41,12 @@ const SingleProduct = () => {
     dispatch(getAllProducts())
 
   }, [])
+  useEffect(()=> {
+    if (cartState?.length > 0) {
+      localStorage.setItem("cartstate",cartState)
+    }
+
+  },[cartState])
   useEffect(() => {
     for (let index = 0; index < cartState?.length; index++) {
       if (getProductId === cartState[index]?.productId?._id) {
