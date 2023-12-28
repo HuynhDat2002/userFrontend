@@ -22,7 +22,7 @@ const auth = useSelector(state=>state?.auth?.user);
   let location = useLocation();
 
   const addToWish = (id) => {
-    dispatch(addToWishlist({id:id,config:config2(auth.token)}));
+    dispatch(addToWishlist({id:id,config:config2(auth)}));
 
   };
   console.log("w", data)
@@ -37,7 +37,7 @@ const auth = useSelector(state=>state?.auth?.user);
               } `}
           >
             <div
-              className="product-card position-relative"
+              className="product-card position-relative mb-3 "
             >
               <div className="wishlist-icon position-absolute">
                 <button

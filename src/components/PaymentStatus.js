@@ -17,9 +17,9 @@ const PaymentStatus = () => {
 
   const [totalAmount, setTotalAmount] = useState(0)
   const auth = useSelector((state)=>state?.auth?.user)
-
+const cartState = useSelector(state=>state?.auth?.cartProducts)
   useEffect(() => {
-    dispatch(getUserCart(config2(auth.token)))
+    dispatch(getUserCart(config2(auth)))
   }, [])
   useEffect(() => {
     let sum = 0;
@@ -58,9 +58,9 @@ const PaymentStatus = () => {
                 id:id,
                 currency:currency,
                 paymentTypes:payment_method_types,
-           },config:config2(auth.token)}))
+           },config:config2(auth)}))
            setTimeout(()=>{
-              dispatch(emptyCart(config2(auth.token)));
+              dispatch(emptyCart(config2(auth)));
            },1000)
 
 

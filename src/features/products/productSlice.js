@@ -46,7 +46,18 @@ export const addRating = createAsyncThunk(
         }
     }
 ); 
-
+ 
+export const searchProducts = createAsyncThunk(
+    "product/search",
+    async (data, thunkAPI) => {
+        try {
+            return await productService.searchProducts(data);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+); 
+ 
 
 const productState = {
     product:"",
@@ -124,6 +135,22 @@ export const productSlice = createSlice({
                 toast.success("Đánh giá thành công")
             }
         }).addCase(addRating.rejected, (state,action) => {
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.message=action.error;
+        })
+        
+        .addCase(searchProducts.pending,(state) => {
+            state.isLoading=true;
+        }).addCase(searchProducts.fulfilled, (state, action) => {
+            state.isLoading=false;
+            state.isError=false;
+            state.isSuccess=true;
+            state.rating=action.payload;
+            state.searchProducts=action.payload;
+
+        }).addCase(searchProducts.rejected, (state,action) => {
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;

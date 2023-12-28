@@ -37,7 +37,7 @@ const SingleProduct = () => {
   const cartState = useSelector(state => state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
-    dispatch(getUserCart(config2(auth.token)))
+    dispatch(getUserCart(config2(auth)))
     dispatch(getAllProducts())
 
   }, [])
@@ -70,9 +70,9 @@ const SingleProduct = () => {
         toast.error("Hãy thêm số lượng sản phẩm")
       } 
       else {
-        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config2(auth.token) }))
+        dispatch(addProdToCart({ productId: productState?._id, quantity, color, price: productState?.price, config:config2(auth) }))
         setTimeout(() => {
-          dispatch(getUserCart(config2(auth.token)))
+          dispatch(getUserCart(config2(auth)))
         }, 200)
          navigate('/cart')
       }
@@ -121,7 +121,7 @@ const SingleProduct = () => {
       toast.error("Hãy đánh giá sản phẩm")
       return false
     } else {
-      dispatch(addRating({star:star,comment:comment,prodId:getProductId,config:config2(auth.token)}))
+      dispatch(addRating({star:star,comment:comment,prodId:getProductId,config:config2(auth)}))
       setTimeout(() => {
         dispatch(getAProduct(getProductId))
       }, 100);

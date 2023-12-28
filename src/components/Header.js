@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { BsSearch } from "react-icons/bs";
@@ -15,7 +16,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { logout } from "../features/user/userSlice";
 import { getUserCart } from "../features/user/userSlice";
-
+import { searchProducts } from "../features/products/productSlice";
 import {config2} from "../utils/axiosConfig.js"
 // const getTokenFromLocalStorage = localStorage.getItem("customer")
 //   ? JSON.parse(localStorage.getItem("customer"))
@@ -43,22 +44,23 @@ const Header = () => {
   const productState = useSelector(state => state?.product?.products)
   const [productOpt, setProductOpt] = useState([])    
   const [paginate, setPaginate] = useState(true);
-
+  const [searchParams,setSearchParams] = useSearchParams()
    const [totalAmount, setTotalAmount ] = useState(0)
-
+   const search = new URLSearchParams(useLocation().search)
+   const searchState = useSelector((state) => state?.product?.searchProducts);
   const userData = JSON.parse(localStorage.getItem("customer"));
   const navigate = useNavigate()
   const [total, setTotal] = useState(null)
-
+  const [searchBar,setSearchBar] = useState("")
 
 
   useEffect(()=>{
     if(authState?.user?.token)
-    dispatch(getUserCart(config2(authState.user.token)))
+    dispatch(getUserCart(config2(authState.user)))
   },[authState.user])
   useEffect(()=>{
       
-    dispatch(getUserCart(config2(authState.user.token)))
+    dispatch(getUserCart(config2(authState.user)))
   },[])
   console.log('cart',cartState);
   useEffect(() => {
@@ -109,8 +111,25 @@ const Header = () => {
   }
   
   
-  console.log("pro:",productState);
-  
+  const currentUrl= new URL(window.location.href);
+  console.log("currentheader",currentUrl);
+
+  const handleFilter = (item,key)=>{
+    setSearchParams(params=>params.set(key,item))
+    console.log('item',item)
+    console.log('searchheader',searchParams);
+  currentUrl.search = searchParams.toString();
+  // dispatch(searchProducts(`${key}=${(searchParams.get(key)).toString()}`));
+  if(item!=="")
+  navigate(`/product${currentUrl.search}`)
+}
+  useEffect(()=>{
+    if(searchParams.size!==0){
+      
+      dispatch(searchProducts(`${currentUrl.search.toString()}`));
+    console.log('search',searchParams);
+  }
+},[searchParams])
 
   return (
     <>
@@ -142,15 +161,21 @@ const Header = () => {
               </h2>
             </div>
             <div className="col-5">
+            <form >
+
               <div className="input-group">
                 <Typeahead
                   id="pagination-example"
                   onPaginate={() => console.log('Results paginated')}
                   onChange={(selected) => {
+                 
                     if (selected.length > 0) {
                     navigate(`/product/${selected[0]?.prod}`)
                     dispatch(getAProduct(selected[0]?.prod))
                     }
+                  }}
+                  onInputChange={(searchName)=>{
+                    setSearchBar(searchName);
                   }}
                   options={productOpt}
                   paginate={paginate}
@@ -159,9 +184,10 @@ const Header = () => {
                   placeholder="Tìm sản phẩm tại đây..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch type="submit" className="fs-6" />
+                  <BsSearch type="button" onClick={()=>handleFilter(searchBar,'search')} className="fs-6" />
                 </span>
               </div>
+            </form>
             </div>
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">

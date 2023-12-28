@@ -55,12 +55,12 @@ const Profile = () => {
           validationSchema: profileSchema,
           onSubmit: (values) => {
            
-            dispatch(updateProfile({data:values,config:config2(auth.token)}));
+            dispatch(updateProfile({data:values,config:config2(auth)}));
             
           },
         });
         const handleSave = ()=>{
-          dispatch(updateProfile({data:formik?.values,config:config2(auth.token)}));
+          dispatch(updateProfile({data:formik?.values,config:config2(auth)}));
           setEdit(true);
         }
         return (

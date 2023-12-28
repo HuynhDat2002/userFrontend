@@ -7,15 +7,19 @@ import Color from "../components/Color";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productSlice";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { searchProducts } from "../features/products/productSlice";
+import { current } from "@reduxjs/toolkit";
+// import Select from 'react-select'
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
-
+  const  [searchParams,setSearchParams] = useSearchParams();
   const [randomProducts, setRandomProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [tags, setTags] = useState([]);
-  
-  
+  const [brand,setBrand] = useState([])
   //Filer States
   const [categories, setCategories] = useState([]);
   const [tag, setTag] = useState([]);
@@ -23,11 +27,14 @@ const OurStore = () => {
   const [maxPrice, setMaxPrice]=useState([]);
   const [sort, setSort]=useState(null);
   const productState = useSelector((state) => state?.product?.products);
+  const search = new URLSearchParams(useLocation().search)
+  const searchState = useSelector((state) => state?.product?.searchProducts);
+
   const [popularProduct, setPopularProduct]=useState([])
   console.log("productState: ", productState);
   console.log("sort", sort);
   const dispatch = useDispatch();
-  
+  const navigate=useNavigate()
   useEffect(() => {
 dispatch(getAllProducts());
   },[]);
@@ -37,19 +44,21 @@ dispatch(getAllProducts());
     if (productState && productState.length > 0) {
     let category=[]
     let newtags=[]
+    let brands=[]
     for (let index = 0; index < productState.length; index++) {
       const element = productState[index];
       category.push(element.category)
       newtags.push(element.tags)
+      brands.push(element.brand)
       
     }
     setCategory(category)
     setTags(newtags)
+    setBrand(brands)
   }
   }, [productState])
-  console.log([...new Set(category)],[...new Set(tags)]);
- 
-    
+  console.log('colection: ',[...new Set(category)],[...new Set(tags)],[...new Set(brand)]);
+
   useEffect(() => {
     if (productState && productState.length > 0) {
       const randomIndices = getRandomIndices(); // Chọn 2 sản phẩm ngẫu nhiên
@@ -58,7 +67,6 @@ dispatch(getAllProducts());
     }
   }, [productState]);
  
-  console.log("s",productState);
   const getRandomIndices = () => {
     const randomValues = [];
     while (randomValues.length < 2) {
@@ -70,9 +78,46 @@ dispatch(getAllProducts());
     }
     return randomValues;
   };
+  
+  const handleCategoryChange = (selectedOptions) =>{
+      setCategories(selectedOptions)
+  }
+  useEffect(()=>{
+   
+    const string=  (categories.map(item=>item.value)).join(',')
+    console.log('ccccc',string);
+
+      if( categories.map(item=>item.value).length>0){
+
+        handleFilter(string,'category')
+      }
+
+  },[categories])
+    
+    console.log('caate',[...new Set(category)]);
+
+
+  const currentUrl= new URL(window.location.href);
+  console.log("current",currentUrl);
   console.log("random:", randomProducts);
 
+  const handleFilter = (item,key)=>{
+  setSearchParams(params=>params.set(key,item))
+  currentUrl.search = searchParams.toString();
+  // dispatch(searchProducts(`${key}=${(searchParams.get(key)).toString()}`));
+  navigate(`${currentUrl.search}`)
+}
 
+console.log('search',searchParams);
+  useEffect(()=>{
+    if(searchParams.size!==0){
+      
+      dispatch(searchProducts(`${currentUrl.search}`));
+    console.log('search',searchParams);
+  }
+},[searchParams])
+  const categoriess=[...new Set(category)].map((item)=>({label:item,value:item}))
+console.log('categoriess',categoriess)
   return (
     <>
       <Meta title={"Sản phẩm"} />
@@ -82,21 +127,40 @@ dispatch(getAllProducts());
           <div className="col-3">
             <div className="filter-card mb-3">
               <h3 className="filter-title">Loại sản phẩm</h3>
+                <div>
+                  <ul className="ps-0">
+                    {
+                      category && [...new Set(category)].map((item, index) => {
+                        return <li key={index} onClick={() => handleFilter(item,'category')}>{item}</li>
+                      })
+                    }
+                  </ul>
+                </div>
+                  {/* <Select
+                  value={categories}
+                    isMulti
+                    options={categoriess}
+                    onChange={(selectedOptions)=>handleCategoryChange(selectedOptions)}
+                  /> */}
+            </div>
+            <div className="filter-card mb-3">
+              <h3 className="filter-title">Hãng</h3>
               <div>
                 <ul className="ps-0">
                   {
-                    category && [...new Set(category)].map((item, index) => {
-                      return <li key={index} onClick={() => setCategories(item)}>{item}</li>
+                    brand && [...new Set(brand)].map((item, index) => {
+                      return <li key={index} onClick={() => handleFilter(item,'brand')}>{item}</li>
                     })
                   }
                 </ul>
               </div>
             </div>
            
+           
             <div className="filter-card mb-3">
               <h3 className="filter-title">Lọc bởi</h3>
               <div>
-                <h5 className="sub-title">Khả dụng</h5>
+                {/* <h5 className="sub-title">Khả dụng</h5>
                 <div>
                   <div className="form-check">
                     <input
@@ -120,7 +184,7 @@ dispatch(getAllProducts());
                       Hết hàng (0)
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <h5 className="sub-title">Giá</h5>
                 <div className="d-flex align-items-center gap-10">
                   <div className="form-floating">
@@ -152,8 +216,8 @@ dispatch(getAllProducts());
                 <div className="product-tags d-flex flex-wrap align-items-center gap-10">
                 {
                     tags && [...new Set(tags)].map((item, index) => {
-                      return (<span onClick={() => setTag(item)} key={index} className=" text-capitalize  badge bg-light text-secondary rounded-3 py-2 px-3">
-                        {item}</span>)
+                      return (<button  onClick={() => handleFilter(item,'tags')} key={index} className=" border border-0 text-capitalize  badge bg-light text-secondary rounded-3 py-2 px-3">
+                        {item}</button>)
                     })
                   }
                 </div>
@@ -164,13 +228,13 @@ dispatch(getAllProducts());
               <div>
                 {randomProducts?.map((product) => (
                   <div className="random-products mb-3 d-flex  justify-content-center" key={product?._id}>
-                    <div className="w-50">
+                    <div className="w-50 p-2">
                       <img
                         src={product?.images[0]?.url}
                         className="img-fluid"
                         alt={product?.title}
                       />
-                      <h5>
+                      <h5 className="mw-90">
                         {product.title}
                       </h5>
                       <ReactStars
@@ -213,7 +277,7 @@ dispatch(getAllProducts());
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="totalproducts mb-0">{productState?.length} Sản phẩm</p>
+                  <p className="totalproducts mb-0">{searchParams.size>0 ? searchState?.length : productState?.length} Sản phẩm</p>
                   <div className="d-flex gap-10 align-items-center grid">
                     {/* <img
                       onClick={() => {
@@ -255,11 +319,20 @@ dispatch(getAllProducts());
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-
+                {
+                  searchState && searchState.length>0 && 
+                  <ProductCard
+                  data={searchState ? searchState : []}
+                  grid={grid}
+                />
+                }
+                {
+                  !searchState &&
                 <ProductCard
                   data={productState ? productState : []}
                   grid={grid}
                 />
+                }
 
               </div>
             </div>
