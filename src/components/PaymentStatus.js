@@ -4,11 +4,11 @@ import { useStripe } from '@stripe/react-stripe-js';
 import { CiCircleCheck } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { BsHourglassSplit } from "react-icons/bs";
+import { BsCartPlus, BsHourglassSplit } from "react-icons/bs";
 import { MdErrorOutline } from "react-icons/md";
 import { createOrder } from '../features/user/userSlice';
-import {config2} from '../utils/axiosConfig'
-import { getUserCart,emptyCart } from '../features/user/userSlice';
+import { config2 } from '../utils/axiosConfig'
+import { getUserCart, emptyCart } from '../features/user/userSlice';
 const PaymentStatus = () => {
   const stripe = useStripe();
   const dispatch = useDispatch()
@@ -16,18 +16,27 @@ const PaymentStatus = () => {
   const [statusIcon, setStatusIcon] = useState(null);
 
   const [totalAmount, setTotalAmount] = useState(0)
-  const auth = useSelector((state)=>state?.auth?.user)
-const cartState = useSelector(state=>state?.auth?.cartProducts)
+  const auth = useSelector((state) => state?.auth?.user)
   useEffect(() => {
     dispatch(getUserCart(config2(auth)))
   }, [])
+  const cartState = useSelector(state => state.auth.cartProducts)
+  const cartProducts = cartState?.map(item => (
+    {
+      productId: item.productId._id,
+      color: item.color._id,
+      quantity: item.quantity,
+
+    }
+  ))
+  console.log('pppppppppppppppppps', cartState)
   useEffect(() => {
     let sum = 0;
-    for (let index = 0; index <cartState?.length; index++) {
-      sum = sum + Number(cartState[index].quantity) 
+    for (let index = 0; index < cartState?.length; index++) {
+      sum = sum + Number(cartState[index].quantity)
       setTotalAmount(sum)
     }
-    if(cartState?.length===0){
+    if (cartState?.length === 0) {
       setTotalAmount(0);
     }
   }, [cartState]);
@@ -35,33 +44,33 @@ const cartState = useSelector(state=>state?.auth?.cartProducts)
     if (!stripe) {
       return;
     }
-    
+
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
-      );
-      
-      if (!clientSecret) {
-        return;
-      }
-      
-      stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-        switch (paymentIntent.status) {
-          case "succeeded":
-            setMessage("Thanh toán thành công!");
-            setStatusIcon(<CiCircleCheck style={{ color: 'green', height: '100px', width: 'auto', fontWeight: 900 }} />)
-            console.log('paymentintent',paymentIntent)  
-            const cartState = localStorage.getItem("cartstate")
-            console.log("car:",cartState)
+    );
 
-           const {amount,shipping,id,currency,payment_method_types} = paymentIntent
-           dispatch(createOrder({shippingInfo:shipping, orderItems:cartState, totalPrice:amount, totalPriceAfterDiscount:amount, paymentInfo:{
-                id:id,
-                currency:currency,
-                paymentTypes:payment_method_types,
-           },config:config2(auth)}))
-           setTimeout(()=>{
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent.status) {
+        case "succeeded":
+          setMessage("Thanh toán thành công!");
+          setStatusIcon(<CiCircleCheck style={{ color: 'green', height: '100px', width: 'auto', fontWeight: 900 }} />)
+          console.log('paymentintent', paymentIntent)
+
+          const { amount, shipping, id, currency, payment_method_types } = paymentIntent
+          dispatch(createOrder({
+            shippingInfo: shipping, orderItems: cartProducts, totalPrice: amount, totalPriceAfterDiscount: amount,
+            paymentInfo: {
+              id: id,
+              currency: currency,
+              paymentTypes: payment_method_types,
+            }, config: config2(auth)
+          }))
               dispatch(emptyCart(config2(auth)));
-           },1000)
+          
 
 
           break;
@@ -85,10 +94,10 @@ const cartState = useSelector(state=>state?.auth?.cartProducts)
 
   }, [stripe]);
 
-  
+
   return (
     <>
-      <div id='root' className='z-1.bg-transparent' style={{margin:"350px",backgroundColor:"white"}}>
+      <div id='root' className='z-1.bg-transparent' style={{ margin: "350px", backgroundColor: "white" }}>
 
         <div className="position-absolute top-50 start-50 translate-middle">
           <div className='d-flex flex-column gap-3'>

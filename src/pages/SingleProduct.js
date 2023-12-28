@@ -74,7 +74,6 @@ const SingleProduct = () => {
         setTimeout(() => {
           dispatch(getUserCart(config2(auth)))
         }, 200)
-         navigate('/cart')
       }
     }
   }

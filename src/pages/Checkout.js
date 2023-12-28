@@ -393,7 +393,7 @@ const Checkout = () => {
             >
               <Dialog.Panel className="position-fixed top-50 start-50 translate-middle overflow-auto mh-[95vh]  w-25 bg-white rounded-3 mx-auto p-4 ">
                 <div className="d-flex justify-content-center align-items-center">
-                  <ScripeContainer total={totalAmount+shipCost} shipInfo={shippingInfo} />
+                  <ScripeContainer total={totalAmount+shipCost} shipInfo={shippingInfo}  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

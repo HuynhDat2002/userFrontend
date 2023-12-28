@@ -8,15 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 
-import {config2} from "../utils/axiosConfig";
+import { config2 } from "../utils/axiosConfig";
 
 
 
 
-  const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
-  const ScripeContainer = ({total,shipInfo}) => {
-    
-    styled.body`
+const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
+const ScripeContainer = ({ total, shipInfo }) => {
+
+  styled.body`
        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -26,7 +26,7 @@ import {config2} from "../utils/axiosConfig";
     height: 100vh;
     width: 100vw;
   `;
-  
+
   styled.form`
     width: 30vw;
     min-width: 500px;
@@ -36,7 +36,7 @@ import {config2} from "../utils/axiosConfig";
     border-radius: 7px;
     padding: 40px;
   `;
-  
+
   styled.button`
     background: #5469d4;
     font-family: Arial, sans-serif;
@@ -62,29 +62,44 @@ import {config2} from "../utils/axiosConfig";
   
  
   `
-const authState = useSelector(state => state.auth)
-console.log('auth',authState);
-console.log('shipinfo',shipInfo)
- 
+  const authState = useSelector(state => state.auth.user)
+   const config2 ={
+   
+  
+      headers: {
+        Authorization: `Bearer ${
+          authState !== null ? authState.token : ""
+        }`,
+        Accept: "application/json",
+      }
+    }
+  
+    
+  
+  console.log('shipinfo', shipInfo)
+
   // const total = localStorage.getItem("total")
   const [clientSecret, setClientSecret] = useState("");
   console.log('stripe')
-  console.log("total",total);
+  console.log("total", total);
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     checkoutHandle();
   }, []);
   const checkoutHandle = async () => {
-
-    const res = await axios.post("http://localhost:5000/api/user/create-payment-intent", { amountTotal: total,shipInfo:{
-      firstname:shipInfo.firstname,
-      lastname:shipInfo.lastname,
-      mobile:shipInfo.mobile,
-      address:shipInfo.address,
-      city:shipInfo.city,
-      country:shipInfo.country,
-    } }, config2(authState.user.token))
+    const res = await axios.post("http://localhost:5000/api/user/create-payment-intent", {
+      amountTotal: total,
+      shipInfo: {
+        firstname: shipInfo.firstname,
+        lastname: shipInfo.lastname,
+        mobile: shipInfo.mobile,
+        line1: shipInfo.address,
+        city: shipInfo.city,
+        country: shipInfo.country,
+      }
+    },config2)
     console.log('res', res);
+    if(res.error) console.log('errorpay',res.error.message)
     setClientSecret(res.data.clientSecret);
   }
   const appearance = {
@@ -94,14 +109,14 @@ console.log('shipinfo',shipInfo)
     clientSecret,
     appearance,
   };
-  localStorage.setItem("optionspayment", options)
-  console.log('options',localStorage.getItem("optionspayment"))
+  // localStorage.setItem("optionspayment", options)
+  // console.log('options', localStorage.getItem("optionspayment"))
 
   return (
     <div className="">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-        <CheckoutForm />
+          <CheckoutForm />
 
         </Elements>
       )}
