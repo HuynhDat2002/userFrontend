@@ -97,13 +97,13 @@ const PaymentStatus = () => {
 
   return (
     <>
-      <div id='root' className='z-1.bg-transparent' style={{ margin: "350px", backgroundColor: "white" }}>
+      <div  className='z-1 bg-transparent' style={{ margin: "350px", backgroundColor: "white" }}>
 
         <div className="position-absolute top-50 start-50 translate-middle">
-          <div className='d-flex flex-column gap-3'>
+          <div className='d-flex flex-column gap-3 '>
 
 
-            <div className='d-flex justify-content-center align-items-center'>{statusIcon}</div>
+            <div className='d-flex justify-content-center align-items-center pt-10'>{statusIcon}</div>
             <div className='d-flex justify-content-center align-items-center'>{message}</div>
             <div className='d-flex justify-content-center align-items-center'>
               <Link to="/">Quay về trang chủ</Link>
