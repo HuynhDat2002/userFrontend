@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 
 import { BsSearch } from "react-icons/bs";
@@ -20,6 +20,7 @@ const Header = () => {
   const productState=useSelector(state=>state?.product?.product)
   const [productOpt,setProductOpt]=useState([])
   const [paginate, setPaginate]=useState(true);
+  
 const navigate=useNavigate()
   const [total,setTotal]=useState(null)
   useEffect(() => {

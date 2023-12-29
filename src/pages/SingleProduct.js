@@ -25,6 +25,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const ProductState = useSelector(state => state?.product?.Singleproduct)
   const ProductsState = useSelector(state => state?.product?.product)
+  const ProductsState = useSelector(state => state?.product?.product)
   const cartState=useSelector(state=>state?.auth?.cartProducts)
   useEffect(() => {
     dispatch(getAProduct(getProductId))
@@ -67,18 +68,19 @@ const SingleProduct = () => {
     document.execCommand("copy");
     textField.remove();
   };
-  const closeModal = () => { };
-  const [popularProduct, setPopularProduct]=useState([])
-  useEffect(() => {
+  const closeModal = () => {};
+  const [popularProduct,setPopularProduct]=useState([])
+  useEffect(() =>{
     let data=[]
     for (let index = 0; index < ProductsState.length; index++) {
       const element = ProductsState[index];
-      if (element.tag==='popular') {
+      if(element.tags==='popular'){
         data.push(element)
       }
       setPopularProduct(data)
     }
-  }, [productState])
+  },[productState])
+  
   console.log(popularProduct);
   
   const [star,setStar] = useState(null)

@@ -59,7 +59,7 @@ const Profile = () => {
         <Container class1='cart-wrapper home-wrapper-2 py-5'>         {/* 37:47 */}
         <div className='row'>
             <div className='col-12'>
-              <div className='f-flex justify-content-between align-items-center'>
+              <div className='d-flex justify-content-between align-items-center'>
                 <h3 className='my-3'> Update Profile</h3>
                 <FiEdit className='fs-3' conClick={()=>setEdit(false)}/>
               </div>

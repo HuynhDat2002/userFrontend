@@ -45,6 +45,8 @@ function App() {
 
 
             <Route path="cart" element={<PrivateRoutes><Cart/></PrivateRoutes>} />
+            <Route path="my-orders" element={<PrivateRoutes><Orders/></PrivateRoutes>} />
+            <Route path="my-profile" element={<PrivateRoutes><Profile/></PrivateRoutes>} />
             <Route path="checkout" element={<PrivateRoutes><Checkout /></PrivateRoutes>} />
 
             <Route path="compare-product" element={<CompareProduct />} />
@@ -53,7 +55,7 @@ function App() {
             <Route path="forgot-password" element={<Forgotpassword />} />
 
             <Route path="signup" element={<Signup />} />
-            <Route path="reset-password:token/:token" element={<Resetpassword />} />
+            <Route path="reset-password/:token" element={<Resetpassword />} />
 
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="refund-policy" element={<RefundPloicy />} />

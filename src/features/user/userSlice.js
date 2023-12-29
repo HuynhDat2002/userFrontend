@@ -140,7 +140,7 @@ export const forgotPasswordToken = createAsyncThunk(
 );
 
 export const resetPassword = createAsyncThunk(
-    "user/password/reset",
+    "user/password/token",
     async (data, thunkAPI) => {
         try {
             return await authService.resetPass(data);
@@ -149,6 +149,8 @@ export const resetPassword = createAsyncThunk(
         }
     }
 );
+
+
 
 const getCustomerfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
@@ -252,4 +254,5 @@ export const authSlice = createSlice({
     },
     });
  
-export default resetPassword
+export default authSlice.reducer;
+
