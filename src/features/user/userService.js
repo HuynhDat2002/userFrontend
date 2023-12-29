@@ -113,6 +113,24 @@ const createOrder = async (orderDetail) => {
     }
 }
 
+const getOrder = async (data) => {
+    const response = await axios.get(
+      `${base_url}user/getmyorders`,
+      data.config
+    );
+  
+    return response.data;
+  };
+
+  const getSingleOrder = async (data) => {
+    const response = await axios.get(
+      `${base_url}user/getaOrder/${data.id}`,
+      data.config
+    );
+  
+    return response.data;
+  };
+  
 const getUserOrder = async (config) => {
     const response = await axios.get(`${base_url}user/getmyorders`, config);
     if (response.data) {
@@ -155,5 +173,7 @@ export const authService = {
     getUserOrder,
     forgotPassToken,
     resetPass,
+    getOrder,
+    getSingleOrder
         
 };

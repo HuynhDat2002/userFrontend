@@ -84,6 +84,8 @@ const Header = () => {
     navigate("/")
   }
 
+ 
+
   useEffect(() => {
     let sum=0
     for (let index=0; index <cartState?.length; index++) {
@@ -252,6 +254,21 @@ const Header = () => {
                             className="dropdown-item py-1 mb-1"
                             style={{ height: "auto", lineHeight: "20px" }}
 
+                           to="/myorder"
+
+                          >
+
+                            Xem đơn hàng
+
+
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link
+                            className="dropdown-item py-1 mb-1"
+                            style={{ height: "auto", lineHeight: "20px" }}
+
                             onClick={handleClickSignOut}
 
                           >
@@ -261,6 +278,7 @@ const Header = () => {
 
                           </Link>
                         </li>
+                      
                       </div>
                     </div>
                   </div>

@@ -148,6 +148,26 @@ export const createOrder = createAsyncThunk(
         }
     }
 );
+export const getOrder = createAsyncThunk(
+    "order/get-order",
+    async (id, thunkAPI) => {
+      try {
+        return await authService.getOrder(id);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+  );
+  export const getMyOrder = createAsyncThunk(
+    "order/get-myorder",
+    async (id, thunkAPI) => {
+      try {
+        return await authService.getSingleOrder(id);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+  );
 
 export const resetAuthState = createAsyncThunk("resetauth")
 
@@ -472,6 +492,43 @@ export const authSlice = createSlice({
             .addCase(resetAuthState, (state)=>{
                 return initialState
             })
+
+            .addCase(getOrder.pending, (state) => {
+                state.isLoading = true;
+              })
+              .addCase(getOrder.fulfilled, (state, action) => {
+                state.isError = false;
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.orders = action.payload;
+                state.message = "success";
+        
+              })
+              .addCase(getOrder.rejected, (state, action) => {
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                state.isLoading = false;
+              })
+
+            .addCase(getMyOrder.pending, (state) => {
+                state.isLoading = true;
+              })
+              .addCase(getMyOrder.fulfilled, (state, action) => {
+                state.isError = false;
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.singleorder = action.payload;
+                state.message = "success";
+        
+              })
+              .addCase(getMyOrder.rejected, (state, action) => {
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                state.isLoading = false;
+              })
+        
 
     },
 });

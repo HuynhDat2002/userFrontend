@@ -31,6 +31,8 @@ import PaymentStatus from './components/PaymentStatus'
 import { loadStripe } from "@stripe/stripe-js";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import GetOrder from './pages/GetOrder'
+import MyOrders from './pages/MyOrders'
 const stripePromise = loadStripe("pk_test_51OGEGLKScb87tq5muXfoTtEFSQVpJ3ol4uNmR7SHhJK34jZXtCTEAx14HobbiSFwwKYaxFZN40faCYUfbrx5BhzL00ap6FP7vI");
 
 const options = localStorage.getItem("optionspayment")
@@ -60,6 +62,8 @@ function App() {
           <Route path="profile" element={<Profile />} />
           {/* <Route path="stripepayment" element={<StripeContainer/>}/> */}
           <Route path="paymentstatus" element={<Elements options={options} stripe={stripePromise}><PaymentStatus /></Elements>} />
+          <Route path="myorder" element ={<MyOrders />}/>
+          <Route path="myorder/:id" element ={<GetOrder />}/>
 
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
